@@ -104,6 +104,7 @@ nav {
 }
 
 .page-title {
+    font-size: 1.8em;
     margin-top: 100px;
     text-align: center;
     font-family: 'Objectivity', sans-serif;
@@ -167,12 +168,16 @@ main {
 
 .feature-title {
     text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
     font-family: 'Objectivity', sans-serif;
     color: var(--Primary-dark)
 }
 
 .feature-desc {
     text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
     font-family: 'Objectivity', sans-serif;
     color: var(--Primary-dark)
 }
