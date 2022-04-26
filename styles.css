@@ -47,6 +47,10 @@ nav {
     margin: 12px;
 }
 
+.logo-type {
+    float: left;
+}
+
 #main-logo{
     padding: 10px;
     display:inline-block;
