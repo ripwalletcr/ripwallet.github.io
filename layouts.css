@@ -18,6 +18,7 @@
     }
 
     .logo-type {
+        float: none;
         display: table;
         margin: 0 auto;
     }
@@ -68,7 +69,7 @@
         margin-right: 6px;
         margin-left: 6px;
         margin-bottom: 12px;
-        padding-top: 120px;
+        margin-top: 120px;
         font-size: 1.2em;
     }
 
