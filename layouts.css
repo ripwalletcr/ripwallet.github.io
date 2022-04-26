@@ -10,12 +10,27 @@
 
     main {
         padding: 24px;
+        padding-top: 48px;
     }
 
     header {
         padding: 10px 10px 10px 10px;
         width: 100%;
     }
+
+    nav {
+        padding-top: 0;
+    }
+
+    li:nth-child(1) .nav-link {
+        text-decoration: underline;
+    }
+
+    .nav-list > li {
+        display: list-item;
+        margin: 10px;
+        list-style: none;
+    }    
 
     .logo-type {
         float: none;

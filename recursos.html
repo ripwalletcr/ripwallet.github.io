@@ -2,31 +2,40 @@
 <html>
 <head>
     <title>RIP Wallet</title>
-    <link rel="stylesheet" href="styles.css?v4">
-    <link rel="stylesheet" href="layouts.css?v4">
-    <link rel="stylesheet" href="all.css?=7">
+    <link rel="stylesheet" href="styles.css?v6">
+    <link rel="stylesheet" href="layouts.css?v6">
+    <link rel="stylesheet" href="all.css?=8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/5815ff37ce.js" crossorigin="anonymous"></script>
+    <script src="scripts/script.js"></script>
+
 </head>
-<body>
+
+<body onload="resetfunction()">
     <header>
-    <div class="logo-type">
-        <a class="logo-link" href="index.html">
-            <div id="main-logo">
-                <img id="logo-header" src="images/RIP Wallet Logo.png">
-            </div>
-            <div id="title">
-                <h1 class="company-title">RIP Wallet</h1>
-            </div>
-        </a>
-    </div>
+        <div class="logo-type">
+            <a class="logo-link" href="index.html">
+                <div id="main-logo">
+                    <img id="logo-header" src="images/RIP Wallet Logo.png">
+                </div>
+                <div id="title">
+                    <h1 class="company-title">RIP Wallet</h1>
+                </div>
+            </a>
+        </div>
 
 
-    <nav>
-        <a class="nav-link" href="recursos.html">Recursos</a>
-        <a class="nav-link buttoned" href="asesoria.html">Agendar asesoria!</a>
-    </nav>
+        <nav>
+            <ul class="nav-list">
+                <li><a class="nav-link" href="recursos.html">Recursos</a>                </li>
+                <li><a class="nav-link buttoned" href="asesoria.html">Agendar asesoria!</a>                </li>
+            </ul>
+        </nav>
 
         <h2 class="page-title">Poner tus finanzas en orden no tiene que ser aburrido!</h2>
 
