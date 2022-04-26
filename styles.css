@@ -292,6 +292,7 @@ li {
 }
 
 .solid {
+    margin-top: 42px;
     border-top: 3px solid var(--Primary-dark);
 }
 
