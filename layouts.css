@@ -14,8 +14,13 @@
 
     header {
         padding: 10px 10px 10px 10px;
+        width: 100%;
     }
-    
+
+    .logo-type {
+        display: table;
+        margin: 0 auto;
+    }
 
     .paragraph-body {
         padding: 24px !important;
@@ -38,8 +43,13 @@
         margin: 0 auto;
     }
 
+    .nav-link {
+        font-size: 20px;
+    }
+
     .buttoned {
-            padding: 20px 30px 20px 30px;
+        padding: 20px 30px 20px 30px;
+        font-size: 20px;
     }
 
     .social-icon {
@@ -54,5 +64,50 @@
         grid-gap: 50px !important;
     }
 
-    
+    .page-title {
+        margin-right: 6px;
+        margin-left: 6px;
+        margin-bottom: 12px;
+        margin-top: 120px;
+        font-size: 1.2em;
+    }
+
+    .feature-title {
+        text-align: center;
+        padding-top: 24px;
+        padding-bottom: 3px;
+        font-family: 'Objectivity', sans-serif;
+        color: var(--Primary-dark)
+    }
+
+    .feature-desc {
+        text-align: center;
+        padding-top: 3px;
+        padding-bottom: 12px;
+        font-family: 'Objectivity', sans-serif;
+        color: var(--Primary-dark)
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 14px;
+        grid-auto-rows: minmax(100px, auto);
+        padding-left: 14px;
+        padding-right: 14px; 
+      
+    }
+
+    .standard-btn {
+        background-color: var(--Primary-dark);
+        border-style: none;
+        padding: 20px 30px 20px 30px;
+        border-radius: 300px;
+        margin: 0 auto;
+        display: block;
+        font-family: 'Objectivity', sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+        color: var(--Primary)
+    }
 }
