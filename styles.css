@@ -342,3 +342,11 @@ button:active {
     background-color: var(--Accent) !important;
     color: var(--Primary-dark) !important;
 }
+
+.calendar-embed {
+    left: 0;
+    padding: 0;
+    width: calc(90vw - 64px);
+    height: 684px;
+    border: none;
+}
