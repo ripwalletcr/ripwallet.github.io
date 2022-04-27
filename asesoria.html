@@ -18,7 +18,6 @@
     
     </head>
     
-    
     <body onload="resetfunction()">
     <header>
         <div class="logo-type">
@@ -44,44 +43,66 @@
 
     </header>
 
-    <main class="paragraph-body">
-        <p>
-            Las asesorias personalizadas son la forma mas efectiva de darle un vistazo a tus fianzas, desarrollar un plan para vos y contestar tus preguntas sobre presupuestos, deudas, inversiones y mas!
-        </p>
+    <main>
 
-        <br>
-        <br>
 
-        <h4>Cada asoria incluye lo siquiente:</h4>
+        <script>
+            Cal("inline", {
+              elementOrSelector: ".cal-inline", // You can also provide an element directly
+              calLink: "ripwallet/asesoria", // The link that you want to embed. It would open https://cal.com/jane in embed
+              config: {
+                // name: "John Doe", // Prefill Name
+                // email: "johndoe@gmail.com", // Prefill Email
+                // notes: "Test Meeting", // Prefill Notes
+                // guests: ["janedoe@gmail.com", "test@gmail.com"], // Prefill Guests
+                theme: "light", // "dark" or "light" theme
+              },
+            });
+          </script>
 
-        <br>
 
-        <ul class="money-list">
-            <li class="money-bullet">Un presupuesto hecho a la medida</li>
-            <li class="money-bullet">Un plan financiero para los próximos años</li>
-            <li class="money-bullet">Una estrategia para cancelar deudas antes de tiempo</li>
-            <li class="money-bullet">Recursos que te ayuden a seguir tu plan en el futuro</li>
-            <li class="money-bullet">Recomendaciones prácticas para mejorar tu situación</li>
-            <li class="money-bullet">Un tiempo de preguntas y respuestas</li>
-            <li class="money-bullet">Una sesión adicional de 30 minutos para verificar tu avance (gratuita!)</li>
-        </ul>
+        <div class="paragraph-body">
+            <p>
+                Las asesorias personalizadas son la forma mas efectiva de darle un vistazo a tus fianzas, desarrollar un plan para vos y contestar tus preguntas sobre presupuestos, deudas, inversiones y mas!
+            </p>
+    
+            <br>
+            <br>
+    
+            <h4>Cada asoria incluye lo siquiente:</h4>
+    
+            <br>
+    
+            <ul class="money-list">
+                <li class="money-bullet">Un presupuesto hecho a la medida</li>
+                <li class="money-bullet">Un plan financiero para los próximos años</li>
+                <li class="money-bullet">Una estrategia para cancelar deudas antes de tiempo</li>
+                <li class="money-bullet">Recursos que te ayuden a seguir tu plan en el futuro</li>
+                <li class="money-bullet">Recomendaciones prácticas para mejorar tu situación</li>
+                <li class="money-bullet">Un tiempo de preguntas y respuestas</li>
+                <li class="money-bullet">Una sesión adicional de 30 minutos para verificar tu avance (gratuita!)</li>
+            </ul>
+    
+            <br>
+            <br>
+    
+            <p>
+                Cada asesoría tiene una 🕐 duración de 90 minutos, un 💸 costo de ₡35,000 o $60 y se realizan de forma virtual 💻 — (no te preocupes, solo vas a necesitar una sesión!).
+            </p>
+    
+            <br>
+    
+            <p>
+                Para agendar, solo necesitas dar click al botón de abajo y escoger la fecha que más te guste.
+            </p>
+            
+            <div class="spacer"></div>
 
-        <br>
-        <br>
+            
 
-        <p>
-            Cada asesoría tiene una 🕐 duración de 90 minutos, un 💸 costo de ₡35,000 o $60 y se realizan de forma virtual 💻 — (no te preocupes, solo vas a necesitar una sesión!).
-        </p>
+        </div>
 
-        <br>
-
-        <p>
-            Para agendar, solo necesitas dar click al botón de abajo y escoger la fecha que más te guste.
-        </p>
-        
-        <div class="spacer"></div>
-
-        <button type="button" class="standard-btn accented" onclick="window.location.href='https://calendly.com/ripwallet/asesoria'">Agendar mi asesoria!</button>
+        <div class="cal-inline"></div>
 
 
     </main>
