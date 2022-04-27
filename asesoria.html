@@ -35,7 +35,7 @@
         <nav>
             <ul class="nav-list">
                 <li><a class="nav-link" href="recursos.html">Recursos</a></li>
-                <li><a class="nav-link buttoned" href="asesoria.html">Agendar asesoria!</a></li>
+                <li><a class="nav-link buttoned" href="#cal-inline">Agendar asesoria!</a></li>
             </ul>
         </nav>
 
@@ -48,7 +48,7 @@
 
         <script>
             Cal("inline", {
-              elementOrSelector: ".cal-inline", // You can also provide an element directly
+              elementOrSelector: "#cal-inline", // You can also provide an element directly
               calLink: "ripwallet/asesoria", // The link that you want to embed. It would open https://cal.com/jane in embed
               config: {
                 // name: "John Doe", // Prefill Name
@@ -102,7 +102,7 @@
 
         </div>
 
-        <div class="cal-inline"></div>
+        <div id="cal-inline"></div>
 
 
     </main>
