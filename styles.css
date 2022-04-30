@@ -135,6 +135,10 @@ li:nth-child(1) .nav-link:hover {
 main {
     background-color: var(--Primary);
     padding: 64px;
+
+    animation: InUp ease 0.5s; 
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
 }
 
 .paragraph-body {

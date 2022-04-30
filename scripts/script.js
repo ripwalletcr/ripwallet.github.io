@@ -34,3 +34,17 @@
     };
   })(window, "https://cal.com/embed.js", "init");
   Cal("init")
+
+  object.onclick = function(){
+    if (/Android|Windows|iPhonewebOS|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        Console.log("Mobile Device Found, Open Links in a new Tab");
+        function openInNewTab(url) {
+            var win = window.open(url, '_blank');
+            win.focus();
+        }
+    }
+    else{
+        Console.log("Mobile Device Not Found, Open Links in lightBox");
+        window.open(url,"_self");
+    }
+};
