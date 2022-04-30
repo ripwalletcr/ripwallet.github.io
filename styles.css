@@ -136,7 +136,11 @@ main {
     background-color: var(--Primary);
     padding: 64px;
 
-    animation: InUp ease 0.5s; 
+}
+
+.contentarea {
+
+    animation: fadeInUp ease 0.5s; 
     animation-iteration-count: 1; 
     animation-fill-mode: forwards; 
 }
