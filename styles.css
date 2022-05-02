@@ -268,6 +268,12 @@ p {
     line-height: 2;
 }
 
+p2 {
+    font-family: 'Objectivity', sans-serif;
+    font-size: 22px;
+    line-height: 2;
+}
+
 h4 {
     font-family: 'Objectivity', sans-serif;
     font-weight: bold;
@@ -300,18 +306,20 @@ li {
 }
 
 .solid {
-    margin-top: 42px;
-    margin-bottom: 12px;
-    border-top: 3px solid var(--Primary-dark);
+    margin-top: 64px;
+    margin-bottom: 42px;
+    border-top: 2px solid var(--Primary-dark);
 }
 
 .paragraph-list > p {
     font-size: 24px !important;
+    margin-top: 4px;
     padding-left: 10% !important;
     padding-right: 10% !important;   
 }
 
 .paragraph-list > h4 {
+    margin-bottom: 24px;
     font-size: 24px !important;
 }
 
