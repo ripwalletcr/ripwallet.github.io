@@ -301,6 +301,7 @@ li {
 
 .solid {
     margin-top: 42px;
+    margin-bottom: 12px;
     border-top: 3px solid var(--Primary-dark);
 }
 
