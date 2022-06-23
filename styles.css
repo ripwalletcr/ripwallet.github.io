@@ -367,3 +367,10 @@ button:active {
     height: 684px;
     border: none;
 }
+
+
+.calendly-inline-widget {
+    width: 100vw;
+    position: relative;
+    left: calc(-50vw + 50%);
+}

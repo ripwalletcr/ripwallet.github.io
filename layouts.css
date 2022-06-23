@@ -145,4 +145,8 @@
          width: calc(90vw);
     }
 
+    .calendly-inline-widget {
+        height: 1160px !important;
+    }
+
 }
