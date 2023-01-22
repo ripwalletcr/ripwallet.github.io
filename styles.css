@@ -3,8 +3,11 @@
 :root {
     --Primary: #fafafa;
     --Primary-dark: #212121;
+    --Primary-light: #333333;
     --Secondary: #eeeeee;
     --Accent: #79e091;
+    --Accent-Light: #AFECBD;
+    --Accent-Dark: #25442C;
 }
 
 * {
@@ -37,10 +40,12 @@ header {
 nav {
     float: right;
     padding-top: 36px;
+    padding-bottom: 64px;
 }
 
 .nav-list > li {
     display:inline;
+    padding-top: 32px;
 }
 
 .nav-link {
@@ -205,7 +210,7 @@ main {
     background-color: var(--Primary-dark);
     border-style: none;
     padding: 20px 30px 20px 30px;
-    border-radius: 300px;
+    border-radius: 12px;
     margin: 0 auto;
     display: block;
     font-family: 'Objectivity', sans-serif;
@@ -333,8 +338,10 @@ button {
 button:hover {
     cursor: pointer;
     text-decoration: none;
+    border-width: 4px;
+    background-color: #000000;
     transition: 1s;
-    box-shadow: 0px 62px 80px rgba(0, 0, 0, 0.31), 0px 22.631px 29.2013px rgba(0, 0, 0, 0.213894), 0px 10.9869px 14.1767px rgba(0, 0, 0, 0.17245), 0px 5.386px 6.94968px rgba(0, 0, 0, 0.13755), 0px 2.12963px 2.74791px rgba(0, 0, 0, 0.0961057);}
+    box-shadow: 0px 12px 80px rgba(0, 0, 0, 0.31), 0px 22.631px 29.2013px rgba(0, 0, 0, 0.213894), 0px 10.9869px 14.1767px rgba(0, 0, 0, 0.17245), 0px 5.386px 6.94968px rgba(0, 0, 0, 0.13755), 0px 2.12963px 2.74791px rgba(0, 0, 0, 0.0961057);}
 
 button:active {
     background-color: var(--Accent);
@@ -344,15 +351,22 @@ button:active {
 
 .buttoned {
     transition: box-shadow 1s;
-    color: var(--Primary-dark);
+    color: var(--Accent-Dark);
     background-color: var(--Accent);
     padding: 20px 30px 20px 30px;
-    border-radius: 300px;
+    border-radius: 12px;
+    border-style: solid;
+    border-color: var(--Accent-Light);
+    border-width:4px;
 }
 
 .buttoned:hover {
-    transition: 1s;
-    box-shadow: 0px 62px 80px rgba(0, 0, 0, 0.31), 0px 22.631px 29.2013px rgba(0, 0, 0, 0.213894), 0px 10.9869px 14.1767px rgba(0, 0, 0, 0.17245), 0px 5.386px 6.94968px rgba(0, 0, 0, 0.13755), 0px 2.12963px 2.74791px rgba(0, 0, 0, 0.0961057);
+    cursor: pointer;
+    color: var(--Accent-Dark);
+    background-color: var(--Accent-Light);
+    border-style: solid;
+    border-width:4px;
+    transition: 0.25s;
 }
 
 .accented {
