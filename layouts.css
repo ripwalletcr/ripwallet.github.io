@@ -10,8 +10,8 @@
     .grid-container {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
-        grid-gap: 64px;
-        grid-auto-rows: minmax(100px, auto);
+        /* grid-gap: 24px; */ 
+        grid-auto-rows: minmax(24px, auto);
         padding-left: 64px;
         padding-right: 64px; 
     }
@@ -92,7 +92,7 @@
         margin-right: 6px;
         margin-left: 6px;
         margin-bottom: 12px;
-        margin-top: 120px;
+        margin-top: 24px;
         font-size: 1.2em;
     }
 
@@ -115,7 +115,7 @@
     .grid-container {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
-        grid-gap: 80px;
+        /* grid-gap: 80px; */
         grid-auto-rows: minmax(100px, auto);
         padding-left: 14px;
         padding-right: 14px; 
@@ -126,7 +126,7 @@
         background-color: var(--Primary-dark);
         border-style: none;
         padding: 20px 30px 20px 30px;
-        border-radius: 300px;
+        border-radius: 12px;
         margin: 0 auto;
         display: block;
         font-family: 'Objectivity', sans-serif;
