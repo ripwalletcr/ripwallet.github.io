@@ -1,3 +1,7 @@
+---
+import Cal from "@calcom/embed-react";
+---
+
 <html>
 <head>
     <title>RIP Wallet</title>
@@ -21,7 +25,6 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/5815ff37ce.js" crossorigin="anonymous"></script>
-    <script src="/scripts/script.js"></script>
 
 </head>
 
@@ -56,21 +59,6 @@
 
     <main>
 
-
-        <script>
-            Cal("inline", {
-                elementOrSelector: "#cal-inline", // You can also provide an element directly
-                calLink: "ripwallet/finanzas", // The link that you want to embed. It would open https://cal.com/jane in embed
-                config: {
-                    // name: "John Doe", // Prefill Name
-                    // email: "johndoe@gmail.com", // Prefill Email
-                    // notes: "Test Meeting", // Prefill Notes
-                    // guests: ["janedoe@gmail.com", "test@gmail.com"], // Prefill Guests
-                    theme: "light", // "dark" or "light" theme
-                    },
-                });
-        </script>
-
         <div class="paragraph-body">
             <p>
                 Ya sea que estés buscando aumentar tus ahorros, planificar tu jubilación o diversificar, una asesoría de
@@ -81,7 +69,14 @@
 
         <div class="spacer"></div>
 
-        <div id="cal-inline"></div>
+
+        <Cal
+                client:only
+                calLink="ripwallet/finanzas"
+                config={{
+                    theme: "light",
+                }}
+        />
 
         <div class="spacer"></div>
 
