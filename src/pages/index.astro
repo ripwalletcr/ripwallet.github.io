@@ -1,81 +1,98 @@
----
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
----
+<html>
+<head>
+    <title>RIP Wallet</title>
+    <link rel="stylesheet" href="styles.css?v11">
+    <link rel="stylesheet" href="layouts.css?v11">
+    <link rel="stylesheet" href="smooth.css">
+    <link rel="stylesheet" href="all.css?=8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
-	</main>
-</Layout>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#79e091">
+    <meta name="msapplication-TileColor" content="#79e091">
+    <meta name="theme-color" content="#79e091">
 
-<style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-	.instructions code {
-		font-size: 0.875em;
-		font-weight: bold;
-		background: rgba(var(--accent), 12%);
-		color: rgb(var(--accent));
-		border-radius: 4px;
-		padding: 0.3em 0.45em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
-</style>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5815ff37ce.js" crossorigin="anonymous"></script>
+    <script src="scripts/script.js"></script>
+
+</head>
+
+
+<body>
+<header>
+    <div class="logo-type">
+        <a class="logo-link" href="index">
+            <div id="main-logo">
+                <img id="logo-header" src="images/RIP Wallet Logo.png">
+            </div>
+            <div id="title">
+                <h1 class="company-title">RIP Wallet</h1>
+            </div>
+        </a>
+    </div>
+
+
+    <nav>
+        <ul class="nav-list">
+            <!-- <li><a class="nav-link" href="recursos">Recursos</a></li>-->
+            <li><a class="nav-link buttoned" href="asesorias">Agendar asesoria!</a></li>
+        </ul>
+    </nav>
+
+    <h2 class="page-title">Poner tus finanzas en orden no tiene que ser aburrido!</h2>
+
+    <br>
+
+</header>
+
+<div class="contentarea">
+
+    <main>
+        <div class="grid-container">
+            <div class="grid-item">
+                <img class="feature-image framed" src="images/people_money.jpg">
+                <h3 class="feature-title">Asesorías personalizadas</h3>
+                <p class="feature-desc">Sesiones uno-a-uno sobre finanzas o inversiones.</p>
+                <button type="button" class="standard-btn" onclick="window.location.href='/asesorias'">Agendar
+                    asesoria!
+                </button>
+            </div>
+
+            <div class="grid-item">
+                <img class="feature-image framed" src="images/video_nomoney.jpg">
+                <h3 class="feature-title">Recursos</h3>
+                <p class="feature-desc">Herramientas para ayudarte con tus finanzas.</p>
+                <button type="button" class="standard-btn" onclick="window.location.href='/recursos'">Visitar</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div id="footer-logo">
+            <a class="footer-title">RIP Wallet</a>
+        </div>
+
+        <div id="footer-social-links">
+            <div class="social-icon"><a href="https://www.youtube.com/c/RIPWalletCR" target="_blank"><i
+                    class="fab fa-youtube"></i></a></div>
+            <div class="social-icon"><a href="http://instagram.com/ripwallet.cr/" target="_blank"><i
+                    class="fab fa-instagram"></i></a></div>
+            <div class="social-icon"><a href="https://www.tiktok.com/@ripwallet.cr" target="_blank"><i
+                    class="fab fa-tiktok"></i></a></div>
+            <div class="social-icon"><a href="https://www.facebook.com/ripwallet.cr" target="_blank"><i
+                    class="fab fa-facebook"></i></a></div>
+        </div>
+
+    </footer>
+
+</div>
+
+</body>
+</html>
