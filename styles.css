@@ -153,17 +153,18 @@ main {
 .paragraph-body {
     padding-left: 20% !important;
     padding-right: 20% !important;
+    line-height: 2.0;
 }
 
 /* grid items */
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 64px;
     grid-auto-rows: minmax(100px, auto);
-    padding-left: 64px;
-    padding-right: 64px; 
+    padding-left: 56px;
+    padding-right: 56px; 
   
 }
 
