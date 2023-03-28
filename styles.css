@@ -160,7 +160,7 @@ main {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-gap: 64px;
     grid-auto-rows: minmax(100px, auto);
     padding-left: 56px;
