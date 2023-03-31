@@ -1,28 +1,31 @@
 ---
 import Document from "../layouts/document.astro";
 ---
-<Document>
-    <main>
 
-        <div class="grid-container">
-            <div class="grid-item">
-                <img class="feature-image framed" src="images/clipboard_money.jpg">
-                <h3 class="feature-title">Asesoría de Finanzas Personales</h3>
-                <p class="feature-desc">Trae orden a tus finanzas, ahorra y sal de deudas.</p>
-                <button type="button" class="standard-btn" onclick="window.location.href='/finanzas'">💸
-                    <span>&#8203;</span> Agendar!
-                </button>
-            </div>
+<Document title="¿Necesitas un plan? ¡Agenda una asesoría personal!">
+  <main>
+    <div class="grid-container">
+      <div class="grid-item">
+        <img class="feature-image framed" src="images/clipboard_money.jpg" />
+        <h3 class="feature-title">Asesoría de Finanzas Personales</h3>
+        <p class="feature-desc">
+          Trae orden a tus finanzas, ahorra y sal de deudas.
+        </p>
+        <a class="standard-btn" href="/finanzas"
+          >💸
+          <span>&#8203;</span> Agendar!
+        </a>
+      </div>
 
-            <div class="grid-item">
-                <img class="feature-image framed" src="images/laptop_money.jpg">
-                <h3 class="feature-title">Asesoría de Inversiones</h3>
-                <p class="feature-desc">Un plan a la medida para empezar a invertir.</p>
-                <button type="button" class="standard-btn" onclick="window.location.href='/inversiones'">💰
-                    <span>&#8203;</span> Agendar!
-                </button>
-            </div>
-        </div>
-
-    </main>
+      <div class="grid-item">
+        <img class="feature-image framed" src="images/laptop_money.jpg" />
+        <h3 class="feature-title">Asesoría de Inversiones</h3>
+        <p class="feature-desc">Un plan a la medida para empezar a invertir.</p>
+        <a class="standard-btn" href="/inversiones"
+          >💰
+          <span>&#8203;</span> Agendar!
+        </a>
+      </div>
+    </div>
+  </main>
 </Document>

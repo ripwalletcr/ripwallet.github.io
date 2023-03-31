@@ -1,6 +1,10 @@
+---
+const {disableAsesoria, title, subtitle} = Astro.props;
+---
+
 <header>
     <div class="logo-type">
-        <a class="logo-link" href="index">
+        <a class="logo-link" href="/">
             <div id="main-logo">
                 <img id="logo-header" src="images/RIP Wallet Logo.png">
             </div>
@@ -10,12 +14,13 @@
         </a>
     </div>
 
-    <nav>
+    {disableAsesoria && <nav>
         <ul class="nav-list">
             <!-- <li><a class="nav-link" href="recursos">Recursos</a></li>-->
             <li><a class="nav-link buttoned" href="asesorias">Agendar asesoria!</a></li>
         </ul>
-    </nav>
-    <h2 class="page-title">Poner tus finanzas en orden no tiene que ser aburrido!</h2>
+    </nav>}
+    <h2 class="page-title">{title}</h2>
     <br>
+    {subtitle && <h3 class="page-subtitle">{subtitle}</h3>}
 </header>

@@ -1,38 +1,36 @@
 ---
-import Header from '../components/header.astro';
-import Footer from '../components/footer.astro';
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+
+const {disableAsesoria, title, subtitle} = Astro.props;
 ---
 
 <html>
 <head>
     <title>RIP Wallet</title>
-    <link rel="stylesheet" href="styles.css?v11">
-    <link rel="stylesheet" href="layouts.css?v11">
-    <link rel="stylesheet" href="smooth.css">
-    <link rel="stylesheet" href="all.css?=8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css?v11"/>
+    <link rel="stylesheet" href="layouts.css?v11"/>
+    <link rel="stylesheet" href="smooth.css"/>
+    <link rel="stylesheet" href="all.css?=8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta charset="utf-8"/>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#79e091">
-    <meta name="msapplication-TileColor" content="#79e091">
-    <meta name="theme-color" content="#79e091">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#79e091"/>
+    <meta name="msapplication-TileColor" content="#79e091"/>
+    <meta name="theme-color" content="#79e091"/>
 </head>
 
-
 <body>
-<Header/>
+<Header disableAsesoria={disableAsesoria} title={title} subtitle={subtitle}/>
 
 <div class="contentarea">
-
     <slot/>
 
     <Footer/>
-
 </div>
-
 </body>
 </html>
