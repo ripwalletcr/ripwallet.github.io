@@ -1,5 +1,5 @@
 ---
-const {disableAsesoria, title, subtitle} = Astro.props;
+const {disableAsesoria, enableRecursos, title, subtitle} = Astro.props;
 ---
 
 <header>
@@ -14,10 +14,10 @@ const {disableAsesoria, title, subtitle} = Astro.props;
         </a>
     </div>
 
-    {disableAsesoria && <nav>
+    {!disableAsesoria && <nav>
         <ul class="nav-list">
-            <!-- <li><a class="nav-link" href="recursos">Recursos</a></li>-->
-            <li><a class="nav-link buttoned" href="asesorias">Agendar asesoria!</a></li>
+            {enableRecursos && <li><a class="nav-link" href="/recursos">Recursos</a></li>}
+            <li><a class="nav-link buttoned" href="/asesorias">Agendar asesoria!</a></li>
         </ul>
     </nav>}
     <h2 class="page-title">{title}</h2>

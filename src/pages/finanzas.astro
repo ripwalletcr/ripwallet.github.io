@@ -3,70 +3,74 @@ import Cal from "@calcom/embed-react";
 import Document from "../layouts/document.astro";
 ---
 
-<Document>
-    <main>
+<Document title="Un plan a la medida para organizar tus finanzas!" disableAsesoria={true}>
+  <main>
+    <div class="paragraph-body">
+      <p>
+        Las asesorias financieras son la mejor forma de darle un vistazo a tus
+        finanzas personales o en pareja para desarrollar un plan y contestar
+        todas las preguntas posibles sobre presupuestos, deudas, tarjetas de
+        crédito y mas!
+      </p>
+    </div>
 
-        <div class="paragraph-body">
-            <p>
-                Las asesorias financieras son la mejor forma de darle un vistazo a tus finanzas personales o en pareja para desarrollar un plan y contestar todas las preguntas posibles sobre presupuestos, deudas, tarjetas de crédito y mas!
-            </p>
-        </div>
+    <div class="spacer"></div>
 
-        <div class="spacer"></div>
+    <Cal
+      client:only
+      calLink="ripwallet/finanzas"
+      config={{
+        theme: "light",
+      }}
+    />
 
-        <Cal
-                client:only
-                calLink="ripwallet/finanzas"
-                config={{
-                    theme: "light",
-                }}
-        />
+    <div class="spacer"></div>
 
-        <div class="spacer"></div>
+    <div class="paragraph-body">
+      <h4>Cada asesoria incluye lo siquiente:</h4>
 
-        <div class="paragraph-body">
+      <br />
 
-            <h4>Cada asesoria incluye lo siquiente:</h4>
+      <ul class="money-list">
+        <li class="money-bullet">Un presupuesto hecho a la medida</li>
+        <li class="money-bullet">Un plan financiero para los próximos años</li>
+        <li class="money-bullet">
+          Una estrategia para cancelar deudas antes de tiempo
+        </li>
+        <li class="money-bullet">
+          Recursos que te ayuden a seguir tu plan en el futuro
+        </li>
+        <li class="money-bullet">Un tiempo de preguntas y respuestas</li>
+        <li class="money-bullet">
+          Una sesión de seguimiento de 30 minutos (gratuita!)
+        </li>
+      </ul>
 
-            <br>
+      <br />
+      <br />
 
-            <ul class="money-list">
-                <li class="money-bullet">Un presupuesto hecho a la medida</li>
-                <li class="money-bullet">Un plan financiero para los próximos años</li>
-                <li class="money-bullet">Una estrategia para cancelar deudas antes de tiempo</li>
-                <li class="money-bullet">Recursos que te ayuden a seguir tu plan en el futuro</li>
-                <li class="money-bullet">Un tiempo de preguntas y respuestas</li>
-                <li class="money-bullet">Una sesión de seguimiento de 30 minutos (gratuita!)</li>
-            </ul>
+      <p>
+        La asesoría tiene 🕐 una duración de 90 minutos, 💸 un costo de ₡35,000
+        o $60 (solo necesitarás 1 asesoría!) y se realizan de forma virtual 💻
+      </p>
 
-            <br>
-            <br>
+      <br />
 
-            <p>
-                La asesoría tiene 🕐 una duración de 90 minutos, 💸 un costo de ₡35,000 o $60 (solo necesitarás 1
-                asesoría!) y se realizan de forma virtual 💻
-            </p>
+      <p>
+        Para agendar, solo necesitas escoger la fecha que más te sirva, poner
+        tus datos y confirmar!
+      </p>
 
-            <br>
+      <div class="spacer"></div>
 
-            <p>
-                Para agendar, solo necesitas escoger la fecha que más te sirva, poner tus datos y confirmar!
-            </p>
+      <!-- <b><p>Lo sentimos, las citas no están disponibles en este momento.</p></b> -->
 
-            <div class="spacer"></div>
+      <!-- Calendly integration widget: -->
 
-            <!-- <b><p>Lo sentimos, las citas no están disponibles en este momento.</p></b> -->
-
-            <!-- Calendly integration widget: -->
-
-            <!-- Principio del widget integrado de Calendly -->
-            <!-- <div class="calendly-inline-widget" data-url="https://calendly.com/ripwallet/asesoria?hide_gdpr_banner=1" style="min-width:320px;height:730px;"></div>
+      <!-- Principio del widget integrado de Calendly -->
+      <!-- <div class="calendly-inline-widget" data-url="https://calendly.com/ripwallet/asesoria?hide_gdpr_banner=1" style="min-width:320px;height:730px;"></div>
             <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> -->
-            <!-- Final del widget integrado de Calendly -->
-
-
-        </div>
-
-
-    </main>
+      <!-- Final del widget integrado de Calendly -->
+    </div>
+  </main>
 </Document>

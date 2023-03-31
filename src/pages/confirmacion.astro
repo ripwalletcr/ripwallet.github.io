@@ -5,24 +5,35 @@ import Document from "../layouts/document.astro";
 <Document
   title="¡Ya agendaste tu asesoria!"
   subtitle="Aqui hay algunas instrucciones para completar el proceso..."
+  enableRecursos={true}
 >
   <main class="paragraph-body paragraph-list">
     <hr class="solid" />
     <h4>#1: Agenda</h4>
 
     <div>
-      Ya hiciste esta parte, pero si necesitas re-agendar, puedes hacerlo con al
-      menos 2 días de anticipación usando el link en la invitación en tu
-      calendario o correo electrónico, o si lo necesitas puedes escribirnos por
-      WhatsApp al (+506) 7136-9660.
+      Ya hiciste esta parte, pero si necesitas re-agendar, puedes hacerlo usando
+      el link en la invitación en tu correo electrónico, o puedes escribirnos
+      por WhatsApp al (+506) 7136-9660.
     </div>
 
     <hr class="solid" />
     <h4>#2: Pago</h4>
 
     <div>
-      El costo de la asesoría es de ₡35,000 o $60 para la asesoría de finanzas
-      personales y ₡30,000 o $50 para la asesoría de inversiones.
+      El costo de las asesorías es el siguiente:
+
+      <ul class="money-list">
+        <li class="money-bullet">
+          ₡35,000 o $60 USD - Asesoría Financiera Personal
+        </li>
+        <li class="money-bullet">
+          ₡40,000 o $70 USD - Asesoría Financiera en Pareja
+        </li>
+        <li class="money-bullet">
+          ₡30,000 o $50 USD - Asesoría de Inversiones
+        </li>
+      </ul>
 
       <div class="spacer"></div>
 
@@ -47,8 +58,8 @@ import Document from "../layouts/document.astro";
     <div class="spacer"></div>
 
     <div>
-      Una vez realizado el pago, debes enviar el comprobante por mensaje directo
-      en redes sociales o por WhatsApp al (+506) 7136-9660.
+      Una vez realizado el pago, por favor envía el comprobante al WhatsApp
+      (+506) 7136-9660.
     </div>
 
     <div class="spacer"></div>
@@ -69,16 +80,15 @@ import Document from "../layouts/document.astro";
     <div class="spacer"></div>
 
     <div>
-      Por favor llena el cuestionario (según la asesoría que agendaste)
-      utilizando el botón que se encuentra abajo al menos 2 días antes de tu
-      asesoría.
+      Por favor llena el cuestionario según la asesoría que agendaste,
+      utilizando el botón que se encuentra abajo.
     </div>
 
     <div class="spacer"></div>
 
     <div>
-      ⚠️ Si no llenas el formulario antes de este tiempo es probable que
-      necesitemos reagendar.
+      ⚠️ Si no llenas el formulario al menos 2 días antes de tu sesión es
+      probable que necesitemos reagendar.
     </div>
 
     <div class="spacer"></div>
@@ -90,7 +100,7 @@ import Document from "../layouts/document.astro";
           class="standard-btn"
           onclick=" window.open('https://www.survio.com/survey/d/G1E0E1J4F6M8K2Y2E','_blank')"
         >
-          Cuestionario para Finanzas Personales
+          📝 &nbsp Finanzas Personales
         </button>
       </div>
 
@@ -100,8 +110,17 @@ import Document from "../layouts/document.astro";
           class="standard-btn"
           onclick=" window.open('https://www.survio.com/survey/d/H6R0M9E9S3D6D6N6O','_blank')"
         >
-          Cuestionario para Inversiones
+          📝 &nbsp Finanzas en Pareja
         </button>
+      </div>
+
+      <div class="grid-item">
+        <button
+          type="button"
+          class="standard-btn"
+          onclick=" window.open('https://www.survio.com/survey/d/H6R0M9E9S3D6D6N6O','_blank')"
+          >📝 &nbsp Inversiones</button
+        >
       </div>
     </div>
 
@@ -109,13 +128,13 @@ import Document from "../layouts/document.astro";
     <h4>#4: Conexión</h4>
 
     <div>
-      Una vez llegado el día y la hora de la asesoría puedes conectarte a la
-      reunión por medio de Google Meet.
+      Cuando llegue el día de tu sesión puedes conectarte por medio de Google
+      Meet, el link lo encontrarás en tu calendario.
     </div>
 
     <div class="spacer"></div>
 
-    <div>El link lo encontrarás en tu calendario. Nos vemos! 🥳</div>
+    <div>Nos vemos! 🥳</div>
 
     <br />
     <br />
