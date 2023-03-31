@@ -1,0 +1,85 @@
+---
+import Document from "../layouts/document.astro";
+import Cal from "@calcom/embed-react";
+---
+
+<Document title="La mejor forma para crear un plan financiero en pareja!" disableAsesoria={true}>
+  <main>
+    <div class="paragraph-body">
+      <p>
+        Manejar las finanzas en pareja puede ser (muy) complicado, pero no tiene
+        que ser así.
+      </p>
+
+      <div class="spacer"></div>
+
+      <p>
+        Nosotros podemos ayudarles a crear un plan financiero como pareja,
+        asegurándonos de entender las necesidades, metas y motivaciones de cada
+        uno para poder crear un plan financiero que funcione para ambos, y que
+        así estén en la misma página con sus finanzas.
+      </p>
+    </div>
+
+    <div class="spacer"></div>
+
+    <Cal
+      client:only
+      calLink="ripwallet/finanzasenpareja"
+      config={{
+        theme: "light",
+      }}
+    />
+
+    <div class="spacer"></div>
+
+    <div class="paragraph-body">
+      <h4>La asesoría financiera en pareja incluye lo siquiente:</h4>
+
+      <br />
+
+      <ul class="money-list">
+        <li class="money-bullet">Un presupuesto hecho a la medida</li>
+        <li class="money-bullet">Un plan financiero para los próximos años</li>
+        <li class="money-bullet">
+          Una estrategia personalizada para cancelar deudas antes de tiempo
+        </li>
+        <li class="money-bullet">
+          Un cálculo sobre cuánto dinero ahorrar para emergencias
+        </li>
+        <li class="money-bullet">
+          Un análisis de las motivaciones financieras de cada uno
+        </li>
+        <li class="money-bullet">
+          Herramientas que les ayuden a tener transparencia con su pareja
+        </li>
+        <li class="money-bullet">
+          Recursos que les ayuden a seguir el plan en el futuro
+        </li>
+        <li class="money-bullet">Un tiempo de preguntas y respuestas</li>
+        <li class="money-bullet">
+          Una sesión de seguimiento de seguimiento de 45 minutos (gratuita!)
+        </li>
+      </ul>
+
+      <br />
+      <br />
+
+      <p>
+        La asesoría tiene 🕐 una duración de 120 minutos, 💸 un costo de ₡40,000
+        o $70 (solo van a necesitar 1 asesoría!) y se realiza de forma virtual
+        💻
+      </p>
+
+      <br />
+
+      <p>
+        Para agendar, solo necesitan escoger la fecha que más les sirva en el
+        calendario de arriba, poner sus datos y confirmar!
+      </p>
+
+      <div class="spacer"></div>
+      <div class="spacer"></div>
+    </div>
+  </main>
+</Document>
