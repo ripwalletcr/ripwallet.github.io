@@ -1,0 +1,79 @@
+---
+import Cal from "@calcom/embed-react";
+import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
+---
+<Document title="Empieza a invertir de acuerdo a tus metas!" disableAsesoria={true}>
+    <SEO
+            slot="head"
+            title="Empieza a invertir de acuerdo a tus metas!"
+            description={"Inversiones realistas y rentables con una estrategia personalizada para alcanzar tus metas."}
+    />
+    <main>
+        <div class="paragraph-body">
+            <p>
+                Ya sea que estés buscando aumentar tus ahorros, planificar tu jubilación o diversificar, una asesoría de
+                inversión te ayudará a crear una estrategia de inversión personalizada que se alinee con tus objetivos y
+                tolerancia al riesgo.
+            </p>
+        </div>
+
+        <div class="spacer"></div>
+
+
+        <Cal
+                client:only
+                calLink="ripwallet/inversiones"
+                config={{
+                    theme: "light",
+                }}
+        />
+
+        <div class="spacer"></div>
+
+        <div class="paragraph-body">
+
+            <h4>Cada asoria incluye lo siquiente:</h4>
+
+            <br>
+
+            <ul class="money-list">
+                <li class="money-bullet">Un plan de inversión según sus objetivos</li>
+                <li class="money-bullet">Estrategias de planificación financiera (opcional)</li>
+                <li class="money-bullet">Recomendaciones de entidades y herramientas de inversión reguladas</li>
+                <li class="money-bullet">Proyecciones de diferentes modelos de inversión</li>
+                <li class="money-bullet">Un tiempo de preguntas y respuestas</li>
+                <li class="money-bullet">Una sesión de seguimiento de 30 minutos (gratuita!)</li>
+            </ul>
+
+            <br>
+            <br>
+
+            <p>
+                Cada asesoría tiene 🕐 una duración de 60 minutos, 💸 un costo de ₡30,000 o $50 y 💻 se realiza de forma
+                virtual!
+            </p>
+
+            <br>
+
+            <p>
+                Para agendar, solo necesitas escoger la fecha que más te sirva, poner tus datos y confirmar!
+            </p>
+
+            <div class="spacer"></div>
+
+            <!-- <b><p>Lo sentimos, las citas no están disponibles en este momento.</p></b> -->
+
+            <!-- Calendly integration widget: -->
+
+            <!-- Principio del widget integrado de Calendly -->
+            <!-- <div class="calendly-inline-widget" data-url="https://calendly.com/ripwallet/asesoria?hide_gdpr_banner=1" style="min-width:320px;height:730px;"></div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> -->
+            <!-- Final del widget integrado de Calendly -->
+
+
+        </div>
+
+
+    </main>
+</Document>

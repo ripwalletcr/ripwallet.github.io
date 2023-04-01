@@ -1,0 +1,39 @@
+---
+import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
+---
+
+<Document title="Recursos gratuitos para iniciar de la mejor forma!">
+  <SEO slot="head" title="Recursos gratuitos para iniciar de la mejor forma!"/>
+  <main>
+    <div class="grid-container recursos">
+      <div class="grid-item">
+        <img class="feature-image framed" src="/images/feature_04.jpg" />
+        <h3 class="feature-title">De 0 a 100 en Finanzas</h3>
+        <p class="feature-desc">
+          Un mini-curso sobre las 4 bases de la libertad financiera.
+        </p>
+        <button
+          type="button"
+          class="standard-btn"
+          onclick=" window.open('https://youtube.com/playlist?list=PLjSlnF2nxABMg7N39iZXT6dK9Oggc2zLL','_blank')"
+        >
+          Ver ahora
+        </button>
+      </div>
+
+      <div class="grid-item">
+        <img class="feature-image framed" src="/images/clipboard_money.jpg" />
+        <h3 class="feature-title">Plantilla de Presupuesto</h3>
+        <p class="feature-desc">
+          Una plantilla de Excel para que categorices tus gastos.
+        </p>
+        <a
+          class="standard-btn"
+          href="/downloads/Plantilla Presupuesto - RIP Wallet.xlsx"
+          >Descargar
+        </a>
+      </div>
+    </div>
+  </main>
+</Document>

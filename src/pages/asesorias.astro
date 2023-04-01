@@ -1,0 +1,46 @@
+---
+import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
+---
+
+<Document
+  title="¿Necesitas un plan? ¡Agenda una asesoría personalizada!"
+  disableAsesoria={true}
+>
+  <SEO slot="head" title="¿Necesitas un plan? ¡Agenda una asesoría personalizada!"/>
+  <main>
+    <div class="grid-container">
+      <div class="grid-item">
+        <img class="feature-image framed" src="/images/clipboard_money.jpg" />
+        <h3 class="feature-title">Asesoría Financiera Personal</h3>
+        <p class="feature-desc">
+          Para tener orden, ahorrar y salir de deudas.
+        </p>
+        <a class="standard-btn" href="/finanzas"
+          >💸
+          <span>&#8203;</span> Agendar!
+        </a>
+      </div>
+
+      <div class="grid-item">
+        <img class="feature-image framed" src="/images/laptop_money.jpg" />
+        <h3 class="feature-title">Asesoría de Inversiones</h3>
+        <p class="feature-desc">Para invertir con conocimiento y seguridad.</p>
+        <a class="standard-btn" href="/inversiones"
+          >💰
+          <span>&#8203;</span> Agendar
+        </a>
+      </div>
+
+      <div class="grid-item">
+        <img class="feature-image framed" src="/images/people_money.jpg" />
+        <h3 class="feature-title">Asesoría Financiera para Parejas</h3>
+        <p class="feature-desc">Para planear y alcanzar metas en conjunto.</p>
+        <a class="standard-btn" href="/parejas"
+        >💰
+          <span>&#8203;</span> Agendar
+        </a>
+      </div>
+    </div>
+  </main>
+</Document>
