@@ -1,9 +1,18 @@
 ---
 import Cal from "@calcom/embed-react";
 import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
 ---
 
-<Document title="Un plan a la medida para organizar tus finanzas!" disableAsesoria={true}>
+<Document
+  title="Un plan a la medida para organizar tus finanzas!"
+  disableAsesoria={true}
+>
+  <SEO
+    slot="head"
+    title="Un plan a la medida para organizar tus finanzas!"
+    description={"Recibe un plan financiero personalizado y estrategias para organizar tus finanzas, ahorrar y salir de deudas."}
+  />
   <main>
     <div class="paragraph-body">
       <p>

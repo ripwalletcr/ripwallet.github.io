@@ -1,0 +1,44 @@
+---
+import { siteMetadata, siteUrl } from "../../constants/site-config";
+import OpenGraph from "./open-graph.astro";
+import { SEOProps } from "./shared";
+import Twitter from "./twitter.astro";
+
+const {
+	description = "",
+	title,
+	canonical,
+	type,
+	pathName,
+	langData,
+	shareImage,
+} = Astro.props as SEOProps;
+
+const metaDescription = description || siteMetadata.description;
+const metaImage = `${siteUrl}${shareImage ?? "/share-banner.png"}`;
+
+const currentPath = siteMetadata.siteUrl + (pathName || "");
+---
+
+<title>
+	{title ? `${title} | ${siteMetadata.title}` : siteMetadata.title}
+</title>
+<>{canonical ? <link rel="canonical" href={canonical} /> : null}</>
+<meta property="name" content={siteMetadata.title} />
+<meta name="description" content={metaDescription} />
+<Twitter
+	title={title}
+	metaDescription={metaDescription}
+	siteMetadata={siteMetadata}
+	metaImage={metaImage}
+	type={type}
+/>
+<OpenGraph
+	currentPath={currentPath}
+	siteMetadata={siteMetadata}
+	title={title}
+	langData={langData}
+	metaDescription={metaDescription}
+	metaImage={metaImage}
+/>
+<slot />

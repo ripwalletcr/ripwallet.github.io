@@ -1,10 +1,15 @@
 ---
 import Cal from "@calcom/embed-react";
 import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
 ---
 <Document title="Empieza a invertir de acuerdo a tus metas!" disableAsesoria={true}>
+    <SEO
+            slot="head"
+            title="Empieza a invertir de acuerdo a tus metas!"
+            description={"Inversiones realistas y rentables con una estrategia personalizada para alcanzar tus metas."}
+    />
     <main>
-
         <div class="paragraph-body">
             <p>
                 Ya sea que estés buscando aumentar tus ahorros, planificar tu jubilación o diversificar, una asesoría de

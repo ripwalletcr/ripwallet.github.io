@@ -1,11 +1,13 @@
 ---
 import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
 ---
 
 <Document
   title="¿Necesitas un plan? ¡Agenda una asesoría personalizada!"
   disableAsesoria={true}
 >
+  <SEO slot="head" title="¿Necesitas un plan? ¡Agenda una asesoría personalizada!"/>
   <main>
     <div class="grid-container">
       <div class="grid-item">

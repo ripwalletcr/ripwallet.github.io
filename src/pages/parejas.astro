@@ -1,9 +1,15 @@
 ---
 import Document from "../layouts/document.astro";
 import Cal from "@calcom/embed-react";
+import SEO from "../components/seo/seo.astro";
 ---
 
 <Document title="La mejor forma para crear un plan financiero en pareja!" disableAsesoria={true}>
+  <SEO
+      slot="head"
+      title="La mejor forma para crear un plan financiero en pareja!"
+      description={"Una oportunidad para ponerse en la misma página y alcanzar metas en conjunto."}
+  />
   <main>
     <div class="paragraph-body">
       <p>

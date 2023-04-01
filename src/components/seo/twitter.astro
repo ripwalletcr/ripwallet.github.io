@@ -1,0 +1,19 @@
+---
+import { SEOProps } from "./shared";
+
+type Props = Pick<SEOProps, "title" | "type"> & {
+  metaDescription: string;
+  metaImage: string;
+  siteMetadata: { twitterHandle: string };
+};
+
+const { title, metaDescription, metaImage, type, siteMetadata } =
+  Astro.props as Props;
+---
+
+{/* Twitter SEO */}
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={metaDescription} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={metaImage} />
+<meta name="twitter:site" content={siteMetadata.twitterHandle} />

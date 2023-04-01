@@ -1,5 +1,6 @@
 ---
 import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
 ---
 
 <Document
@@ -7,6 +8,11 @@ import Document from "../layouts/document.astro";
   subtitle="Aqui hay algunas instrucciones para completar el proceso..."
   enableRecursos={true}
 >
+  <SEO
+    slot="head"
+    title="¡Ya agendaste tu asesoria!"
+    description={"Ya agendaste tu asesoría. Ahora solo queda seguir unos pasos antes de tu sesión."}
+  />
   <main class="paragraph-body paragraph-list">
     <hr class="solid" />
     <h4>#1: Agenda</h4>
