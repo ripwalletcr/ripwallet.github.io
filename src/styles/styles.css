@@ -24,7 +24,7 @@ html {
 
 html {
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
-    url("images/background.png");
+    url("/images/background.png");
 }
 
 /* header */
