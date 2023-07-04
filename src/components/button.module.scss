@@ -59,7 +59,7 @@
   text-align: left;
 }
 
-@include from($mobile) {
+@include until($mobile) {
   .nonIconButton {
     padding: 16px;
     font-size: 1rem;
@@ -67,7 +67,7 @@
   }
 }
 
-@include until($mobile) {
+@include from($mobile) {
   .nonIconButton {
     padding: 16px 24px;
     font-size: 1.5rem;
