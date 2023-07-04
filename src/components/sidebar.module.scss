@@ -13,6 +13,8 @@
   top: 0;
   left: -200vw;
   background: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .mobileHeader {
@@ -51,4 +53,17 @@
   justify-content: center;
   gap: 34px;
   padding: 34px;
+  min-height: 1px;
+  flex-grow: 1;
+}
+
+.footer {
+  background: var(--lime_surface);
+  display: flex;
+  gap: 24px;
+  padding: 24px 48px;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
 }
