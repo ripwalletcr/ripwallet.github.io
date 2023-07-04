@@ -7,15 +7,16 @@ import Icon from "astro-icon";
 
 interface HeaderProps {
   buttonId: string;
+  sidebarId: string;
 }
 
-const { buttonId } = Astro.props as HeaderProps;
+const { buttonId, sidebarId } = Astro.props as HeaderProps;
 ---
 
 <header>
   <div class={styles.mobileHeader}>
-    <div class={`${styles.halfContainers}`} id={buttonId}>
-      <IconOnlyButton variant="secondary">
+    <div class={`${styles.halfContainers}`}>
+      <IconOnlyButton variant="secondary" aria-controls={sidebarId} aria-expanded="false" id={buttonId}>
         <Icon name="Menu" height="100%" width="100%" />
       </IconOnlyButton>
     </div>
@@ -29,13 +30,22 @@ const { buttonId } = Astro.props as HeaderProps;
   </div>
   <div class={styles.desktopHeader}>
     <div class={`${styles.halfContainers} ${styles.iconContainer}`}>
-      <IconOnlyButton variant="secondary" href="https://www.tiktok.com/@ripwallet.cr">
+      <IconOnlyButton
+        variant="secondary"
+        href="https://www.tiktok.com/@ripwallet.cr"
+      >
         <Icon name="TikTok" height="100%" width="100%" />
       </IconOnlyButton>
-      <IconOnlyButton variant="secondary" href="https://www.youtube.com/c/RIPWalletCR">
+      <IconOnlyButton
+        variant="secondary"
+        href="https://www.youtube.com/c/RIPWalletCR"
+      >
         <Icon name="YouTube" height="100%" width="100%" />
       </IconOnlyButton>
-      <IconOnlyButton variant="secondary" href="http://instagram.com/ripwallet.cr/">
+      <IconOnlyButton
+        variant="secondary"
+        href="http://instagram.com/ripwallet.cr/"
+      >
         <Icon name="Instagram" height="100%" width="100%" />
       </IconOnlyButton>
     </div>

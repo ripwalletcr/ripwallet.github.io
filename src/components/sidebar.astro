@@ -11,7 +11,7 @@ interface SidebarProps {
 const { sidebarId, closeId } = Astro.props as SidebarProps;
 ---
 
-<div id={sidebarId} class={styles.container}>
+<div id={sidebarId} class={styles.container} tabindex="-1">
   <div class={styles.mobileHeader}>
     <div class={`${styles.halfContainers}`} id={closeId} }>
       <IconOnlyButton variant="secondary">

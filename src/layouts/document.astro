@@ -29,7 +29,7 @@ import Sidebar from "../components/sidebar.astro";
 
   <body>
     <Sidebar sidebarId="sidebar" closeId="sidebarClose" />
-    <Header buttonId="sidebarToggle" />
+    <Header sidebarId="sidebar" buttonId="sidebarToggle" />
 
     <div class="contentarea">
       <slot />
@@ -43,15 +43,22 @@ import Sidebar from "../components/sidebar.astro";
   /* Mobile sidebar */
   let expanded = false;
 
-  const sidebarToggleEl = document.querySelector("#sidebarToggle");
+  const sidebarToggleEl = document.querySelector("#sidebarToggle") as HTMLElement;
   const sidebarEl = document.querySelector("#sidebar") as HTMLElement;
   const sidebarCloseEl = document.querySelector("#sidebarClose") as HTMLElement;
 
+  function close() {
+    sidebarEl.style.left = "-200vw";
+    sidebarToggleEl.ariaExpanded = "false";
+  }
+
   function toggle() {
     if (expanded) {
-      sidebarEl.style.left = "-200vw";
+      close();
     } else {
       sidebarEl.style.left = "0px";
+      sidebarToggleEl.ariaExpanded = "true";
+      sidebarEl.focus();
     }
     expanded = !expanded;
   }
@@ -59,6 +66,13 @@ import Sidebar from "../components/sidebar.astro";
   sidebarToggleEl.addEventListener("click", toggle);
 
   sidebarCloseEl.addEventListener("click", toggle);
+
+  document.addEventListener("focusin", (e) => {
+    const isFocusInside = sidebarEl.contains(e.target as HTMLElement);
+    if (isFocusInside) return;
+    close();
+    expanded = false;
+  });
 </script>
 
 <style lang="scss">
