@@ -1,0 +1,11 @@
+.footer {
+    padding: 24px 48px;
+    display: flex;
+    flex-direction: row;
+    background: var(--lime_surface);
+}
+
+.spacer {
+    flex-grow: 1;
+    width: 1px;
+}

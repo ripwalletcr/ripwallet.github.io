@@ -1,12 +1,7 @@
 ---
 import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
-
-import "../styles/styles.css"
-import "../styles/layouts.css"
-import "../styles/smooth.css"
-
-const {disableAsesoria, enableRecursos, title, subtitle} = Astro.props;
+import "../styles/global.scss";
 ---
 
 <html>
@@ -26,7 +21,8 @@ const {disableAsesoria, enableRecursos, title, subtitle} = Astro.props;
 </head>
 
 <body>
-<Header disableAsesoria={disableAsesoria} enableRecursos={enableRecursos} title={title} subtitle={subtitle}/>
+
+<Header />
 
 <div class="contentarea">
     <slot/>
@@ -35,3 +31,10 @@ const {disableAsesoria, enableRecursos, title, subtitle} = Astro.props;
 </div>
 </body>
 </html>
+
+
+<script>
+    /* Mobile sidebar */
+    let expanded = false;
+
+</script>

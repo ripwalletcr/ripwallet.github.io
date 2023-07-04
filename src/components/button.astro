@@ -1,0 +1,9 @@
+---
+import style from "./button.module.scss";
+
+const props = Astro.props as astroHTML.JSX.AnchorHTMLAttributes;
+---
+
+<a {...props} class={`${style.buttonContainer} ${props?.class ?? ""}`}>
+  <slot/>
+</a>
