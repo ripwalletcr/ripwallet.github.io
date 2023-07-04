@@ -1,10 +1,10 @@
 :root {
-  --lime_surface: #EEFCF1;
+  --lime_surface: #eefcf1;
   --lime_surface_dark: rgba(64, 191, 137, 0.15);
-  --lime_light: #7CE495;
-  --lime_dark: #40BF89;
+  --lime_light: #7ce495;
+  --lime_dark: #40bf89;
   --neutral_dark: #212121;
-  --neutral_light: #FFFFFF;
+  --neutral_light: #ffffff;
 }
 
 body {
@@ -75,7 +75,8 @@ h6 {
   letter-spacing: 0.0625rem;
 }
 
-p, li {
+p,
+li {
   /* Body/Desktop/Body 1 */
   font-size: 1.5rem;
   font-family: Poppins, sans-serif;
@@ -89,4 +90,16 @@ p, li {
   max-width: 1108px;
   margin: 0 auto;
   padding: 24px;
+}
+
+hr {
+  height: 2px;
+  background-color: var(--lime_light);
+  border: none;
+  margin: 10px 0;
+  border-radius: 50%;
+}
+
+a {
+  color: var(--lime_dark);
 }

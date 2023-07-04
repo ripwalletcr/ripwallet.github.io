@@ -5,7 +5,11 @@ import { Button } from "../components/button";
 ---
 
 <Document disableAsesoria={true}>
-  <SEO slot="head" title="Recomendaciones" />
+  <SEO
+    slot="head"
+    title="Recomendaciones"
+    description="Algunas herramientas que pueden ayudarte en tus finanzas"
+  />
   <main class="mainContents">
     <h1>Herramientas que utilizo para organizar mis finanzas!</h1>
     <p>
@@ -65,10 +69,8 @@ import { Button } from "../components/button";
       de abajo!
     </p>
 
-      <div style="display: flex; justify-content: center">
-          <Button href="/inversiones">
-              asesorías de inversiones
-          </Button>
-      </div>
+    <div style="display: flex; justify-content: center">
+      <Button href="/inversiones">asesorías de inversiones</Button>
+    </div>
   </main>
 </Document>
