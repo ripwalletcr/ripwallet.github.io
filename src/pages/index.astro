@@ -6,11 +6,26 @@ import Card from "../components/card.astro";
 ---
 
 <Document title="Poner tus finanzas en orden no tiene que ser aburrido!">
-  <SEO slot="head" title="Poner tus finanzas en orden no tiene que ser aburrido!"/>
+  <SEO
+    slot="head"
+    title="Poner tus finanzas en orden no tiene que ser aburrido!"
+  />
   <main class={styles.container}>
-      <div class={styles.innerContainer}>
-      <Card title="Asesorías personalizadas" body="Planes a la medida para organizarte o invertir." buttonText="agendar asesorías"/>
-      <Card title="Recursos" body="Herramientas gratuitas para ayudarte a empezar." buttonText="visitar"/>
-      </div>
+    <div class={styles.innerContainer}>
+      <Card
+        imageUrl="/images/people_money.jpg"
+        title="Asesorías personalizadas"
+        body="Planes a la medida para organizarte o invertir."
+        buttonText="agendar asesorías"
+        buttonHref="/asesorias"
+      />
+      <Card
+        imageUrl="/images/feature_04.jpg"
+        title="Recursos"
+        body="Herramientas gratuitas para ayudarte a empezar."
+        buttonText="visitar"
+        buttonHref="/recursos"
+      />
+    </div>
   </main>
 </Document>

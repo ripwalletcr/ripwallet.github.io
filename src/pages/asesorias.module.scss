@@ -24,3 +24,8 @@
     width: 100%;
   }
 }
+.hiddenDesktop {
+  @include from($mobile) {
+    display: none !important;
+  }
+}
