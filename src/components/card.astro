@@ -1,0 +1,20 @@
+---
+import styles from "./card.module.scss";
+import Button from "./button.astro";
+
+interface CardProps {
+  title: string;
+  body: string;
+  buttonText: string;
+  imageUrl: string;
+}
+
+const { title, body, buttonText, imageUrl } = Astro.props as CardProps;
+---
+
+<div class={styles.cardContainer}>
+  <img class={styles.img} src={imageUrl} alt="" />
+  <h2>{title}</h2>
+  <p>{body}</p>
+  <Button>{buttonText}</Button>
+</div>
