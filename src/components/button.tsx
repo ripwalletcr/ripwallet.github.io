@@ -11,7 +11,7 @@ import styles from "./button.module.scss";
 type ButtonProps = PropsWithChildren<
   {
     tag?: "a" | "button";
-    class?: string;
+    className?: string;
     variant?: "primary" | "secondary";
   } & ButtonHTMLAttributes<HTMLButtonElement> &
     AnchorHTMLAttributes<HTMLAnchorElement>
@@ -19,7 +19,7 @@ type ButtonProps = PropsWithChildren<
 
 function ButtonWrapper({
   tag = "a",
-  class: className,
+  className,
   children,
   variant = "primary",
   ...props
@@ -38,9 +38,12 @@ function ButtonWrapper({
   );
 }
 
-export function Button({ class: className = "", ...props }: ButtonProps) {
+export function Button({ className, ...props }: ButtonProps) {
   return (
-    <ButtonWrapper {...props} class={`${styles.nonIconButton} ${className}`} />
+    <ButtonWrapper
+      {...props}
+      className={`${styles.nonIconButton} ${className}`}
+    />
   );
 }
 
@@ -49,29 +52,31 @@ interface IconAndTextButtonProps extends ButtonProps {
 }
 
 export function IconAndTextButton({
-  class: className = "",
+  className,
   leftIcon,
   children,
   ...props
 }: IconAndTextButtonProps) {
   return (
-    <ButtonWrapper {...props} class={`${styles.iconButton} ${className}`}>
+    <ButtonWrapper {...props} className={`${styles.iconButton} ${className}`}>
       <span className={styles.iconButtonButton}>{leftIcon}</span>
       {children}
     </ButtonWrapper>
   );
 }
 
-interface IconOnlyButtonProps extends ButtonProps {
-}
+interface IconOnlyButtonProps extends ButtonProps {}
 
 export function IconOnlyButton({
-  class: className = "",
+  className,
   children,
   ...props
 }: IconOnlyButtonProps) {
   return (
-    <ButtonWrapper {...props} class={`${styles.iconOnlyButton} ${className}`}>
+    <ButtonWrapper
+      {...props}
+      className={`${styles.iconOnlyButton} ${className}`}
+    >
       <span>{children}</span>
     </ButtonWrapper>
   );
