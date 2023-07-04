@@ -3,6 +3,7 @@
 .buttonBase {
   border-radius: 8px;
   display: inline-block;
+  text-decoration: none;
 }
 
 .buttonBase:global(.primary) {
@@ -91,6 +92,7 @@
 }
 
 .iconOnlyButton > span {
+  display: inline-block;
   height: 30px;
   width: 30px;
 }

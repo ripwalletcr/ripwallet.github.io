@@ -16,5 +16,5 @@ const { title, body, buttonText, imageUrl } = Astro.props as CardProps;
   <img class={styles.img} src={imageUrl} alt="" />
   <h2 class={styles.title}>{title}</h2>
   <p class={styles.body}>{body}</p>
-  <Button>{buttonText}</Button>
+  <div><Button>{buttonText}</Button></div>
 </div>

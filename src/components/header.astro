@@ -1,40 +1,52 @@
 ---
 import styles from "./header.module.scss";
 
-import Icon from "astro-icon"
+import { IconOnlyButton, Button } from "./button";
+
+import Icon from "astro-icon";
 
 interface HeaderProps {
-    buttonId: string;
+  buttonId: string;
 }
 
-const {buttonId} = Astro.props as HeaderProps;
+const { buttonId } = Astro.props as HeaderProps;
 ---
 
 <header>
-    <div class={styles.mobileHeader}>
-        <div class={`${styles.halfContainers}`} id={buttonId}>
-            <Icon name="mdi:menu" height="30" width="30"/>
-        </div>
-        <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt=""/>
-        <div class={`${styles.halfContainers}`}>
-            <div class={styles.spacer} />
-            <Icon name="mdi:calendar" height="30" width="30"/>
-        </div>
+  <div class={styles.mobileHeader}>
+    <div class={`${styles.halfContainers}`} id={buttonId}>
+      <IconOnlyButton variant="secondary">
+        <Icon name="mdi:menu" height="100%" width="100%" />
+      </IconOnlyButton>
     </div>
-    <div class={styles.desktopHeader}>
-        <div class={`${styles.halfContainers} ${styles.iconContainer}`}>
-            <Icon name="simple-icons:tiktok" height="30" width="30"/>
-            <Icon name="simple-icons:youtube" height="30" width="30"/>
-            <Icon name="simple-icons:instagram" height="30" width="30"/>
-        </div>
-        <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt=""/>
-        <div class={`${styles.halfContainers}`}>
-            <div class={styles.spacer} />
-            <nav class={styles.linkNav}>
-                <p>finanzas</p>
-                <p>inversiones</p>
-                <p>recursos</p>
-            </nav>
-        </div>
+    <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="" />
+    <div class={`${styles.halfContainers}`}>
+      <div class={styles.spacer}></div>
+      <IconOnlyButton variant="secondary">
+        <Icon name="mdi:calendar" height="100%" width="100%" />
+      </IconOnlyButton>
     </div>
+  </div>
+  <div class={styles.desktopHeader}>
+    <div class={`${styles.halfContainers} ${styles.iconContainer}`}>
+      <IconOnlyButton variant="secondary">
+        <Icon name="simple-icons:tiktok" height="100%" width="100%" />
+      </IconOnlyButton>
+      <IconOnlyButton variant="secondary">
+        <Icon name="simple-icons:youtube" height="100%" width="100%" />
+      </IconOnlyButton>
+      <IconOnlyButton variant="secondary">
+        <Icon name="simple-icons:instagram" height="100%" width="100%" />
+      </IconOnlyButton>
+    </div>
+    <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="" />
+    <div class={`${styles.halfContainers}`}>
+      <div class={styles.spacer}></div>
+      <nav class={styles.linkNav}>
+        <Button variant="secondary">Finanzas</Button>
+        <Button variant="secondary">Inversiones</Button>
+        <Button variant="secondary">Recursos</Button>
+      </nav>
+    </div>
+  </div>
 </header>

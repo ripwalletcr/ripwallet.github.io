@@ -63,18 +63,16 @@ export function IconAndTextButton({
 }
 
 interface IconOnlyButtonProps extends ButtonProps {
-  icon?: ReactNode;
 }
 
 export function IconOnlyButton({
   class: className = "",
-  icon,
   children,
   ...props
 }: IconOnlyButtonProps) {
   return (
     <ButtonWrapper {...props} class={`${styles.iconOnlyButton} ${className}`}>
-      <span>{icon}</span>
+      <span>{children}</span>
     </ButtonWrapper>
   );
 }
