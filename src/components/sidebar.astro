@@ -1,7 +1,7 @@
 ---
 import styles from "./sidebar.module.scss";
 import Icon from "astro-icon";
-import { IconOnlyButton } from "./button";
+import { IconOnlyButton, IconAndTextButton } from "./button";
 
 interface SidebarProps {
   sidebarId: string;
@@ -15,16 +15,41 @@ const { sidebarId, closeId } = Astro.props as SidebarProps;
   <div class={styles.mobileHeader}>
     <div class={`${styles.halfContainers}`} id={closeId} }>
       <IconOnlyButton variant="secondary">
-        <Icon name="mdi:close" height="100%" width="100%" />
+        <Icon name="Close" height="100%" width="100%" />
       </IconOnlyButton>
     </div>
     <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="" />
     <div class={`${styles.halfContainers}`}>
       <div class={styles.spacer}></div>
       <IconOnlyButton variant="secondary">
-        <Icon name="mdi:calendar" height="100%" width="100%" />
+        <Icon name="Calendar" height="100%" width="100%" />
       </IconOnlyButton>
     </div>
   </div>
-  <p>Hi</p>
+  <div class={styles.contents}>
+    <IconAndTextButton variant="secondary">
+      <Icon name="List" slot="leftIcon" height="100%" width="100%" />
+      finanzas personales
+    </IconAndTextButton>
+    <IconAndTextButton variant="secondary">
+      <Icon name="Couple" slot="leftIcon" height="100%" width="100%" />
+      finanzas en pareja
+    </IconAndTextButton>
+    <IconAndTextButton variant="secondary">
+      <Icon name="Dollar" slot="leftIcon" height="100%" width="100%" />
+      inversiones
+    </IconAndTextButton>
+    <IconAndTextButton variant="secondary">
+      <Icon name="Bookmark" slot="leftIcon" height="100%" width="100%" />
+      recursos
+    </IconAndTextButton>
+    <IconAndTextButton variant="secondary">
+      <Icon name="Email" slot="leftIcon" height="100%" width="100%" />
+      contacto
+    </IconAndTextButton>
+    <IconAndTextButton variant="secondary">
+      <Icon name="Info" slot="leftIcon" height="100%" width="100%" />
+      acerca de
+    </IconAndTextButton>
+  </div>
 </div>

@@ -42,3 +42,13 @@
   width: 1px;
   flex-grow: 1;
 }
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 34px;
+  padding: 34px;
+}

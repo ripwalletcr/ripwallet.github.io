@@ -2,9 +2,12 @@
 
 .buttonBase {
   border-radius: 8px;
-  display: inline-block;
   text-decoration: none;
   text-transform: uppercase;
+  display: inline-flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .buttonBase:global(.primary) {
