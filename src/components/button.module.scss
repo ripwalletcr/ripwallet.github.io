@@ -33,6 +33,7 @@
 
 .buttonBase:global(.secondary) {
   background: transparent;
+  color: var(--neutral_dark);
 }
 
 .buttonBase:global(.secondary):hover {

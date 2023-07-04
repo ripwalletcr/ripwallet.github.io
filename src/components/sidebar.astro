@@ -21,45 +21,45 @@ const { sidebarId, closeId } = Astro.props as SidebarProps;
     <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="" />
     <div class={`${styles.halfContainers}`}>
       <div class={styles.spacer}></div>
-      <IconOnlyButton variant="secondary">
+      <IconOnlyButton variant="secondary" href="/asesorias">
         <Icon name="Calendar" height="100%" width="100%" />
       </IconOnlyButton>
     </div>
   </div>
   <div class={styles.contents}>
-    <IconAndTextButton variant="secondary">
+    <IconAndTextButton href="/finanzas" variant="secondary">
       <Icon name="List" slot="leftIcon" height="100%" width="100%" />
       finanzas personales
     </IconAndTextButton>
-    <IconAndTextButton variant="secondary">
+    <IconAndTextButton href="/parejas" variant="secondary">
       <Icon name="Couple" slot="leftIcon" height="100%" width="100%" />
       finanzas en pareja
     </IconAndTextButton>
-    <IconAndTextButton variant="secondary">
+    <IconAndTextButton href="/inversiones" variant="secondary">
       <Icon name="Dollar" slot="leftIcon" height="100%" width="100%" />
       inversiones
     </IconAndTextButton>
-    <IconAndTextButton variant="secondary">
+    <IconAndTextButton href="/recursos" variant="secondary">
       <Icon name="Bookmark" slot="leftIcon" height="100%" width="100%" />
       recursos
     </IconAndTextButton>
-    <IconAndTextButton variant="secondary">
+    <IconAndTextButton variant="secondary" href="mailto:ripwallet.cr@gmail.com">
       <Icon name="Email" slot="leftIcon" height="100%" width="100%" />
       contacto
     </IconAndTextButton>
-    <IconAndTextButton variant="secondary">
+    <IconAndTextButton href="/acerca" variant="secondary">
       <Icon name="Info" slot="leftIcon" height="100%" width="100%" />
       acerca de
     </IconAndTextButton>
   </div>
   <div class={styles.footer}>
-    <IconOnlyButton variant="secondary">
+    <IconOnlyButton variant="secondary" href="http://instagram.com/ripwallet.cr/">
       <Icon name="Instagram" height="100%" width="100%" />
     </IconOnlyButton>
-    <IconOnlyButton variant="secondary">
+    <IconOnlyButton variant="secondary" href="https://www.youtube.com/c/RIPWalletCR">
       <Icon name="YouTube" height="100%" width="100%" />
     </IconOnlyButton>
-    <IconOnlyButton variant="secondary">
+    <IconOnlyButton variant="secondary" href="https://www.tiktok.com/@ripwallet.cr">
       <Icon name="TikTok" height="100%" width="100%" />
     </IconOnlyButton>
   </div>
