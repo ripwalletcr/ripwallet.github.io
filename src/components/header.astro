@@ -2,11 +2,17 @@
 import styles from "./header.module.scss";
 
 import Icon from "astro-icon"
+
+interface HeaderProps {
+    buttonId: string;
+}
+
+const {buttonId} = Astro.props as HeaderProps;
 ---
 
 <header>
     <div class={styles.mobileHeader}>
-        <div class={`${styles.halfContainers}`}>
+        <div class={`${styles.halfContainers}`} id={buttonId}>
             <Icon name="mdi:menu" height="30" width="30"/>
         </div>
         <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt=""/>

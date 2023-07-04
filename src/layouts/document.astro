@@ -2,6 +2,7 @@
 import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
 import "../styles/global.scss";
+import Sidebar from "../components/sidebar.astro";
 ---
 
 <html>
@@ -27,7 +28,8 @@ import "../styles/global.scss";
   </head>
 
   <body>
-    <Header />
+    <Sidebar sidebarId="sidebar" closeId="sidebarClose" />
+    <Header buttonId="sidebarToggle" />
 
     <div class="contentarea">
       <slot />
@@ -40,6 +42,23 @@ import "../styles/global.scss";
 <script>
   /* Mobile sidebar */
   let expanded = false;
+
+  const sidebarToggleEl = document.querySelector("#sidebarToggle");
+  const sidebarEl = document.querySelector("#sidebar") as HTMLElement;
+  const sidebarCloseEl = document.querySelector("#sidebarClose") as HTMLElement;
+
+  function toggle() {
+    if (expanded) {
+      sidebarEl.style.left = "-200vw";
+    } else {
+      sidebarEl.style.left = "0px";
+    }
+    expanded = !expanded;
+  }
+
+  sidebarToggleEl.addEventListener("click", toggle);
+
+  sidebarCloseEl.addEventListener("click", toggle);
 </script>
 
 <style lang="scss">
