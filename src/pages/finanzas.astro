@@ -4,82 +4,49 @@ import Document from "../layouts/document.astro";
 import SEO from "../components/seo/seo.astro";
 ---
 
-<Document
-  title="Un plan a la medida para organizar tus finanzas!"
-  disableAsesoria={true}
->
+<Document>
   <SEO
     slot="head"
     title="Un plan a la medida para organizar tus finanzas!"
     description={"Recibe un plan financiero personalizado y estrategias para organizar tus finanzas, ahorrar y salir de deudas."}
   />
-  <main>
-    <div class="paragraph-body">
-      <p>
-        Las asesorias financieras son la mejor forma de darle un vistazo a tus
-        finanzas personales o en pareja para desarrollar un plan y contestar
-        todas las preguntas posibles sobre presupuestos, deudas, tarjetas de
-        crédito y mas!
-      </p>
-    </div>
-
-    <div class="spacer"></div>
+  <main class="mainContents">
+    <h1>Un plan a la medida para organizar tus finanzas!</h1>
+    <p>
+      Las asesorías financieras son el mejor espacio para aclarar tus dudas y
+      organizar tus finanzas para que salgas de deudas, le saques provecho a las
+      tarjetas de crédito, ahorres y proyectes metas a futuro!
+    </p>
 
     <Cal
-      client:only
+      client:only="react"
       calLink="ripwallet/finanzas"
       config={{
         theme: "light",
       }}
     />
 
-    <div class="spacer"></div>
+    <h2>En la asesoría veremos:</h2>
+    <ul>
+      <li>Un presupuesto de acuerdo a tu realidad financiera y tus gustos</li>
+      <li>Un plan estructurado para organizar tus finanzas</li>
+      <li>Una estrategia para cancelar tus deudas antes de tiempo</li>
+      <li>Una estrategia y un cálculo para que empieces a ahorrar</li>
+      <li>Recursos y servicios que te ayuden a organizar tus finanzas</li>
+      <li>Recomendaciones sobre tarjetas de crédito (opcional)</li>
+      <li>Pasos a seguir puntuales para que organices tu situación</li>
+      <li>Un tiempo de preguntas y respuestas</li>
+      <li>Una sesión de seguimiento de 30 minutos (gratuita!)</li>
+    </ul>
+    <p>
+      La asesoría tiene una duración aproximada de 90 minutos, un costo de
+      ₡35,000 o $60 (solo necesitarás 1 asesoría!) y se realizan de forma
+      virtual.
+    </p>
 
-    <div class="paragraph-body">
-      <h4>Cada asesoria incluye lo siquiente:</h4>
-
-      <br />
-
-      <ul class="money-list">
-        <li class="money-bullet">Un presupuesto hecho a la medida</li>
-        <li class="money-bullet">Un plan financiero para los próximos años</li>
-        <li class="money-bullet">
-          Una estrategia para cancelar deudas antes de tiempo
-        </li>
-        <li class="money-bullet">
-          Recursos que te ayuden a seguir tu plan en el futuro
-        </li>
-        <li class="money-bullet">Un tiempo de preguntas y respuestas</li>
-        <li class="money-bullet">
-          Una sesión de seguimiento de 30 minutos (gratuita!)
-        </li>
-      </ul>
-
-      <br />
-      <br />
-
-      <p>
-        La asesoría tiene 🕐 una duración de 90 minutos, 💸 un costo de ₡35,000
-        o $60 (solo necesitarás 1 asesoría!) y se realizan de forma virtual 💻
-      </p>
-
-      <br />
-
-      <p>
-        Para agendar, solo necesitas escoger la fecha que más te sirva, poner
-        tus datos y confirmar!
-      </p>
-
-      <div class="spacer"></div>
-
-      <!-- <b><p>Lo sentimos, las citas no están disponibles en este momento.</p></b> -->
-
-      <!-- Calendly integration widget: -->
-
-      <!-- Principio del widget integrado de Calendly -->
-      <!-- <div class="calendly-inline-widget" data-url="https://calendly.com/ripwallet/asesoria?hide_gdpr_banner=1" style="min-width:320px;height:730px;"></div>
-            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> -->
-      <!-- Final del widget integrado de Calendly -->
-    </div>
+    <p>
+      Para agendar, solo necesitas elegir la fecha que más te sirva, llenar tus
+      datos y confirmar!
+    </p>
   </main>
 </Document>

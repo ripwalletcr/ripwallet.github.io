@@ -1,0 +1,26 @@
+@import "src/style-utils/breakpoints";
+
+.container {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+
+  @include from($mobile) {
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+  }
+}
+
+.innerContainer {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+@include until($mobile) {
+  .innerContainer {
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+}

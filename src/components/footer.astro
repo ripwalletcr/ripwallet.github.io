@@ -1,25 +1,11 @@
 ---
-import { Icon } from 'astro-icon'
+import styles from "./footer.module.scss";
+import {Button} from "./button";
 ---
 
-<footer>
-    <div id="footer-logo">
-        <a class="footer-title">RIP Wallet</a>
-    </div>
-
-    <div id="footer-social-links">
-        <div class="social-icon"><a href="https://www.youtube.com/c/RIPWalletCR" target="_blank">
-            <Icon name="simple-icons:youtube" height="36" width="36"/>
-        </a></div>
-        <div class="social-icon"><a href="http://instagram.com/ripwallet.cr/" target="_blank">
-            <Icon name="simple-icons:instagram" height="36" width="36"/>
-        </a></div>
-        <div class="social-icon"><a href="https://www.tiktok.com/@ripwallet.cr" target="_blank">
-            <Icon name="simple-icons:tiktok" height="36" width="36"/>
-        </a></div>
-        <div class="social-icon"><a href="https://www.facebook.com/ripwallet.cr" target="_blank">
-            <Icon name="simple-icons:facebook" height="36" width="36"/>
-        </a></div>
-    </div>
-
+<footer class={styles.footer}>
+    <Button variant="secondary">@ripwallet.cr - 2023</Button>
+    <div class={styles.spacer}/>
+    <Button className={styles.frameworkButton} variant="secondary" href="mailto:ripwallet.cr@gmail.com">Contacto</Button>
+    <Button className={styles.frameworkButton} variant="secondary" href="/acerca">Acerca De</Button>
 </footer>

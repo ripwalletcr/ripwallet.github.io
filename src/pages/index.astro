@@ -1,27 +1,31 @@
 ---
 import Document from "../layouts/document.astro";
 import SEO from "../components/seo/seo.astro";
+import styles from "./index.module.scss";
+import Card from "../components/card.astro";
 ---
 
 <Document title="Poner tus finanzas en orden no tiene que ser aburrido!">
-  <SEO slot="head" title="Poner tus finanzas en orden no tiene que ser aburrido!"/>
-  <main>
-    <div class="grid-container">
-      <div class="grid-item">
-        <img class="feature-image framed" src="/images/people_money.jpg" />
-        <h3 class="feature-title">Asesorías personalizadas</h3>
-        <p class="feature-desc">
-          Planes a la medida para organizarte o invertir.
-        </p>
-        <a class="standard-btn" href="/asesorias">Agendar asesoria!</a>
-      </div>
-
-      <div class="grid-item">
-        <img class="feature-image framed" src="/images/video_nomoney.jpg" />
-        <h3 class="feature-title">Recursos</h3>
-        <p class="feature-desc">Herramientas para ayudarte a empezar.</p>
-        <a class="standard-btn" href="/recursos">Visitar</a>
-      </div>
+  <SEO
+    slot="head"
+    title="Poner tus finanzas en orden no tiene que ser aburrido!"
+  />
+  <main class={`mainContentsOnlyAnim ${styles.container}`}>
+    <div class={styles.innerContainer}>
+      <Card
+        imageUrl="/images/people_money.jpg"
+        title="Asesorías personalizadas"
+        body="Planes a la medida para organizarte o invertir."
+        buttonText="agendar asesorías"
+        buttonHref="/asesorias"
+      />
+      <Card
+        imageUrl="/images/feature_04.jpg"
+        title="Recursos"
+        body="Herramientas gratuitas para ayudarte a empezar."
+        buttonText="visitar"
+        buttonHref="/recursos"
+      />
     </div>
   </main>
 </Document>

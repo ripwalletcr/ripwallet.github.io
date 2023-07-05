@@ -1,286 +1,76 @@
 ---
 import Document from "../layouts/document.astro";
 import SEO from "../components/seo/seo.astro";
+import { Button } from "../components/button";
 ---
 
 <Document disableAsesoria={true}>
-  <SEO slot="head" title="Recomendaciones"/>
-  <main>
-    <div class="paragraph-body">
-      <p>
-        Estos son los productos y/o servicios que utilizo actualmente para
-        organizar mis finanzas e invertir.
-      </p>
+  <SEO
+    slot="head"
+    title="Recomendaciones"
+    description="Algunas herramientas que pueden ayudarte en tus finanzas"
+  />
+  <main class="mainContents">
+    <h1>Herramientas que utilizo para organizar mis finanzas!</h1>
+    <p>
+      Esta lista está acompañada de un video en YouTube donde explico cómo
+      organizo mis finanzas cada año. Puedes ver el video acá abajo:
+    </p>
 
-      <br />
+    <h2>⚠️ Última actualización: Enero 2023</h2>
+    <iframe
+      width="100%"
+      style="max-width: 826px; margin: 0.625rem auto; display: block; border-radius: 12px; box-shadow: 0px 7px 24px 0px rgba(0, 0, 0, 0.19), 0px 3px 6px 0px rgba(0, 0, 0, 0.04);"
+      height="466"
+      src="https://www.youtube.com/embed/0QzTJrUg4HQ"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay=1&mute=1; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
 
-      <p>
-        Esta lista está acompañada de un video en YouTube donde explico cómo
-        organizo mis finanzas cada año. Puedes ver el video acá abajo!
-      </p>
-
-      <br />
-
-      <p>🗓️ Última actualización: Enero 29, 2023</p>
-
-      <br />
-
-      <!-- <div class="spacer">
-            <div class="spacer"> -->
-
-      <div class="youtube-embed">
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/0QzTJrUg4HQ"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay=1&mute=1; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen></iframe>
-      </div>
+    <h2>🏦 Cuentas bancarias</h2>
+    <ul>
+      <li>BAC Cuenta Total</li>
+      <li>MultiMoney SMART</li>
+      <li>Wise</li>
+      <li>Wink</li>
+    </ul>
+    <h2>💳 Tarjetas de crédito</h2>
+    <ul>
+      <li>LifeMiles Infinite (Scotiabank)</li>
+      <li>ConnectMiles (BAC)</li>
+      <li>Walmart (BAC)</li>
+    </ul>
+    <h2>🧑‍💻 Presupuesto</h2>
+    <p>
+      El presupuesto que utilizo es el mismo que pueden descargar en esta página
+      solo que tiene un pequeño añadido: una página para llevar un control del
+      total disponible en cada cuenta de ahorros e inversiones.
+    </p>
+    <div style="display: flex; justify-content: center">
+      <Button href="/downloads/Plantilla Presupuesto - RIP Wallet.xlsx">
+        descargar
+      </Button>
     </div>
+    <h2>🤑 Inversiones</h2>
+    <p>
+      Recomendar inversiones es un proceso complejo porque no existe una
+      herramienta perfecta para todas las personas.
+    </p>
 
-    <div class="spacer"></div>
+    <p>
+      Por eso es que solamente recomiendo entidades para invertir en asesorías
+      de inversiones, donde puedo conocer su situación financiera y sus metas a
+      fondo y recomendar entidades específicas en base a eso.
+    </p>
 
-    <div class="paragraph-body">
-      <h1>🏦 Cuentas bancarias</h1>
+    <p>
+      Si quieren agendar una asesoría de inversiones pueden hacerlo con el link
+      de abajo!
+    </p>
 
-      <br />
-      <br />
-
-      <h2>
-        <a
-          href="https://www.baccredomatic.com/es-cr/personas/cuentas?categoria=destacados"
-          target="_blank">BAC Cuenta Total</a>
-      </h2>
-
-      <br />
-
-      <p>La cuenta total es la cuenta que permite sobres electrónicos.</p>
-
-      <br />
-
-      <p>
-        Esta cuenta debe solicitarse en una agencia del BAC, tiene montos
-        mínimos y solo permite 10 sobres por cuenta total.
-      </p>
-
-      <br />
-      <br />
-
-      <h2>
-        <a href="https://www.multimoney.com/cr/smart" target="_blank"
-          >Cuenta SMART</a>
-      </h2>
-
-      <br />
-
-      <p>
-        Esta cuenta es la que utilizo para el fondo de emergencia y ahorros que
-        necesite a corto plazo.
-      </p>
-
-      <br />
-
-      <p>
-        Genera un rendimiento en intereses de un 7% anual en colones y 3.25% en
-        dólares y está disponible en Costa Rica y otras partes de centroamérica.
-      </p>
-
-      <br />
-      <br />
-
-      <h2><a href="https://wise.com/" target="_blank">Wise</a></h2>
-
-      <br />
-
-      <p>
-        Este servicio permite recibir transferencias de dinero ACH a cuentas
-        bancarias internacionales.
-      </p>
-
-      <br />
-      <br />
-
-      <h2><a href="https://holawink.com/" target="_blank">Wink (🇨🇷)</a></h2>
-
-      <br />
-
-      <p>
-        Wink no es el mejor servicio, pero es el que permite retirar dinero de
-        PayPal en Costa Rica a menor costo.
-      </p>
-
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <h1>💳 Tarjetas de crédito</h1>
-
-      <br />
-      <br />
-
-      <ul class="money-list">
-        <li class="money-bullet">
-          <a
-            href="https://www.scotiabankcr.com/personas/tarjetas-de-credito/lifemiles/infinite.aspx"
-            target="_blank"
-            >LifeMiles (15% - 20% de devolución mensual con "Super Mes")</a>
-        </li>
-
-        <li class="money-bullet">
-          <a
-            href="https://productos.baccredomatic.com/es-cr/landing/blue/"
-            target="_blank">AMEX Blue (2% - 5% de devolución)</a>
-        </li>
-
-        <li class="money-bullet">
-          <a
-            href="https://www.scotiabankcr.com/personas/tarjetas-de-credito/lifemiles/infinite.aspx"
-            target="_blank"
-            >AMEX Walmart (5% de devolución en supermercados de la cadena de
-            Walmart)</a
-          >
-        </li>
-      </ul>
-
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <h1>
-        <a href="https://ripwallet.co/recursos" target="_blank"
-          >🧑‍💻 Presupuesto</a>
-      </h1>
-
-      <br />
-      <br />
-
-      <p>
-        El presupuesto que utilizo es el mismo que pueden descargar en la página
-        de RIP Wallet solo que tiene un pequeño añadido: una página para llevar
-        un control del total disponible en cada cuenta de ahorros e inversiones
-        (en el video se puede ver la página)
-      </p>
-
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <h1>🤑 Inversiones</h1>
-
-      <br />
-      <br />
-
-      <!--
-  <div class="youtube-embed">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/0QzTJrUg4HQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay=1&mute=1; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-  </div> -->
-
-      <br />
-      <br />
-
-      <h2>💰 Intereses garantizados</h2>
-
-      <br />
-      <br />
-
-      <p>
-        Este tipo de inversión lo utilizo para corto - largo plazo (5 - 15 años)
-        cuando el tipo de inversión necesita que no se arriesgue el capital,
-        como por ejemplo invertir para la compra de una casa o la compra de un
-        carro.
-      </p>
-
-      <br />
-
-      <p>
-        Estas inversiones las realizo en <!--<a href="https://transcomer.com/" target="_blank">Transcomer</a> -->Transcomer,
-        un puesto de bolsa en Costa Rica regulado por la Bolsa de Comercio y
-        SUGEF, ganando en mis inversiones entre un 11% - 13% anual en colones o
-        6.25% - 9% anual en dólares (ambos con interés compuesto!)
-      </p>
-
-      <br />
-      <br />
-
-      <p>
-        📲 Si ustedes quieren invertir en Transcomer o saber más sobre este tipo
-        de inversión pueden escribir al <a
-          href="https://wa.me/50671237888"
-          target="_blank"
-        >
-          +506 71237888 por WhatsApp</a
-        > o por <a href="https://instagram.com/ripwallet.cr" target="_blank">
-          mensaje privado en Instagram</a
-        > y yo los puedo ayudar.
-      </p>
-
-      <br />
-
-      <p>
-        ⚠️ Esas son las tasas de interés preferenciales al momento de escribir
-        este post. Las tasas preferenciales son tasas más altas que las tasas en
-        la página de Transcomer y son tasas que yo como asesor de Transcomer
-        puedo ofrecerle a otros inversores.
-      </p>
-
-      <br />
-      <br />
-
-      <h2>📈 Mercados de Bolsa</h2>
-
-      <br />
-      <br />
-
-      <p>
-        Para mi inversión de jubilación el dinero está colocado en un gestor de
-        fondos de inversión llamado <!-- <a href="https://dominion-cs.com/es/" target="_blank">Dominion Capital Strategies</a>-->Dominion
-        Capital Strategies, localizado fuera de Costa Rica y regulado por los
-        entes reguladores britanicos.
-      </p>
-
-      <br />
-
-      <p>
-        El retorno histórico en Dominion CS es de un 9% anual en dólares, y el
-        dinero se invierte en el fondo que el inversor desee.
-      </p>
-
-      <!-- En mi caso el dinero está dividido en 4 industrias de alto crecimiento, pero cada inversor puede decidir si manejar activamente los fondos de su inversión o si dejar que Dominion CS maneje su fondo y ellos tomar un rol pasivo (lo más recomendado). -->
-
-      <br />
-
-      <p>
-        📲 Al igual que con Transcomer, si ustedes quieren invertir en esta
-        entidad o saber más sobre este tipo de inversión pueden escribirme al <a
-          href="https://wa.me/50671237888"
-          target="_blank"
-        >
-          +506 71237888 por WhatsApp</a
-        > o por <a href="https://instagram.com/ripwallet.cr" target="_blank">
-          mensaje privado en Instagram</a
-        > y yo los puedo ayudar, ya que yo soy asesor de Dominion Capital Strategies.
-      </p>
-      <br />
-      <br />
-
-      <h2>💵 Dinero a la vista</h2>
-
-      <br />
-      <br />
-
-      <p>
-        Para ganar intereses con cualquier dinero que necesite disponible
-        inmediatamente o a corto plazo normalmente utilizo la cuenta SMART de
-        Multimoney, generando 7% anual en colones y 3.25% anual en dólares.
-      </p>
-
-      <br />
-      <br />
+    <div style="display: flex; justify-content: center">
+      <Button href="/inversiones">asesorías de inversiones</Button>
     </div>
   </main>
 </Document>

@@ -1,0 +1,56 @@
+---
+import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
+import { Button } from "../components/button";
+---
+
+<Document>
+  <SEO
+    slot="head"
+    title="Acerca De"
+    description={"Información sobre RIP Wallet"}
+  />
+  <main class="mainContents">
+    <h1>Bienvenidos a RIP Wallet!</h1>
+    <div style="display: flex; align-items: center;">
+      <img
+        src="/images/kevin.png"
+        alt=""
+        width="156"
+        height="156"
+        style="float: left; align-self: start; margin-right: 32px; box-shadow: 8px 8px 0px 0px rgba(124, 228, 149, 0.25); border-radius: 50%"
+      />
+      <p>
+        Mi nombre es Kevin Aguilar, soy un asesor financiero con más de 6 años
+        de experiencia en el mundo de las finanzas y el fundador de RIP Wallet.
+      </p>
+    </div>
+    <p>
+      En los últimos años he tenido la oportunidad de ayudar a cientos de
+      personas a organizar sus finanzas de forma integral y a empezar a invertir
+      con seguridad por medio de asesorías personales, talleres grupales,
+      conferencias y videos educativos.
+    </p>
+
+    <p>
+      Mi meta es enseñar sobre finanzas e inversiones desde un enfoque práctico,
+      realista y personal (porque todos tenemos vidas y metas diferentes) y que
+      durante el camino de ordenar sus finanzas y empezar a invertir cada
+      persona descubra lo que significa vivir su propia versión de libertad
+      financiera.
+    </p>
+
+    <p>
+      Disfruto mucho viajar, pasar tiempo con mi familia y amigos y disfruto
+      gastar mi dinero en salidas a comer, relojes y tecnología.
+    </p>
+
+    <p>
+      En esta página vas a encontrar recursos gratuitos y también puedes agendar
+      asesorías de finanzas o inversiones.
+    </p>
+    <div style="display: flex; justify-content: center">
+      <Button href="mailto:ripwallet.cr@gmail.com">Contacto</Button>
+    </div>
+  </main>
+</Document>

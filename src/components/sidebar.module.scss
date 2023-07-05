@@ -1,0 +1,71 @@
+@import "src/style-utils/breakpoints";
+
+@include from($mobile) {
+  .container {
+    display: none !important;
+  }
+}
+
+.container {
+  z-index: 10;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: -200vw;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  transition: left 500ms;
+}
+
+.mobileHeader {
+  background: var(--lime_surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileHeader {
+  padding: 24px;
+
+  .centerLogo {
+    border-radius: 50%;
+    height: 72px;
+    width: 72px;
+  }
+}
+
+.halfContainers {
+  width: 1px;
+  flex-grow: 1;
+  display: flex;
+}
+
+.spacer {
+  width: 1px;
+  flex-grow: 1;
+}
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 34px;
+  padding: 34px;
+  min-height: 1px;
+  flex-grow: 1;
+}
+
+.footer {
+  background: var(--lime_surface);
+  display: flex;
+  gap: 24px;
+  padding: 24px 48px;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+}

@@ -1,26 +1,62 @@
 ---
-const {disableAsesoria, enableRecursos, title, subtitle} = Astro.props;
+import styles from "./header.module.scss";
+
+import { IconOnlyButton, Button } from "./button";
+
+import Icon from "astro-icon";
+
+interface HeaderProps {
+  buttonId: string;
+  sidebarId: string;
+}
+
+const { buttonId, sidebarId } = Astro.props as HeaderProps;
 ---
 
 <header>
-    <div class="logo-type">
-        <a class="logo-link" href="/">
-            <div id="main-logo">
-                <img id="logo-header" src="/images/RIP Wallet Logo.png">
-            </div>
-            <div id="title">
-                <h1 class="company-title">RIP Wallet</h1>
-            </div>
-        </a>
+  <div class={styles.mobileHeader}>
+    <div class={`${styles.halfContainers}`}>
+      <IconOnlyButton tag="button" variant="secondary" aria-controls={sidebarId} aria-expanded="false" id={buttonId}>
+        <Icon name="Menu" height="100%" width="100%" />
+      </IconOnlyButton>
     </div>
-
-    {!disableAsesoria && <nav>
-        <ul class="nav-list">
-            {enableRecursos && <li><a class="nav-link" href="/recursos">Recursos</a></li>}
-            <li><a class="nav-link buttoned" href="/asesorias">Agendar asesoria!</a></li>
-        </ul>
-    </nav>}
-    <h2 class="page-title">{title}</h2>
-    <br>
-    {subtitle && <h3 class="page-subtitle">{subtitle}</h3>}
+      <a href="/"><img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="RIP Wallet logo" /></a>
+    <div class={`${styles.halfContainers}`}>
+      <div class={styles.spacer}></div>
+      <IconOnlyButton variant="secondary" href="/asesorias">
+        <Icon name="Calendar" height="100%" width="100%" />
+      </IconOnlyButton>
+    </div>
+  </div>
+  <div class={styles.desktopHeader}>
+    <div class={`${styles.halfContainers} ${styles.iconContainer}`}>
+      <IconOnlyButton
+        variant="secondary"
+        href="https://www.tiktok.com/@ripwallet.cr"
+      >
+        <Icon name="TikTok" height="100%" width="100%" />
+      </IconOnlyButton>
+      <IconOnlyButton
+        variant="secondary"
+        href="https://www.youtube.com/c/RIPWalletCR"
+      >
+        <Icon name="YouTube" height="100%" width="100%" />
+      </IconOnlyButton>
+      <IconOnlyButton
+        variant="secondary"
+        href="http://instagram.com/ripwallet.cr/"
+      >
+        <Icon name="Instagram" height="100%" width="100%" />
+      </IconOnlyButton>
+    </div>
+    <a href="/"><img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="RIP Wallet logo" /></a>
+    <div class={`${styles.halfContainers}`}>
+      <div class={styles.spacer}></div>
+      <nav class={styles.linkNav}>
+        <Button href="/finanzas" variant="secondary">Finanzas</Button>
+        <Button href="/inversiones" variant="secondary">Inversiones</Button>
+        <Button href="/recursos" variant="secondary">Recursos</Button>
+      </nav>
+    </div>
+  </div>
 </header>

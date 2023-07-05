@@ -1,145 +1,78 @@
 ---
 import Document from "../layouts/document.astro";
 import SEO from "../components/seo/seo.astro";
+import { Button } from "../components/button";
 ---
 
-<Document
-  title="¡Ya agendaste tu asesoria!"
-  subtitle="Aqui hay algunas instrucciones para completar el proceso..."
-  enableRecursos={true}
->
+<Document>
   <SEO
     slot="head"
     title="¡Ya agendaste tu asesoria!"
-    description={"Ya agendaste tu asesoría. Ahora solo queda seguir unos pasos antes de tu sesión."}
+    description={"Los últimos pasos para que confirmes tu asesoría"}
   />
-  <main class="paragraph-body paragraph-list">
-    <hr class="solid" />
-    <h4>#1: Agenda</h4>
+  <main class="mainContents">
+    <h1>¡Ya agendaste tu asesoria!</h1>
+    <p>Aqui hay algunas instrucciones para completar el proceso...</p>
+    <hr />
+    <h2>💸 Pago</h2>
+    <p>El costo de las asesorías es el siguiente:</p>
+    <ul>
+      <li>₡30,000 (o $50 USD) - Asesoría de Inversiones</li>
+      <li>₡35,000 (o $60 USD) - Asesoría Financiera Personal</li>
+      <li>₡40,000 (o $70 USD) - Asesoría Financiera en Pareja</li>
+    </ul>
+    <p>El pago lo puedes realizar por los siguientes medios:</p>
+    <ul>
+      <li>SINPE Móvil: 71369660 - Kevin Aguilar</li>
+      <li>Scotiabank Colones: CR41012300120122906007 - Cédula 116500328</li>
+      <li>Scotiabank Dólares: CR73012300120122906013 - Cédula 116500328</li>
+      <li><a href="https://paypal.me/kevinguilar">PayPal</a></li>
+    </ul>
+    <p>
+      Una vez realizado el pago, por favor envía el comprobante al WhatsApp de
+      RIP Wallet (+506) 7136-9660 o con <a href="https://wa.me/50671369660"
+        >este link</a
+      >
+    </p>
+    <hr />
+    <h2>📝 Cuestionario previo</h2>
+    <p>
+      Para poder crear un plan personalizado necesitamos alguna información
+      extra sobre tus finanzas.
+    </p>
 
-    <div>
-      Ya hiciste esta parte, pero si necesitas re-agendar, puedes hacerlo usando
-      el link en la invitación en tu correo electrónico, o puedes escribirnos
-      por WhatsApp al (+506) 7136-9660.
+    <p>
+      Por favor llena el cuestionario previo según la asesoría que agendaste,
+      utilizando los botones que se encuentran abajo.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;">
+      <Button href="https://www.survio.com/survey/d/H6R0M9E9S3D6D6N6O">
+        inversiones
+      </Button>
+      <Button href="https://www.survio.com/survey/d/G1E0E1J4F6M8K2Y2E">
+        Finanzas personales
+      </Button>
+      <Button href="https://www.survio.com/survey/d/R6N9V9T9K5J3M3B9I">
+        Finanzas en pareja
+      </Button>
     </div>
-
-    <hr class="solid" />
-    <h4>#2: Pago</h4>
-
-    <div>
-      El costo de las asesorías es el siguiente:
-
-      <ul class="money-list">
-        <li class="money-bullet">
-          ₡35,000 o $60 USD - Asesoría Financiera Personal
-        </li>
-        <li class="money-bullet">
-          ₡40,000 o $70 USD - Asesoría Financiera en Pareja
-        </li>
-        <li class="money-bullet">
-          ₡30,000 o $50 USD - Asesoría de Inversiones
-        </li>
-      </ul>
-
-      <div class="spacer"></div>
-
-      El pago lo puedes realizar por los siguientes medios:
-
-      <ul class="money-list">
-        <li class="money-bullet">
-          IBAN (Scotiabank Colones): CR41012300120122906007 - Cédula 116500328
-        </li>
-        <li class="money-bullet">
-          IBAN (Scotiabank Dólares): CR73012300120122906013 - Cédula 116500328
-        </li>
-        <li class="money-bullet">
-          <a href="https://paypal.me/kevinguilar">PayPal</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="spacer"></div>
-
-    <div>
-      Una vez realizado el pago, por favor envía el comprobante al WhatsApp
-      (+506) 7136-9660.
-    </div>
-
-    <div class="spacer"></div>
-
-    <div>
-      ⚠️ Si no realizas el pago en las 48 horas siguientes al momento en el que
-      agendas tu reservación podría perderse.
-    </div>
-
-    <hr class="solid" />
-    <h4>#3: Cuestionario</h4>
-
-    <div>
-      Antes de realizar tu plan personalizado necesitamos alguna información
-      extra.
-    </div>
-
-    <div class="spacer"></div>
-
-    <div>
-      Por favor llena el cuestionario según la asesoría que agendaste,
-      utilizando el botón que se encuentra abajo.
-    </div>
-
-    <div class="spacer"></div>
-
-    <div>
-      ⚠️ Si no llenas el formulario al menos 2 días antes de tu sesión es
+    <p>
+      ⚠️ Si no completas el formulario al menos 2 días antes de tu sesión es
       probable que necesitemos reagendar.
-    </div>
-
-    <div class="spacer"></div>
-
-    <div class="grid-container">
-      <div class="grid-item">
-        <button
-          type="button"
-          class="standard-btn"
-          onclick=" window.open('https://www.survio.com/survey/d/G1E0E1J4F6M8K2Y2E','_blank')"
-        >
-          📝 &nbsp Finanzas Personales
-        </button>
-      </div>
-
-      <div class="grid-item">
-        <button
-          type="button"
-          class="standard-btn"
-          onclick=" window.open('https://www.survio.com/survey/d/R6N9V9T9K5J3M3B9I','_blank')"
-        >
-          📝 &nbsp Finanzas en Pareja
-        </button>
-      </div>
-
-      <div class="grid-item">
-        <button
-          type="button"
-          class="standard-btn"
-          onclick=" window.open('https://www.survio.com/survey/d/H6R0M9E9S3D6D6N6O','_blank')"
-          >📝 &nbsp Inversiones</button
-        >
-      </div>
-    </div>
-
-    <hr class="solid" />
-    <h4>#4: Conexión</h4>
-
-    <div>
+    </p>
+    <hr />
+    <h2>🧑‍💻 Conexión</h2>
+    <p>
       Cuando llegue el día de tu sesión puedes conectarte por medio de Google
-      Meet, el link lo encontrarás en tu calendario.
-    </div>
+      Meet, el link lo encontrarás en el correo de confirmación que recibiste
+      cuando agendaste o en tu calendario.
+    </p>
 
-    <div class="spacer"></div>
+    <p>
+      En caso de necesitar reprogramar tu sesión, puedes escribirnos por medio
+      de WhatsApp.
+    </p>
 
-    <div>Nos vemos! 🥳</div>
-
-    <br />
-    <br />
+    <p>Nos vemos! 🥳</p>
   </main>
 </Document>
