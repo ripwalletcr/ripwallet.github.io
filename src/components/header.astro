@@ -16,11 +16,11 @@ const { buttonId, sidebarId } = Astro.props as HeaderProps;
 <header>
   <div class={styles.mobileHeader}>
     <div class={`${styles.halfContainers}`}>
-      <IconOnlyButton variant="secondary" aria-controls={sidebarId} aria-expanded="false" id={buttonId}>
+      <IconOnlyButton tag="button" variant="secondary" aria-controls={sidebarId} aria-expanded="false" id={buttonId}>
         <Icon name="Menu" height="100%" width="100%" />
       </IconOnlyButton>
     </div>
-    <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="" />
+      <a href="/"><img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="RIP Wallet logo" /></a>
     <div class={`${styles.halfContainers}`}>
       <div class={styles.spacer}></div>
       <IconOnlyButton variant="secondary" href="/asesorias">
@@ -49,7 +49,7 @@ const { buttonId, sidebarId } = Astro.props as HeaderProps;
         <Icon name="Instagram" height="100%" width="100%" />
       </IconOnlyButton>
     </div>
-    <img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="" />
+    <a href="/"><img class={styles.centerLogo} src="/images/RIP Wallet Logo.png" alt="RIP Wallet logo" /></a>
     <div class={`${styles.halfContainers}`}>
       <div class={styles.spacer}></div>
       <nav class={styles.linkNav}>
