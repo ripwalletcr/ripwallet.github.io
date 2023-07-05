@@ -17,7 +17,7 @@ const { title, body, buttonText, imageUrl, buttonHref, class: className } =
 
 <div class={`${styles.cardContainer} ${className || ""}`}>
   <img class={styles.img} src={imageUrl} alt="" />
-  <h2 class={styles.title}>{title}</h2>
-  <p class={styles.body}>{body}</p>
+  <h2 class={`${styles.title} text-style-headline-2 `}>{title}</h2>
+  <p class={`${styles.body} text-style-body`}>{body}</p>
   <div><Button href={buttonHref}>{buttonText}</Button></div>
 </div>
