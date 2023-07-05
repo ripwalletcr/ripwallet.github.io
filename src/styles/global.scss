@@ -16,12 +16,13 @@ body {
   display: flex;
   flex-direction: column;
   color: var(--neutral_dark);
+  
 }
 
 h1,
 .text-style-headline-1 {
   /* Title/Desktop/Headline 1 */
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-family: Poppins, sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -32,7 +33,7 @@ h1,
 h2,
 .text-style-headline-2 {
   /* Desktop/Headline 2 */
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-family: Poppins, sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -43,7 +44,7 @@ h2,
 h3,
 .text-style-headline-3 {
   /* Desktop/Headline 3 */
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-family: Poppins, sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -88,7 +89,7 @@ p,
 li,
 .text-style-body {
   /* Body/Desktop/Body 1 */
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-family: Poppins, sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -203,7 +204,7 @@ hr {
   height: 2px;
   background-color: var(--lime_light);
   border: none;
-  margin: 10px 0;
+  margin: 48px 0;
   border-radius: 50%;
 }
 
