@@ -182,6 +182,23 @@ li,
   padding: 24px;
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mainContents, .mainContentsOnlyAnim {
+    animation: fadeInUp ease 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
 hr {
   height: 2px;
   background-color: var(--lime_light);
