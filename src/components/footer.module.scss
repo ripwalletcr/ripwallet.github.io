@@ -14,7 +14,7 @@
 
 @include until($mobile) {
     .frameworkButton, .spacer {
-        display: none;
+        display: none !important;
     }
 
     .footer {
