@@ -2,7 +2,11 @@
 import Document from "../layouts/document.astro";
 import SEO from "../components/seo/seo.astro";
 import styles from "./index.module.scss";
-import Card from "../components/card.astro";
+import finanzas from "../images/ic_finanzas.png";
+import inversiones from "../images/ic_inversiones.png";
+import parejas from "../images/ic_parejas.png";
+import recursos from "../images/ic_recursos.png";
+import CardHome from "../components/cardHome.astro";
 ---
 
 <Document title="Poner tus finanzas en orden no tiene que ser aburrido!">
@@ -12,19 +16,49 @@ import Card from "../components/card.astro";
   />
   <main class={`mainContentsOnlyAnim ${styles.container}`}>
     <div class={styles.innerContainer}>
-      <Card
-        imageUrl="/images/people_money.jpg"
-        title="Asesorías personalizadas"
-        body="Planes a la medida para organizarte o invertir."
-        buttonText="agendar asesorías"
-        buttonHref="/asesorias"
+      <CardHome
+        title="Asesoría de"
+        subtitle="Finanzas 1:1"
+        body="Para organizarte y salir de deudas"
+        image={finanzas}
+        alt="Icono Inversiones 1:1"
+        cardColor="#E9FCEC"
+        hoverColor="#D2F9D8"
+        color="#105624"
+        link="/inversiones"
       />
-      <Card
-        imageUrl="/images/feature_04.jpg"
-        title="Recursos"
-        body="Herramientas para ayudarte a empezar."
-        buttonText="visitar"
-        buttonHref="/recursos"
+      <CardHome
+        title="Asesoría de"
+        subtitle="Inversiones 1:1"
+        body="Para empezar a invertir a tu ritmo"
+        image={inversiones}
+        alt="Icono Finanzas 1:1"
+        cardColor="#FBF7E9"
+        color="#7F2C0E"
+        hoverColor="#FEEFD4"
+        link="/inversiones"
+      />
+      <CardHome
+        title="Asesoría de"
+        subtitle="Finanzas en pareja"
+        body="Para organizarse en conjunto"
+        image={parejas}
+        alt="Icono Parejas"
+        cardColor="#FDE8EF"
+        color="#841526"
+        hoverColor="#FBD0DE"
+        link="/inversiones"
+      />
+      <CardHome
+        title=""
+        subtitle="Recursos"
+        body="Algunas herramientas para ayudarte"
+        image={recursos}
+        alt="Icono Recursos"
+        cardColor="#EEEFF7"
+        color="#0E1332"
+        hoverColor="#DCDEEF"
+        link="/recursos"
       />
     </div>
   </main>
