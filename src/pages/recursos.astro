@@ -3,26 +3,82 @@ import Document from "../layouts/document.astro";
 import SEO from "../components/seo/seo.astro";
 import styles from "./recursos.module.scss";
 import Card from "../components/card.astro";
+import CardHome from "../components/cardHome.astro";
+
+import finanzas from "../images/ic_finanzas.png";
+import clipboard from "../images/ic_clipboard.png";
+import youtube from "../images/ic_youtube.png";
+import books from "../images/ic_books.png";
+
 ---
 
 <Document title="Poner tus finanzas en orden no tiene que ser aburrido!">
   <SEO slot="head" title="Recursos gratuitos para iniciar de la mejor forma!" />
   <main class={`mainContentsOnlyAnim ${styles.container}`}>
     <div class={styles.innerContainer}>
-      <Card
-        imageUrl="/images/video_nomoney.jpg"
-        title="De 0 a 100 en Finanzas"
-        body="Un mini-curso sobre las 4 bases de la libertad financiera."
-        buttonText="ver ahora"
-        buttonHref="https://www.youtube.com/watch?v=L4aDAHrlGJ0&list=PLjSlnF2nxABMg7N39iZXT6dK9Oggc2zLL"
+
+      <CardHome
+        title="(iPhone)"
+        subtitle="SPENT"
+        body="Un app para ayudarte a controlar tus gastos"
+        image={finanzas}
+        alt="SPENT"
+        cardColor="#E9FCEC"
+        hoverColor="#D2F9D8"
+        color="#105624"
+        link="https://apps.apple.com/cr/app/spent/id6449729260"
       />
-      <Card
-        imageUrl="/images/clipboard_money.jpg"
-        title="Plantilla de Presupuesto"
-        body="Una plantilla de Excel para que categorices tus gastos."
-        buttonText="descargar"
-        buttonHref="/downloads/Plantilla Presupuesto RIP Wallet - 2024.xlsx"
+
+      <CardHome
+        title=""
+        subtitle="0 a 100 en Finanzas"
+        body="Un mini-curso gratis sobre libertad financiera"
+        image={youtube}
+        alt="Icono YouTube"
+        cardColor="#EEEFF7"
+        color="#0E1332"
+        hoverColor="#DCDEEF"
+        link="https://youtu.be/L4aDAHrlGJ0?si=f1GhAyU9hWWwZdPJ"
       />
+
+      <CardHome
+        title=""
+        subtitle="0 a 100 en Inversiones"
+        body="Un mini-curso gratis sobre inversiones"
+        image={youtube}
+        alt="Icono YouTube"
+        cardColor="#EEEFF7"
+        color="#0E1332"
+        hoverColor="#DCDEEF"
+        link="https://youtu.be/IHubwz0xODU?si=HXeVx7aR2akJ-p-2"
+      />
+
+      <CardHome
+        title=""
+        subtitle="Presupuesto simple"
+        body="Una plantilla gratuita para hacer tu presupuesto"
+        image={clipboard}
+        alt="Icono Presupuesto"
+        cardColor="#FBF7E9"
+        color="#7F2C0E"
+        hoverColor="#FEEFD4"
+        link="/public/downloads/Plantilla Presupuesto RIP Wallet - 2024.xlsx"
+      />
+
+
+      <CardHome
+        title=""
+        subtitle="Libros recomendados"
+        body="Algunas lecturas que te pueden servir"
+        image={books}
+        alt="Icono Libros"
+        cardColor="#EAF8FB"
+        color="#145C6B"
+        hoverColor="#D4F1F7"
+        link="/libros"
+      />
+
+
     </div>
   </main>
 </Document>

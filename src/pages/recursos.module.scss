@@ -13,8 +13,9 @@
 }
 
 .innerContainer {
-  display: inline-flex;
-  flex-direction: row;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 @include until($mobile) {
