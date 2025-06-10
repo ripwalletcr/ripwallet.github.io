@@ -143,10 +143,10 @@
     </p>
     <br>
     <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();;(()=>{var d;{let h={0:t=>t,1:t=>JSON.parse(t,a),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,a)),5:t=>new Set(JSON.parse(t,a)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},a=(t,e)=>{if(t===""||!Array.isArray(e))return e;let[s,n]=e;return s in h?h[s](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(d=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=async()=>{var i;if(!this.hydrator||!this.isConnected)return;let e=(i=this.parentElement)==null?void 0:i.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let s=this.querySelectorAll("astro-slot"),n={},c=this.querySelectorAll("template[data-astro-template]");for(let r of c){let o=r.closest(this.tagName);!o||!o.isSameNode(this)||(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of s){let o=r.closest(this.tagName);!o||!o.isSameNode(this)||(n[r.getAttribute("name")||"default"]=r.innerHTML)}let l=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),a):{};await this.hydrator(this)(this.Component,l,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((e,s)=>{s.disconnect(),setTimeout(()=>this.childrenConnectedCallback(),0)}).observe(this,{childList:!0})}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}start(){let e=JSON.parse(this.getAttribute("opts")),s=this.getAttribute("client");if(Astro[s]===void 0){window.addEventListener(`astro:${s}`,()=>this.start(),{once:!0});return}Astro[s](async()=>{let n=this.getAttribute("renderer-url"),[c,{default:l}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=c[i];else{this.Component=c;for(let r of i.split("."))this.Component=this.Component[r]}return this.hydrator=l,this.hydrate},e,this)}attributeChangedCallback(){this.hydrate()}},d.observedAttributes=["props"],d))}})();</script><astro-island uid="1JJiCT" component-url="/_astro/embed-react.ff52812d.js" component-export="default" renderer-url="/_astro/client.19f318d3.js" props="{&quot;calLink&quot;:[0,&quot;ripwallet/inversiones&quot;],&quot;config&quot;:[0,{&quot;theme&quot;:[0,&quot;light&quot;]}]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Cal&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island>
+    <br>
     <p>
     Esta sesión es para vos si ya tienes ahorrado un fondo de emergencia, no tienes deudas de consumo y quieres poner tu dinero a invertir para generar mejores rendimientos a mediano o largo plazo.
     </p>
-    <br>
     <p>
       El precio de la asesoría es de ¢50,000 colones, la reservas con ¢10,000 colones en el momento que agendas y el resto tienes hasta 7 días antes de la sesión para cancelarlo
     </p>
@@ -154,6 +154,7 @@
     <p>
       La sesión es virtual, te va a atender un miembro del equipo de RIP Wallet durante 1 hora aproximadamente, y con la sesión vas a recibir un documento con todas las recomendaciones de la asesoría, dos reuniones de seguimiento gratuitas, pasos a seguir y seguimiento por WhatsApp.
     </p>
+    <br>
     <p>
       Para agendar, solo necesitas elegir la fecha que más te sirva, llenar tus
       datos y confirmar!
