@@ -1,0 +1,47 @@
+---
+import Cal from "@calcom/embed-react";
+import Document from "../layouts/document.astro";
+import SEO from "../components/seo/seo.astro";
+---
+
+<Document>
+  <SEO
+    slot="head"
+    title="Estrategia de Tarjetas de Crédito!"
+    description={"Elige la mejor estrategia de tarjetas de crédito según tus hábitos de gasto."}
+  />
+  <main class="mainContents">
+    <h2>Estrategia de Tarjetas de Crédito</h2>
+    <p>
+    Una sesión de 30 minutos para ayudarte a elegir la mejor estrategia de tarjetas de crédito según tus hábitos de gasto, para obtener mejores recompensas y beneficios.
+    </p>
+    <br>
+    <p>
+    Dirigido a personas sin deudas en tarjetas de crédito que quieran buscar optimizar su estrategia actual.
+    </p>
+    <br>
+    <p>
+    Antes de tu sesión vas a necesitar completar un formulario con un resumen de tus finanzas, las categorías en las que más gastas y cualquier recompensa o beneficio específico que te interese para tus tarjetas.
+    </p>
+
+    <br>
+    <p>
+    Con la sesión vas a recibir un documento con los links de las tarjetas recomendadas, el resumen de los beneficios y backups en caso de que las tarjetas iniciales no puedan ser conseguidas.
+    </p>
+
+    <p>
+      Para agendar, solo necesitas elegir la fecha que más te sirva, llenar tus datos y confirmar!
+    </p>
+
+
+    <Cal
+      client:only="react"
+      calLink="ripwallet/tarjetas"
+      config={{
+        theme: "light",
+      }}
+    />
+
+
+  </main>
+</Document>
