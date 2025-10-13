@@ -20,7 +20,7 @@ import { Button } from "../components/button";
         src="https://www.cinemascomics.com/wp-content/uploads/2022/06/mushu-mulan.jpg"
         alt="Johanna"
       />
-      <div>
+      <div class="info">
         <h2>Johanna</h2>
         <p>Es la que te ayuda a agendar las asesorías!</p>
       </div>
@@ -31,7 +31,7 @@ import { Button } from "../components/button";
         src="https://i.ebayimg.com/images/g/NGMAAOSwuIxluyQQ/s-l400.png"
         alt="Jostin"
       />
-      <div>
+      <div class="info">
         <h2>Jostin</h2>
         <p>Asesor de finanzas personales en RIP Wallet</p>
         <p>
@@ -48,7 +48,7 @@ import { Button } from "../components/button";
         src="https://m.media-amazon.com/images/M/MV5BMTI5ODY5NTUzMF5BMl5BanBnXkFtZTcwOTAzNTIzMw@@._V1_.jpg"
         alt="Kevin"
       />
-      <div>
+      <div class="info">
         <h2>Kevin</h2>
         <p>El fundador de RIP Wallet</p>
         <p>
@@ -87,20 +87,22 @@ import { Button } from "../components/button";
     margin-top: 0;
   }
 
-  /* ---------- Responsive: stack vertically on mobile ---------- */
+  /* ---------- Responsive: stack vertically but keep text left ---------- */
   @media (max-width: 768px) {
     .person {
       flex-direction: column;
       align-items: center;
-      text-align: center;
+      gap: 16px;
     }
 
     .person img {
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
 
-    .person div {
-      text-align: center;
+    .person .info {
+      text-align: left;
+      width: 100%;
+      max-width: 600px;
     }
   }
 </style>
