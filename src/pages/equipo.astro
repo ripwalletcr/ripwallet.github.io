@@ -20,10 +20,8 @@ import { Button } from "../components/button";
         src="https://www.cinemascomics.com/wp-content/uploads/2022/06/mushu-mulan.jpg"
         alt="Johanna"
       />
-      <div>
-        <h2>Johanna</h2>
-        <p>Es la que te ayuda a agendar las asesorías!</p>
-      </div>
+      <h2>Johanna</h2>
+      <p>Es la que te ayuda a agendar las asesorías!</p>
     </div>
 
     <div class="person">
@@ -31,16 +29,14 @@ import { Button } from "../components/button";
         src="https://i.ebayimg.com/images/g/NGMAAOSwuIxluyQQ/s-l400.png"
         alt="Jostin"
       />
-      <div>
-        <h2>Jostin</h2>
-        <p>Asesor de finanzas personales en RIP Wallet</p>
-        <p>
-          Administrador de empresas con más de 5 años de experiencia en
-          planificación financiera. Actualmente coordina temas de administración
-          financiera y logística de proyectos internacionales con la Organización
-          de las Naciones Unidas.
-        </p>
-      </div>
+      <h2>Jostin</h2>
+      <p>Asesor de finanzas personales en RIP Wallet</p>
+      <p>
+        Administrador de empresas con más de 5 años de experiencia en
+        planificación financiera. Actualmente coordina temas de administración
+        financiera y logística de proyectos internacionales con la Organización
+        de las Naciones Unidas.
+      </p>
     </div>
 
     <div class="person">
@@ -48,15 +44,13 @@ import { Button } from "../components/button";
         src="https://m.media-amazon.com/images/M/MV5BMTI5ODY5NTUzMF5BMl5BanBnXkFtZTcwOTAzNTIzMw@@._V1_.jpg"
         alt="Kevin"
       />
-      <div>
-        <h2>Kevin</h2>
-        <p>El fundador de RIP Wallet</p>
-        <p>
-          Asesor financiero y administrador de negocios con más de 6 años de
-          experiencia en el mundo de las finanzas. También soy el que sale en los
-          videos.
-        </p>
-      </div>
+      <h2>Kevin</h2>
+      <p>El fundador de RIP Wallet</p>
+      <p>
+        Asesor financiero y administrador de negocios con más de 6 años de
+        experiencia en el mundo de las finanzas. También soy el que sale en los
+        videos.
+      </p>
     </div>
   </main>
 </Document>
@@ -66,12 +60,13 @@ import { Button } from "../components/button";
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
+    text-align: center;
   }
 
   .person {
     display: flex;
-    align-items: flex-start;
-    gap: 32px;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 48px;
   }
 
@@ -80,10 +75,16 @@ import { Button } from "../components/button";
     height: 156px;
     border-radius: 50%;
     box-shadow: 8px 8px 0px 0px rgba(124, 228, 149, 0.25);
-    flex-shrink: 0;
+    margin-bottom: 16px;
   }
 
   .person h2 {
     margin-top: 0;
+    margin-bottom: 8px;
+  }
+
+  .person p {
+    max-width: 600px;
+    text-align: center;
   }
 </style>
