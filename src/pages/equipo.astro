@@ -15,47 +15,75 @@ import { Button } from "../components/button";
     <h1>Conoce el equipo!</h1>
     <hr />
 
-    <img
+    <div class="person">
+      <img
         src="https://www.cinemascomics.com/wp-content/uploads/2022/06/mushu-mulan.jpg"
-        alt=""
-        width="156"
-        height="156"
-        style="float: left; align-self: start; margin-right: 32px; box-shadow: 8px 8px 0px 0px rgba(124, 228, 149, 0.25); border-radius: 50%"
+        alt="Johanna"
       />
+      <div>
+        <h2>Johanna</h2>
+        <p>Es la que te ayuda a agendar las asesorías!</p>
+      </div>
+    </div>
 
-    <h2>Johanna</h2>
-    <p>Es la que te ayuda a agendar las asesorías!</p>
-    
-
-    <img
+    <div class="person">
+      <img
         src="https://i.ebayimg.com/images/g/NGMAAOSwuIxluyQQ/s-l400.png"
-        alt=""
-        width="156"
-        height="156"
-        style="float: left; align-self: start; margin-right: 32px; box-shadow: 8px 8px 0px 0px rgba(124, 228, 149, 0.25); border-radius: 50%"
+        alt="Jostin"
       />
+      <div>
+        <h2>Jostin</h2>
+        <p>Asesor de finanzas personales en RIP Wallet</p>
+        <p>
+          Administrador de empresas con más de 5 años de experiencia en
+          planificación financiera. Actualmente coordina temas de administración
+          financiera y logística de proyectos internacionales con la Organización
+          de las Naciones Unidas.
+        </p>
+      </div>
+    </div>
 
-    <h2>Jostin</h2>
-    <p>Asesor de finanzas personales en RIP Wallet</p>
-
-    <p>Administrador de empresas con más de 5 años de experiencia en planificación financiera. Actualmente coordina temas de administración financiera y logística de proyectos internacionales con la Organización de las Naciones Unidas.</p>
-
-
-    <img
+    <div class="person">
+      <img
         src="https://m.media-amazon.com/images/M/MV5BMTI5ODY5NTUzMF5BMl5BanBnXkFtZTcwOTAzNTIzMw@@._V1_.jpg"
-        alt=""
-        width="156"
-        height="156"
-        style="float: left; align-self: start; margin-right: 32px; box-shadow: 8px 8px 0px 0px rgba(124, 228, 149, 0.25); border-radius: 50%"
+        alt="Kevin"
       />
-
-    <h2>Kevin</h2>
-    <p>El fundador de RIP Wallet</p>
-
-    <p>Asesor financiero y administrador de negocios con más de 6 años de experiencia en el mundo de las finanzas. También soy el que sale en los videos.</p>
-
-
-
-
+      <div>
+        <h2>Kevin</h2>
+        <p>El fundador de RIP Wallet</p>
+        <p>
+          Asesor financiero y administrador de negocios con más de 6 años de
+          experiencia en el mundo de las finanzas. También soy el que sale en los
+          videos.
+        </p>
+      </div>
+    </div>
   </main>
 </Document>
+
+<style>
+  .mainContents {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .person {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+
+  .person img {
+    width: 156px;
+    height: 156px;
+    border-radius: 50%;
+    box-shadow: 8px 8px 0px 0px rgba(124, 228, 149, 0.25);
+    flex-shrink: 0;
+  }
+
+  .person h2 {
+    margin-top: 0;
+  }
+</style>
