@@ -16,7 +16,7 @@ body {
   display: flex;
   flex-direction: column;
   color: var(--neutral_dark);
-  
+
 }
 
 h1,
@@ -98,6 +98,7 @@ li,
 }
 
 @include until($mobile) {
+
   h1,
   .text-style-headline-1 {
     /* Mobile/Headline 1 */
@@ -188,16 +189,18 @@ li,
     opacity: 0;
     transform: translate3d(0, 100%, 0);
   }
+
   100% {
     opacity: 1;
     transform: none;
   }
 }
 
-.mainContents, .mainContentsOnlyAnim {
-    animation: fadeInUp ease 0.5s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+.mainContents,
+.mainContentsOnlyAnim {
+  animation: fadeInUp ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 hr {
@@ -210,4 +213,72 @@ hr {
 
 a {
   color: var(--lime_dark);
+}
+
+.mainContentsAboutUs {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+
+.badge {
+  display: inline-block;
+  background-color: var(--lime_surface);
+  color: #105624;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  font-family: Poppins, sans-serif;
+
+  @include from($mobile) {
+    font-size: 20px;
+  }
+}
+
+.team-member {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 40px;
+
+  img {
+    justify-self: start;
+  }
+
+  @include from($mobile) {
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+
+    img {
+      justify-self: start;
+    }
+  }
+}
+
+.team-member p {
+  margin: 0;
+  color: #333;
+  font-size: 1rem;
+  font-family: Poppins, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5rem;
+  letter-spacing: 0.03125rem;
+  text-align: left;
+}
+
+.team-member img {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  background-color: #6BCF7F;
+  object-fit: cover;
+}
+
+.padding-bottom-32 {
+  padding-bottom: 32px;
 }
