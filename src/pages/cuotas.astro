@@ -1,0 +1,498 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import {
+  Landmark,
+  Activity,
+  TrendingUp,
+  Minus,
+  TrendingDown,
+  Info,
+} from "@lucide/astro";
+---
+
+<Layout
+  title="Comparadora de Cuotas | RIP Wallet"
+  description="Compara las condiciones de tu préstamo. Analiza el impacto de las tasas variables TBP y SOFR en tus cuotas mensuales."
+>
+  <Navbar currentPath="/cuotas" />
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+    <header class="text-center mb-16 animate-reveal">
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+        Comparadora de Cuotas
+      </h1>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Barra Lateral Inputs -->
+      <aside class="lg:col-span-4 space-y-6 animate-reveal">
+        <div class="card-outline">
+          <h4
+            class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
+          >
+            <Landmark class="w-3.5 h-3.5 mr-2" /> Detalles del Crédito
+          </h4>
+          <div class="space-y-5">
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Moneda</label
+              >
+              <select id="currency" class="apple-input">
+                <option value="CRC_TBP">Colones - TBP</option>
+                <option value="CRC_TRI">Colones - TRI</option>
+                <option value="USD">Dólares - SOFR 3M</option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Monto del Préstamo</label
+              >
+              <input
+                type="text"
+                id="loanAmountFormatted"
+                class="apple-input"
+                value="50,000,000"
+              />
+              <input type="hidden" id="loanAmount" value="50000000" />
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Plazo (Años)</label
+              >
+              <input
+                type="number"
+                id="termYears"
+                class="apple-input"
+                value="30"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Margen Fijo (Spread) %</label
+              >
+              <input
+                type="number"
+                step="0.01"
+                id="baseRate"
+                class="apple-input"
+                value="5.5"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuadro de Referencia Dinámico -->
+        <div id="referenceCard" class="card-outline bg-gray-50/50">
+          <div class="flex items-center justify-between mb-6">
+            <h4
+              class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center"
+            >
+              <Activity class="w-3.5 h-3.5 mr-2" /> Tasa de Referencia (<span
+                id="refName">TBP</span
+              >)
+            </h4>
+            <div class="flex items-center" id="syncStatus">
+              <span class="status-dot bg-green-500"></span>
+              <span class="text-[8px] font-bold text-gray-400 uppercase"
+                >Actualizado</span
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-2 bg-white rounded-xl border border-gray-100">
+              <p class="text-[8px] font-bold text-gray-400 uppercase">Máximo</p>
+              <p class="text-xs font-bold text-red-700" id="refMax">7.25%</p>
+            </div>
+            <div
+              class="p-2 bg-white rounded-xl border border-gray-100 ring-2 ring-blue-500/20"
+            >
+              <p class="text-[8px] font-bold text-gray-400 uppercase">
+                Mediana
+              </p>
+              <p class="text-xs font-bold text-blue-600" id="refMed">5.37%</p>
+            </div>
+            <div class="p-2 bg-white rounded-xl border border-gray-100">
+              <p class="text-[8px] font-bold text-gray-400 uppercase">Mínimo</p>
+              <p class="text-xs font-bold text-green-700" id="refMin">2.75%</p>
+            </div>
+          </div>
+          <p class="text-[8px] text-gray-400 mt-4 leading-tight" id="refDesc">
+            La Tasa Básica Pasiva (BCCR) es el promedio de captación. Tu tasa
+            variable es: Margen + Referencia.
+          </p>
+        </div>
+      </aside>
+
+      <!-- Resultados -->
+      <section class="lg:col-span-8 space-y-6">
+        <h4
+          class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 px-2"
+        >
+          Escenarios Proyectados
+        </h4>
+
+        <div class="grid grid-cols-1 gap-4 animate-reveal">
+          <!-- Escenario Pesimista -->
+          <div class="card-outline border-l-4 border-l-red-500">
+            <div
+              class="flex flex-col md:flex-row justify-between md:items-center gap-6"
+            >
+              <div>
+                <p
+                  class="text-[10px] font-bold uppercase tracking-widest text-red-700 mb-1 flex items-center"
+                >
+                  <TrendingUp class="w-3.5 h-3.5 mr-2" /> Escenario Pesimista
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900" id="payMax">$0</h3>
+              </div>
+              <div
+                class="flex gap-8 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-8"
+              >
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Tasa Total
+                  </p>
+                  <p class="text-lg font-bold text-red-700" id="rateMax">0%</p>
+                </div>
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Diferencia vs Media
+                  </p>
+                  <p class="text-lg font-bold text-red-700" id="diffMax">
+                    +0.00%
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Escenario Probable -->
+          <div class="card-outline border-l-4 border-l-blue-500">
+            <div
+              class="flex flex-col md:flex-row justify-between md:items-center gap-6"
+            >
+              <div>
+                <p
+                  class="text-[10px] font-bold uppercase tracking-widest text-blue-700 mb-1 flex items-center"
+                >
+                  <Minus class="w-3.5 h-3.5 mr-2" /> Escenario Probable (Mediana)
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900" id="payMed">$0</h3>
+              </div>
+              <div
+                class="flex gap-8 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-8"
+              >
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Tasa Total
+                  </p>
+                  <p class="text-lg font-bold text-blue-950" id="rateMed">0%</p>
+                </div>
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Diferencia vs Media
+                  </p>
+                  <p class="text-lg font-bold text-blue-600">0.00%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Escenario Optimista -->
+          <div class="card-outline border-l-4 border-l-green-500">
+            <div
+              class="flex flex-col md:flex-row justify-between md:items-center gap-6"
+            >
+              <div>
+                <p
+                  class="text-[10px] font-bold uppercase tracking-widest text-green-700 mb-1 flex items-center"
+                >
+                  <TrendingDown class="w-3.5 h-3.5 mr-2" /> Escenario Optimista
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900" id="payMin">$0</h3>
+              </div>
+              <div
+                class="flex gap-8 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-8"
+              >
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Tasa Total
+                  </p>
+                  <p class="text-lg font-bold text-green-700" id="rateMin">
+                    0%
+                  </p>
+                </div>
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Diferencia vs Media
+                  </p>
+                  <p class="text-lg font-bold text-green-700" id="diffMin">
+                    -0.00%
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info y Disclaimer -->
+        <div class="space-y-4">
+          <div class="p-8 bg-blue-50/40 rounded-3xl border border-blue-100">
+            <div class="flex items-start">
+              <Info class="w-5 h-5 text-blue-600 mr-4 mt-1 shrink-0" />
+              <div>
+                <h5 class="text-sm font-bold text-blue-900 mb-1">
+                  Cómo interpretar estos datos
+                </h5>
+                <p class="text-xs text-blue-800/60 leading-relaxed">
+                  El escenario probable utiliza la <strong
+                    >mediana histórica</strong
+                  > para mostrar la cuota que pagarías la mayor parte del tiempo.
+                  Los escenarios pesimista y optimista reflejan los picos y valles
+                  que han ocurrido en los últimos 10 años.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p
+            class="px-8 text-[10px] text-gray-400 leading-relaxed text-center italic"
+          >
+            * Los cálculos mostrados son proyecciones informativas. Las cuotas
+            resultantes no toman en cuenta seguros de vida, seguros de incendio,
+            comisiones de desembolso ni otros gastos administrativos bancarios
+            adicionales.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  function setupLoanComparator() {
+    // Datos de referencia actualizados (Febrero 2026)
+    const refRates = {
+      CRC_TBP: {
+        name: "TBP",
+        max: 7.25,
+        med: 5.37,
+        min: 2.75,
+        current: 3.72,
+        desc: "La Tasa Básica Pasiva (BCCR) es el promedio de captación en colones.",
+      },
+      CRC_TRI: {
+        name: "TRI",
+        max: 8.5,
+        med: 6.2,
+        min: 3.8,
+        current: 6.16,
+        desc: "La Tasa de Referencia Interbancaria es el promedio ponderado de captaciones del mercado financiero.",
+      },
+      USD: {
+        name: "SOFR 3M",
+        max: 5.4,
+        med: 5.1,
+        min: 0.05,
+        current: 4.8,
+        desc: "El SOFR 3M es la tasa de referencia internacional para dólares.",
+      },
+    };
+
+    const elements = {
+      currency: document.getElementById("currency") as HTMLSelectElement,
+      loanAmount: document.getElementById("loanAmount") as HTMLInputElement,
+      loanAmountFormatted: document.getElementById(
+        "loanAmountFormatted"
+      ) as HTMLInputElement,
+      termYears: document.getElementById("termYears") as HTMLInputElement,
+      baseRate: document.getElementById("baseRate") as HTMLInputElement,
+      refName: document.getElementById("refName")!,
+      refMax: document.getElementById("refMax")!,
+      refMed: document.getElementById("refMed")!,
+      refMin: document.getElementById("refMin")!,
+      refDesc: document.getElementById("refDesc")!,
+    };
+
+    function formatVal(val: number): string {
+      const sym = elements.currency.value.startsWith("CRC") ? "¢" : "$";
+      return (
+        sym +
+        new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(val)
+      );
+    }
+
+    function calculateMonthlyPayment(
+      principal: number,
+      annualRate: number,
+      years: number
+    ): number {
+      if (annualRate === 0) return principal / (years * 12);
+      const monthlyRate = annualRate / 100 / 12;
+      const payments = years * 12;
+      return (
+        (principal * monthlyRate * Math.pow(1 + monthlyRate, payments)) /
+        (Math.pow(1 + monthlyRate, payments) - 1)
+      );
+    }
+
+    function calculate() {
+      const currency = elements.currency.value as "CRC_TBP" | "CRC_TRI" | "USD";
+      const amount = parseFloat(elements.loanAmount.value) || 0;
+      const years = parseFloat(elements.termYears.value) || 0;
+      const spread = parseFloat(elements.baseRate.value) || 0;
+      const ref = refRates[currency];
+
+      // Actualizar referencias en barra lateral
+      elements.refName.textContent = ref.name;
+      elements.refMax.textContent = ref.max + "%";
+      elements.refMed.textContent = ref.med + "%";
+      elements.refMin.textContent = ref.min + "%";
+      elements.refDesc.textContent = ref.desc;
+
+      // Tasas Totales basadas en histórico
+      const rMax = spread + ref.max;
+      const rMed = spread + ref.med;
+      const rMin = spread + ref.min;
+
+      // Diferencias vs Mediana
+      const dMax = ref.max - ref.med;
+      const dMin = ref.min - ref.med;
+
+      // Cuotas
+      const payMax = calculateMonthlyPayment(amount, rMax, years);
+      const payMed = calculateMonthlyPayment(amount, rMed, years);
+      const payMin = calculateMonthlyPayment(amount, rMin, years);
+
+      // Actualizar UI - Pesimista
+      document.getElementById("payMax")!.textContent = formatVal(payMax);
+      document.getElementById("rateMax")!.textContent = rMax.toFixed(2) + "%";
+      document.getElementById("diffMax")!.textContent =
+        "+" + dMax.toFixed(2) + "%";
+
+      // Actualizar UI - Probable
+      document.getElementById("payMed")!.textContent = formatVal(payMed);
+      document.getElementById("rateMed")!.textContent = rMed.toFixed(2) + "%";
+
+      // Actualizar UI - Optimista
+      document.getElementById("payMin")!.textContent = formatVal(payMin);
+      document.getElementById("rateMin")!.textContent = rMin.toFixed(2) + "%";
+      document.getElementById("diffMin")!.textContent = dMin.toFixed(2) + "%";
+    }
+
+    // Formateo de entrada de monto
+    elements.loanAmountFormatted.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      let v = target.value.replace(/,/g, "");
+      if (isNaN(Number(v))) v = "0";
+      elements.loanAmount.value = v;
+      if (v !== "") target.value = Number(v).toLocaleString("en-US");
+      calculate();
+    });
+
+    // Ajustar monto cuando cambia la moneda
+    elements.currency.addEventListener("change", () => {
+      const currency = elements.currency.value;
+      let defaultAmount: number;
+
+      // Valores predeterminados razonables por moneda
+      if (currency.startsWith("CRC")) {
+        defaultAmount = 50000000; // ¢50M (≈$88K USD)
+      } else {
+        defaultAmount = 200000; // $200K USD
+      }
+
+      elements.loanAmount.value = defaultAmount.toString();
+      elements.loanAmountFormatted.value =
+        defaultAmount.toLocaleString("en-US");
+      calculate();
+    });
+
+    [elements.termYears, elements.baseRate].forEach((el) =>
+      el?.addEventListener("input", calculate)
+    );
+
+    calculate();
+  }
+
+  setupLoanComparator();
+  document.addEventListener("astro:page-load", setupLoanComparator);
+</script>
+
+<style is:global>
+  .apple-input {
+    width: 100%;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .apple-input:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05);
+  }
+
+  .card-outline {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 32px;
+    transition: border-color 0.3s ease;
+  }
+
+  .card-outline:hover {
+    border-color: #cbd5e1;
+  }
+
+  .status-dot {
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>

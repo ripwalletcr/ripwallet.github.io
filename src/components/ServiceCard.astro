@@ -1,0 +1,66 @@
+---
+import {
+  Banknote,
+  TrendingUp,
+  Users,
+  BookOpen,
+  ChevronRight,
+} from "@lucide/astro";
+
+interface Props {
+  title: string;
+  description: string;
+  icon: "banknote" | "trending-up" | "users" | "book-open";
+  href: string;
+  bgColor: string;
+  textColor: string;
+  iconColor: string;
+  delay: string;
+}
+
+const { title, description, icon, href, bgColor, textColor, iconColor, delay } =
+  Astro.props;
+
+// Mapeo de iconos
+const iconMap = {
+  banknote: Banknote,
+  "trending-up": TrendingUp,
+  users: Users,
+  "book-open": BookOpen,
+};
+
+const IconComponent = iconMap[icon];
+---
+
+<a
+  href={href}
+  class={`apple-card group rounded-[2.5rem] p-8 flex flex-col justify-between min-h-85 ${bgColor} animate-reveal ${delay}`}
+>
+  <div class={`icon-box ${iconColor}`}>
+    <IconComponent class="w-6 h-6" />
+  </div>
+  <div>
+    <h2 class={`text-2xl font-bold mb-2 ${textColor}`}>{title}</h2>
+    <p class={`${textColor} leading-relaxed mb-6 font-medium`}>
+      {description}
+    </p>
+    <div
+      class={`flex items-center text-sm font-bold ${textColor} group-hover:translate-x-1 transition-transform`}
+    >
+      Saber más <ChevronRight class="w-4 h-4 ml-1" />
+    </div>
+  </div>
+</a>
+
+<style>
+  .icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+</style>

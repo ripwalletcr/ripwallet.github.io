@@ -1,11 +1,39 @@
----
-import styles from "./footer.module.scss";
-import {Button} from "./button";
----
-
-<footer class={styles.footer}>
-    <Button variant="secondary">@ripwallet.cr - 2023</Button>
-    <div class={styles.spacer}/>
-    <Button className={styles.frameworkButton} variant="secondary" href="mailto:ripwallet.cr@gmail.com">Contacto</Button>
-    <Button className={styles.frameworkButton} variant="secondary" href="/equipo">Acerca De</Button>
+<footer
+  class="py-12 sm:py-20 px-4 sm:px-6 border-t border-gray-100 text-center"
+>
+  <div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-center space-x-3 mb-4 sm:mb-6">
+      <p class="font-bold text-base sm:text-lg tracking-tight uppercase">
+        RIP Wallet
+      </p>
+    </div>
+    <div
+      class="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-10 text-xs font-bold uppercase tracking-widest text-gray-400"
+    >
+      <a
+        href="https://www.instagram.com/ripwallet.cr/"
+        target="_blank"
+        class="hover:text-black transition-colors"
+      >
+        Instagram
+      </a>
+      <a
+        href="https://www.tiktok.com/@ripwallet.cr"
+        target="_blank"
+        class="hover:text-black transition-colors"
+      >
+        TikTok
+      </a>
+      <a
+        href="https://www.youtube.com/@ripwalletcr"
+        target="_blank"
+        class="hover:text-black transition-colors"
+      >
+        YouTube
+      </a>
+    </div>
+    <p class="text-gray-400 text-[10px] uppercase tracking-widest">
+      &copy; 2026, RIP Wallet.
+    </p>
+  </div>
 </footer>

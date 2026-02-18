@@ -1,39 +1,172 @@
 ---
-import Document from "../layouts/document.astro";
-import SEO from "../components/seo/seo.astro";
-import styles from "./asesorias.module.scss";
-import Card from "../components/card.astro";
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { Layout as LayoutIcon, Check } from "@lucide/astro";
 ---
 
-<Document title="Poner tus finanzas en orden no tiene que ser aburrido!">
-  <SEO
-    slot="head"
-    title="¿Necesitas un plan? ¡Agenda una asesoría personalizada!"
-  />
-  <main class={`mainContentsOnlyAnim ${styles.container}`}>
-    <div class={styles.innerContainer}>
-      <Card
-        imageUrl="/images/clipboard_money.jpg"
-        title="Asesoría Financiera"
-        body="Para tener orden, ahorrar y salir de deudas"
-        buttonText="agendar asesoría"
-        buttonHref="/finanzas"
-      />
-      <Card
-        imageUrl="/images/laptop_money.jpg"
-        title="Asesoría de Inversiones"
-        body="Para invertir con conocimiento y seguridad"
-        buttonText="agendar asesoría"
-        buttonHref="/inversiones"
-      />
-      <Card
-        class={styles.hiddenDesktop}
-        imageUrl="/images/people_money.jpg"
-        title="Asesoría financiera en pareja"
-        body="Para planear y alcanzar metas en conjunto."
-        buttonText="agendar asesoría"
-        buttonHref="/parejas"
-      />
+<Layout
+  title="Servicios para Empresas | RIP Wallet"
+  description="Potenciamos el talento de tu equipo reduciendo su estrés financiero con herramientas y educación personalizada."
+>
+  <Navbar currentPath="/asesorias" />
+
+  <!-- Hero Section -->
+  <header class="max-w-7xl mx-auto px-6 pt-24 pb-16 text-center animate-reveal">
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+      Sesiones<br />
+      <span class="text-gray-400">100% personalizadas</span>
+    </h1>
+  </header>
+
+  <!-- Main Service -->
+  <main class="max-w-7xl mx-auto px-6 pb-20">
+    <div class="card-outline animate-reveal delay-1">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 lg:gap-x-32">
+        <!-- Columna Izquierda: Contenido -->
+        <div>
+          <!-- Ícono con fondo naranja -->
+          <div class="icon-box-orange">
+            <LayoutIcon stroke-width={2} />
+          </div>
+
+          <h3 class="text-3xl font-bold mb-6 text-gray-900 tracking-tight">
+            Acompañamiento personalizado
+          </h3>
+          <p class="text-gray-500 text-base leading-relaxed mb-6 font-normal">
+            En RIP proporcionamos asesorías sobre para que organices tus
+            finanzas o empieces a invertir!
+          </p>
+          <p class="text-gray-500 text-base leading-relaxed font-normal">
+            Todas nuestras asesorías incluyen una sesión inicial 100%
+            personalizada y seguimientos para revisar que todo vaya acorde al
+            plan que estamos trazando para vos.
+          </p>
+        </div>
+
+        <!-- Columna Derecha: Lista de beneficios -->
+        <div class="flex flex-col space-y-6 pt-24">
+          <div class="flex items-start">
+            <div
+              class="w-6 h-6 rounded-full bg-green-50 flex items-center justify-center mt-0.5 mr-4 shrink-0"
+            >
+              <Check class="w-3.5 h-3.5 text-green-600" />
+            </div>
+            <p class="text-base font-medium text-gray-900">Atención virtual</p>
+          </div>
+
+          <div class="flex items-start">
+            <div
+              class="w-6 h-6 rounded-full bg-green-50 flex items-center justify-center mt-0.5 mr-4 shrink-0"
+            >
+              <Check class="w-3.5 h-3.5 text-green-600" />
+            </div>
+            <p class="text-base font-medium text-gray-900">
+              2 seguimientos incluídos
+            </p>
+          </div>
+
+          <div class="flex items-start">
+            <div
+              class="w-6 h-6 rounded-full bg-green-50 flex items-center justify-center mt-0.5 mr-4 shrink-0"
+            >
+              <Check class="w-3.5 h-3.5 text-green-600" />
+            </div>
+            <p class="text-base font-medium text-gray-900">
+              Guía continua para inversiones
+            </p>
+          </div>
+
+          <div class="flex items-start">
+            <div
+              class="w-6 h-6 rounded-full bg-green-50 flex items-center justify-center mt-0.5 mr-4 shrink-0"
+            >
+              <Check class="w-3.5 h-3.5 text-green-600" />
+            </div>
+            <p class="text-base font-medium text-gray-900">
+              Seguimiento de tu plan financiero
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
-</Document>
+
+  <!-- Call to Action Section -->
+  <section class="max-w-7xl mx-auto px-6 py-20">
+    <div class="max-w-2xl mx-auto">
+      <a
+        href="https://link.ripwallet.co/asesoria"
+        target="_blank"
+        class="block bg-green-600 text-white px-10 py-5 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-green-500 transition-all text-center"
+      >
+        Formulario de contacto
+      </a>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  .card-outline {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 48px 64px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (max-width: 768px) {
+    .card-outline {
+      padding: 32px;
+    }
+  }
+
+  .card-outline:hover {
+    border-color: #d1d5db;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Estilos para el ícono */
+  .icon-box-orange {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background-color: #fff7ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .icon-box-orange svg {
+    width: 28px;
+    height: 28px;
+    color: #ea580c;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+</style>

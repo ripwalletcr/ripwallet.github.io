@@ -1,65 +1,74 @@
 ---
-import Document from "../layouts/document.astro";
-import SEO from "../components/seo/seo.astro";
-import styles from "./index.module.scss";
-import finanzas from "../images/ic_finanzas.png";
-import inversiones from "../images/ic_inversiones.png";
-import parejas from "../images/ic_parejas.png";
-import recursos from "../images/ic_recursos.png";
-import CardHome from "../components/cardHome.astro";
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<Document title="Poner tus finanzas en orden no tiene que ser aburrido!">
-  <SEO
-    slot="head"
-    title="Poner tus finanzas en orden no tiene que ser aburrido!"
-  />
-  <main class={`mainContentsOnlyAnim ${styles.container}`}>
-    <div class={styles.innerContainer}>
-      <CardHome
-        title="Asesoría de"
-        subtitle="Finanzas 1:1"
-        body="Para organizarte y salir de deudas"
-        image={finanzas}
-        alt="Icono Inversiones 1:1"
-        cardColor="#E9FCEC"
-        hoverColor="#D2F9D8"
-        color="#105624"
-        link="/finanzas"
+<Layout title="RIP Wallet | Finanzas e Inversiones">
+  <Navbar currentPath="/" />
+
+  <!-- Hero -->
+  <section
+    class="max-w-4xl mx-auto px-6 pt-24 pb-20 text-center animate-reveal"
+  >
+    <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+      RIP Wallet
+    </h1>
+    <p class="text-lg text-gray-500 max-w-xl mx-auto font-medium">
+      Inspirando personas a mejorar sus finanzas, para que cambien sus vidas, y
+      las vidas de otras personas.
+    </p>
+  </section>
+
+  <!-- Main Section -->
+  <main class="max-w-5xl mx-auto px-6 pb-32">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <ServiceCard
+        title="Finanzas 1:1"
+        description="Mentoría individual para organizar tus cuentas y optimizar tu flujo de caja."
+        icon="banknote"
+        href="/asesorias"
+        bgColor="bg-[#f2faf3]"
+        textColor="text-green-950"
+        iconColor="text-green-600"
+        delay="delay-1"
       />
-      <CardHome
-        title="Asesoría de"
-        subtitle="Inversiones 1:1"
-        body="Para empezar a invertir a tu ritmo"
-        image={inversiones}
-        alt="Icono Finanzas 1:1"
-        cardColor="#FBF7E9"
-        color="#7F2C0E"
-        hoverColor="#FEEFD4"
-        link="/inversiones"
+
+      <ServiceCard
+        title="Inversiones 1:1"
+        description="Entiende el mercado y comienza a construir un portafolio sólido para el largo plazo."
+        icon="trending-up"
+        href="/asesorias"
+        bgColor="bg-[#fff7ed]"
+        textColor="text-orange-950"
+        iconColor="text-orange-600"
+        delay="delay-2"
       />
-      <CardHome
-        title="Asesoría de"
-        subtitle="Finanzas en pareja"
-        body="Para organizarse en conjunto"
-        image={parejas}
-        alt="Icono Parejas"
-        cardColor="#FDE8EF"
-        color="#841526"
-        hoverColor="#FBD0DE"
-        link="/parejas"
+
+      <ServiceCard
+        title="Finanzas en Pareja"
+        description="Alineen sus objetivos, hablen de dinero sin pelear y crezcan juntos."
+        icon="users"
+        href="/asesorias"
+        bgColor="bg-[#fff1f2]"
+        textColor="text-pink-950"
+        iconColor="text-pink-600"
+        delay="delay-3"
       />
-      <CardHome
-        title=""
-        subtitle="Recursos"
-        body="Algunas herramientas para ayudarte"
-        image={recursos}
-        alt="Icono Recursos"
-        cardColor="#EEEFF7"
-        color="#0E1332"
-        hoverColor="#DCDEEF"
-        link="/recursos"
+
+      <ServiceCard
+        title="Recursos Gratuitos"
+        description="Guías prácticas y plantillas para que des el primer paso hoy mismo."
+        icon="book-open"
+        href="/recursos"
+        bgColor="bg-[#f9fafb]"
+        textColor="text-gray-900"
+        iconColor="text-gray-600"
+        delay="delay-4"
       />
     </div>
   </main>
-</Document>
+
+  <Footer />
+</Layout>

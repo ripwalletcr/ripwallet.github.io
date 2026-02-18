@@ -1,0 +1,652 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
+---
+
+<Layout
+  title="Calculadora de Inversión | RIP Wallet"
+  description="Proyecta el crecimiento de tu patrimonio y visualiza el impacto de tus aportes a largo plazo."
+>
+  <Navbar currentPath="/inversion" />
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+    <header class="text-center mb-16 animate-reveal">
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+        Calculadora de Inversión
+      </h1>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Barra Lateral Inputs -->
+      <aside class="lg:col-span-4 space-y-6 animate-reveal">
+        <!-- Datos de Inversión -->
+        <div class="card-outline">
+          <h4
+            class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
+          >
+            <BarChart2 class="w-3.5 h-3.5 mr-2" /> Datos de Inversión
+          </h4>
+          <div class="space-y-5">
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Moneda</label
+              >
+              <select id="currency" class="apple-input">
+                <option value="USD">Dólares ($)</option>
+                <option value="CRC">Colones (¢)</option>
+                <option value="EUR">Euros (€)</option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Inversión Inicial</label
+              >
+              <input
+                type="text"
+                id="initialAmountFormatted"
+                class="apple-input"
+                value="10,000"
+              />
+              <input type="hidden" id="initialAmount" value="10000" />
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Aporte Mensual</label
+              >
+              <input
+                type="text"
+                id="monthlyContributionFormatted"
+                class="apple-input"
+                value="500"
+              />
+              <input type="hidden" id="monthlyContribution" value="500" />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Plazo (Años)</label
+                >
+                <input
+                  type="number"
+                  id="termYears"
+                  class="apple-input"
+                  value="10"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Retorno Anual %</label
+                >
+                <input
+                  type="number"
+                  step="0.01"
+                  id="annualReturn"
+                  class="apple-input"
+                  value="10"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Tipo de Inversión</label
+              >
+              <select id="investmentType" class="apple-input">
+                <option value="compound"
+                  >Renta Fija - Capitalizable Mensual</option
+                >
+                <option value="simple">Renta Fija - Interés Simple</option>
+                <option value="variable">Renta Variable</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button id="downloadPdf" class="btn-report">
+          <FileDown class="w-5 h-5" />
+          <span>Exportar PDF</span>
+        </button>
+      </aside>
+
+      <!-- Resultados -->
+      <section class="lg:col-span-8 space-y-6">
+        <!-- Grid de Totales -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-reveal">
+          <div class="card-outline">
+            <h4
+              class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
+            >
+              <TrendingUp class="w-3.5 h-3.5 mr-2" /> Capital Final Estimado
+            </h4>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600 font-medium"
+                  >Total Acumulado</span
+                >
+                <span
+                  class="text-2xl font-bold text-gray-900"
+                  id="finalCapitalDisplay">$0.00</span
+                >
+              </div>
+              <div
+                class="flex justify-between items-center border-t border-gray-50 pt-4"
+              >
+                <span class="text-sm text-gray-600 font-medium"
+                  >Ganancia Neta</span
+                >
+                <span
+                  class="text-lg font-bold text-green-600"
+                  id="netEarningsDisplay">$0.00</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card-outline">
+            <h4
+              class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-600 mb-8 flex items-center"
+            >
+              <PieChart class="w-3.5 h-3.5 mr-2 text-green-500" /> Desglose de Inversión
+            </h4>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600 font-medium"
+                  >Total de Aportes</span
+                >
+                <span
+                  class="text-lg font-bold text-gray-900"
+                  id="totalContributionsDisplay">$0.00</span
+                >
+              </div>
+              <div
+                class="flex justify-between items-center border-t border-gray-50 pt-4"
+              >
+                <span class="text-sm text-gray-600 font-medium"
+                  >Rendimientos Generados</span
+                >
+                <span
+                  class="text-lg font-bold text-green-600"
+                  id="totalEarningsDisplay">$0.00</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico -->
+        <div class="card-outline">
+          <div class="flex items-center justify-between mb-10">
+            <h4 class="font-bold text-xl text-gray-900">
+              Crecimiento del Capital
+            </h4>
+            <div class="flex space-x-6">
+              <div
+                class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400"
+              >
+                <span class="w-2 h-2 rounded-full bg-gray-200 mr-2"></span> Aportes
+              </div>
+              <div
+                class="flex items-center text-[10px] font-bold uppercase tracking-widest text-green-600"
+              >
+                <span class="w-2 h-2 rounded-full bg-green-600 mr-2"></span> Valor
+                Total
+              </div>
+            </div>
+          </div>
+          <div class="h-87.5">
+            <canvas id="growthChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Tabla Detallada -->
+        <div class="card-outline p-0! overflow-hidden animate-reveal">
+          <div class="p-8 border-b border-gray-100">
+            <h4 class="font-bold text-lg text-gray-900">Evolución Anual</h4>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-gray-50/50">
+                  <th
+                    class="px-8 py-5 text-[9px] font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100"
+                    >Año</th
+                  >
+                  <th
+                    class="px-8 py-5 text-[9px] font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100"
+                    >Aportado</th
+                  >
+                  <th
+                    class="px-8 py-5 text-[9px] font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100"
+                    >Rendimiento</th
+                  >
+                  <th
+                    class="px-8 py-5 text-[9px] font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100"
+                    >Saldo Final</th
+                  >
+                </tr>
+              </thead>
+              <tbody id="investmentTableBody" class="text-sm font-medium"
+              ></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import Chart from "chart.js/auto";
+  import "jspdf-autotable";
+  import { jsPDF } from "jspdf";
+  import autoTable from "jspdf-autotable";
+
+  function setupInvestmentCalculator() {
+    const numericInputs = [
+      { display: "initialAmountFormatted", hidden: "initialAmount" },
+      {
+        display: "monthlyContributionFormatted",
+        hidden: "monthlyContribution",
+      },
+    ];
+    const otherInputs = [
+      "termYears",
+      "annualReturn",
+      "currency",
+      "investmentType",
+    ];
+    const elements: any = {};
+
+    numericInputs.forEach((item) => {
+      const d = document.getElementById(item.display) as HTMLInputElement;
+      const h = document.getElementById(item.hidden) as HTMLInputElement;
+      if (!d || !h) return;
+
+      elements[item.hidden] = h;
+      d.addEventListener("input", (e) => {
+        const target = e.target as HTMLInputElement;
+        let v = target.value.replace(/,/g, "");
+        if (isNaN(Number(v))) v = "0";
+        h.value = v;
+        if (v !== "") target.value = Number(v).toLocaleString("en-US");
+        calculate();
+      });
+    });
+
+    otherInputs.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        elements[id] = el;
+        el.addEventListener("input", calculate);
+      }
+    });
+
+    let chart: Chart | null = null;
+    let yearlyResults: any[] = [];
+
+    function formatVal(val: number): string {
+      const curr = elements.currency?.value || "USD";
+      const sym = curr === "CRC" ? "¢" : curr === "USD" ? "$" : "€";
+      return (
+        sym +
+        new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(val)
+      );
+    }
+
+    function initChart() {
+      const canvas = document.getElementById(
+        "growthChart",
+      ) as HTMLCanvasElement;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "Aportes",
+              data: [],
+              borderColor: "#e2e8f0",
+              borderWidth: 2,
+              fill: false,
+              pointRadius: 0,
+              tension: 0.3,
+              borderDash: [5, 5],
+            },
+            {
+              label: "Total",
+              data: [],
+              borderColor: "#17a34a",
+              borderWidth: 3,
+              fill: true,
+              pointRadius: 0,
+              tension: 0.3,
+              backgroundColor: "rgba(23, 163, 74, 0.03)",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              ticks: { font: { family: "Poppins", size: 9 } },
+              grid: { color: "#f1f5f9" },
+            },
+            x: {
+              ticks: { font: { family: "Poppins", size: 9 } },
+              grid: { display: false },
+            },
+          },
+        },
+      });
+    }
+
+    function calculate() {
+      const initial = parseFloat(elements.initialAmount?.value) || 0;
+      const monthly = parseFloat(elements.monthlyContribution?.value) || 0;
+      const years = parseFloat(elements.termYears?.value) || 0;
+      const rate = parseFloat(elements.annualReturn?.value) / 100 || 0;
+      const type = elements.investmentType?.value || "compound";
+
+      if (years <= 0) return;
+
+      let balance = initial;
+      let totalContributed = initial;
+      let totalEarnings = 0;
+
+      yearlyResults = [];
+      let chartLabels: string[] = [];
+      let chartTotalData: number[] = [];
+      let chartContributionData: number[] = [];
+
+      const months = years * 12;
+      const monthlyRate = rate / 12;
+
+      let yearAccEarnings = 0;
+
+      for (let m = 1; m <= months; m++) {
+        // 1. Rendimiento Mensual
+        let earningThisMonth = 0;
+        if (type === "simple") {
+          earningThisMonth = totalContributed * monthlyRate;
+        } else {
+          earningThisMonth = balance * monthlyRate;
+        }
+
+        balance += earningThisMonth;
+        yearAccEarnings += earningThisMonth;
+        totalEarnings += earningThisMonth;
+
+        // 2. Aportes
+        balance += monthly;
+        totalContributed += monthly;
+
+        // Registro anual
+        if (m % 12 === 0) {
+          yearlyResults.push({
+            year: m / 12,
+            contributed: totalContributed, // Total acumulado, no solo del año
+            earnings: yearAccEarnings,
+            balance: balance,
+          });
+          chartLabels.push(`Año ${m / 12}`);
+          chartTotalData.push(balance);
+          chartContributionData.push(totalContributed);
+
+          yearAccEarnings = 0;
+        }
+      }
+
+      // Actualizar UI
+      const finalCapital = document.getElementById("finalCapitalDisplay");
+      const netEarnings = document.getElementById("netEarningsDisplay");
+      const totalContrib = document.getElementById("totalContributionsDisplay");
+      const totalEarn = document.getElementById("totalEarningsDisplay");
+      const tableBody = document.getElementById("investmentTableBody");
+
+      if (finalCapital) finalCapital.textContent = formatVal(balance);
+      if (netEarnings) netEarnings.textContent = formatVal(totalEarnings);
+      if (totalContrib) totalContrib.textContent = formatVal(totalContributed);
+      if (totalEarn) totalEarn.textContent = formatVal(totalEarnings);
+
+      // Gráfico
+      if (chart) {
+        chart.data.labels = chartLabels;
+        chart.data.datasets[0].data = chartContributionData;
+        chart.data.datasets[1].data = chartTotalData;
+        chart.update();
+      }
+
+      // Tabla
+      if (tableBody) {
+        tableBody.innerHTML = yearlyResults
+          .map(
+            (y) => `
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-8 py-5 font-bold text-gray-900">${y.year}</td>
+            <td class="px-8 py-5 text-gray-500">${formatVal(y.contributed)}</td>
+            <td class="px-8 py-5 text-green-600">+ ${formatVal(y.earnings)}</td>
+            <td class="px-8 py-5 font-bold text-gray-900">${formatVal(
+              y.balance,
+            )}</td>
+          </tr>
+        `,
+          )
+          .join("");
+      }
+    }
+
+    async function generatePDF() {
+      const doc = new jsPDF("p", "mm", "a4");
+      const currency = elements.currency?.value || "USD";
+
+      // HEADER
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(22);
+      doc.text("Proyección de Inversión", 20, 25);
+
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "normal");
+      doc.text(
+        `RIP Wallet | www.ripwallet.co - ${new Date().toLocaleDateString()}`,
+        20,
+        32,
+      );
+
+      // CONFIG TABLE
+      const configData = [
+        ["Moneda", currency],
+        [
+          "Inversión Inicial",
+          formatVal(parseFloat(elements.initialAmount.value)),
+        ],
+        [
+          "Aporte Mensual",
+          formatVal(parseFloat(elements.monthlyContribution.value)),
+        ],
+        ["Plazo", `${elements.termYears.value} años`],
+        ["Retorno Anual", `${elements.annualReturn.value}%`],
+      ];
+
+      doc.setFontSize(13);
+      doc.setFont("helvetica", "bold");
+      doc.text("Configuración de la Inversión", 20, 45);
+
+      autoTable(doc, {
+        startY: 50,
+        body: configData,
+        theme: "plain",
+        styles: { fontSize: 9, cellPadding: 2 },
+      });
+
+      // SUMMARY
+      let finalBalance = yearlyResults.length
+        ? yearlyResults[yearlyResults.length - 1].balance
+        : 0;
+
+      const totalRowY = (doc as any).lastAutoTable.finalY + 10;
+
+      doc.setFont("helvetica", "bold");
+      doc.text("Resumen Final", 20, totalRowY);
+
+      const summaryData = [
+        ["Capital Final", formatVal(finalBalance)],
+        [
+          "Total Aportado",
+          formatVal(
+            parseFloat(elements.initialAmount.value) +
+              parseFloat(elements.monthlyContribution.value) *
+                12 *
+                elements.termYears.value,
+          ),
+        ],
+      ];
+
+      autoTable(doc, {
+        startY: totalRowY + 5,
+        body: summaryData,
+        theme: "grid",
+        styles: { fontSize: 10 },
+      });
+
+      // GRAPH PAGE
+      const canvas = document.getElementById(
+        "growthChart",
+      ) as HTMLCanvasElement;
+
+      if (canvas) {
+        await new Promise(requestAnimationFrame); // wait render
+
+        const img = canvas.toDataURL("image/png", 1.0);
+
+        doc.addPage();
+        doc.setFontSize(14);
+        doc.text("Gráfico de Crecimiento", 20, 25);
+        doc.addImage(img, "PNG", 15, 35, 180, 90);
+      }
+
+      // TABLE PAGE
+      if (yearlyResults.length) {
+        doc.addPage();
+        doc.setFontSize(14);
+        doc.text("Detalle Anual", 20, 25);
+
+        autoTable(doc, {
+          startY: 30,
+          head: [["Año", "Aportado", "Rendimiento", "Saldo"]],
+          body: yearlyResults.map((y) => [
+            y.year,
+            formatVal(y.contributed),
+            formatVal(y.earnings),
+            formatVal(y.balance),
+          ]),
+          styles: { fontSize: 9 },
+          theme: "striped",
+        });
+      }
+
+      doc.save(`RIP-Wallet-Inversion-${Date.now()}.pdf`);
+    }
+
+    const downloadBtn = document.getElementById("downloadPdf");
+    if (downloadBtn) {
+      downloadBtn.addEventListener("click", generatePDF);
+    }
+
+    initChart();
+    calculate();
+  }
+
+  setupInvestmentCalculator();
+  document.addEventListener("astro:page-load", setupInvestmentCalculator);
+</script>
+
+<style is:global>
+  .apple-input {
+    width: 100%;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .apple-input:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05);
+  }
+
+  .card-outline {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 32px;
+    transition: border-color 0.3s ease;
+  }
+
+  .card-outline:hover {
+    border-color: #cbd5e1;
+  }
+
+  .btn-report {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background-color: #17a34a;
+    color: #ffffff;
+    padding: 16px 32px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(23, 163, 74, 0.1);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-report:hover {
+    background-color: #15803d;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(23, 163, 74, 0.3);
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>

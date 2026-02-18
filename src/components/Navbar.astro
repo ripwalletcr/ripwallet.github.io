@@ -1,0 +1,275 @@
+---
+import {
+  User,
+  ChevronDown,
+  Calculator,
+  Landmark,
+  TrendingUp,
+  Instagram,
+  Youtube,
+  Menu,
+  X,
+  Home,
+} from "@lucide/astro";
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+---
+
+<!-- Minimal Header -->
+<nav
+  class="sticky top-0 z-50 glass border-b border-gray-100/50 py-3 px-6 md:px-12 flex justify-between items-center"
+>
+  <!-- Logo Left -->
+  <a href="/" class="flex items-center space-x-3 shrink-0"> </a>
+
+  <!-- Links Center -->
+  <div class="hidden lg:flex items-center space-x-10">
+    <a
+      href="/asesorias"
+      class="flex items-center nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-black"
+    >
+      Asesorías <User class="w-3 h-3 ml-1" />
+    </a>
+
+    <div class="group relative">
+      <button
+        class="flex items-center nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-black focus:outline-none"
+      >
+        Recursos <ChevronDown class="w-3 h-3 ml-1" />
+      </button>
+      <div
+        class="dropdown-content absolute left-1/2 -translate-x-1/2 top-full pt-4 w-56 z-50"
+      >
+        <div
+          class="bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden p-1.5"
+        >
+          <a
+            href="/amortizacion"
+            class="flex items-center p-2.5 rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            <div
+              class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center mr-3 text-blue-600"
+            >
+              <Calculator class="w-4 h-4" />
+            </div>
+            <span class="text-[11px] font-bold text-gray-900"
+              >Calculadora Amortización</span
+            >
+          </a>
+          <a
+            href="/cuotas"
+            class="flex items-center p-2.5 rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            <div
+              class="w-7 h-7 rounded-lg bg-green-50 flex items-center justify-center mr-3 text-green-600"
+            >
+              <Landmark class="w-4 h-4" />
+            </div>
+            <span class="text-[11px] font-bold text-gray-900"
+              >Comparadora de Cuotas</span
+            >
+          </a>
+          <a
+            href="/inversion"
+            class="flex items-center p-2.5 rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            <div
+              class="w-7 h-7 rounded-lg bg-orange-50 flex items-center justify-center mr-3 text-orange-600"
+            >
+              <TrendingUp class="w-4 h-4" />
+            </div>
+            <span class="text-[11px] font-bold text-gray-900"
+              >Calculadora Inversión</span
+            >
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Socials Right -->
+  <div class="flex items-center space-x-6">
+    <div class="hidden md:flex items-center space-x-5 text-gray-400">
+      <a
+        href="https://www.instagram.com/ripwallet.cr/"
+        class="hover:text-black transition-colors"
+      >
+        <Instagram class="w-4 h-4" />
+      </a>
+      <a
+        href="https://youtube.com/RIPWALLETCR"
+        class="hover:text-black transition-colors"
+      >
+        <Youtube class="w-4 h-4" />
+      </a>
+    </div>
+    <button
+      id="menu-btn"
+      class="lg:hidden text-gray-500 p-2 hover:bg-gray-50 rounded-xl transition-colors"
+    >
+      <Menu class="w-5 h-5" />
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div id="menu-container" class="fixed inset-0 z-60 pointer-events-none">
+  <div
+    id="menu-backdrop"
+    class="absolute inset-0 bg-black/10 opacity-0 pointer-events-none transition-opacity duration-300"
+  >
+  </div>
+  <div
+    id="mobile-menu"
+    class="absolute right-0 top-0 h-full w-4/5 max-w-sm bg-white/95 backdrop-blur-xl shadow-2xl translate-x-full pointer-events-auto flex flex-col border-l border-gray-100 transition-transform duration-300"
+  >
+    <div class="p-6 flex justify-between items-center">
+      <button
+        id="close-btn"
+        class="text-gray-400 hover:text-black p-2 bg-gray-50 rounded-xl"
+      >
+        <X class="w-5 h-5" />
+      </button>
+    </div>
+    <div class="flex-1 px-6 pt-10 space-y-4 overflow-y-auto">
+      <a
+        href="/asesorias"
+        class="flex items-center p-4 rounded-2xl bg-gray-900 text-white shadow-lg transition-transform active:scale-[0.98]"
+      >
+        <div
+          class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mr-4"
+        >
+          <Home class="w-5 h-5" />
+        </div>
+        <span class="font-bold text-sm">Asesorías personalizadas</span>
+      </a>
+      <a
+        href="/amortizacion"
+        class="flex items-center p-4 rounded-2xl bg-[#f2faf3] border border-green-100 text-green-950 transition-transform active:scale-[0.98]"
+      >
+        <div
+          class="w-10 h-10 rounded-xl bg-white flex items-center justify-center mr-4 text-green-600 border border-green-50"
+        >
+          <Calculator class="w-5 h-5" />
+        </div>
+        <span class="font-bold text-sm">Amortización</span>
+      </a>
+      <a
+        href="/cuotas"
+        class="flex items-center p-4 rounded-2xl bg-[#f0f9ff] border border-blue-100 text-blue-950 transition-transform active:scale-[0.98]"
+      >
+        <div
+          class="w-10 h-10 rounded-xl bg-white flex items-center justify-center mr-4 text-blue-600 border border-blue-50"
+        >
+          <Landmark class="w-5 h-5" />
+        </div>
+        <span class="font-bold text-sm">Cuotas</span>
+      </a>
+      <a
+        href="/inversion"
+        class="flex items-center p-4 rounded-2xl bg-[#fff7ed] border border-orange-100 text-orange-950 transition-transform active:scale-[0.98]"
+      >
+        <div
+          class="w-10 h-10 rounded-xl bg-white flex items-center justify-center mr-4 text-orange-600 border border-orange-50"
+        >
+          <TrendingUp class="w-5 h-5" />
+        </div>
+        <span class="font-bold text-sm">Inversión</span>
+      </a>
+    </div>
+    <div
+      class="p-8 mt-auto flex justify-center space-x-8 border-t border-gray-50"
+    >
+      <a
+        href="https://www.instagram.com/ripwallet.cr/"
+        class="text-gray-400 hover:text-black"
+      >
+        <Instagram class="w-5 h-5" />
+      </a>
+      <a
+        href="https://youtube.com/RIPWALLETCR"
+        class="text-gray-400 hover:text-black"
+      >
+        <Youtube class="w-5 h-5" />
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupMobileMenu() {
+    const menuBtn = document.getElementById("menu-btn");
+    const closeBtn = document.getElementById("close-btn");
+    const menuContainer = document.getElementById("menu-container");
+    const menuBackdrop = document.getElementById("menu-backdrop");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (!menuBtn || !closeBtn || !menuContainer || !menuBackdrop || !mobileMenu)
+      return;
+
+    function toggleMenu(open: boolean) {
+      if (open) {
+        document.body.style.overflow = "hidden";
+        (menuContainer as HTMLElement).classList.remove("pointer-events-none");
+        (menuBackdrop as HTMLElement).classList.add(
+          "opacity-100",
+          "pointer-events-auto",
+        );
+        (mobileMenu as HTMLElement).classList.remove("translate-x-full");
+      } else {
+        document.body.style.overflow = "";
+        (menuContainer as HTMLElement).classList.add("pointer-events-none");
+        (menuBackdrop as HTMLElement).classList.remove(
+          "opacity-100",
+          "pointer-events-auto",
+        );
+        (mobileMenu as HTMLElement).classList.add("translate-x-full");
+      }
+    }
+
+    menuBtn.addEventListener("click", () => toggleMenu(true));
+    closeBtn.addEventListener("click", () => toggleMenu(false));
+    menuBackdrop.addEventListener("click", () => toggleMenu(false));
+
+    // Cerrar menú al navegar
+    const menuLinks = mobileMenu.querySelectorAll("a");
+    menuLinks.forEach((link) => {
+      link.addEventListener("click", () => toggleMenu(false));
+    });
+  }
+
+  // Primera carga
+  setupMobileMenu();
+
+  // Después de cada navegación (para View Transitions)
+  document.addEventListener("astro:page-load", setupMobileMenu);
+</script>
+
+<style>
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .nav-link {
+    transition: color 0.2s ease;
+  }
+
+  .dropdown-content {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .group:hover .dropdown-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
