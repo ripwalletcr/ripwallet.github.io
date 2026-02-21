@@ -14,7 +14,7 @@ import {
 
 <Layout
   title="Comparadora de Cuotas | RIP Wallet"
-  description="Compara las condiciones de tu préstamo. Analiza el impacto de las tasas variables TBP y SOFR en tus cuotas mensuales."
+  description="Compara las condiciones de tu préstamo. Analiza el impacto de las tasas variables TBP, SOFR y Prime Rate en tus cuotas mensuales."
 >
   <Navbar currentPath="/cuotas" />
 
@@ -45,6 +45,7 @@ import {
                 <option value="CRC_TBP">Colones - TBP</option>
                 <option value="CRC_TRI">Colones - TRI</option>
                 <option value="USD">Dólares - SOFR 3M</option>
+                <option value="USD_PRIME">Dólares - Prime Rate</option>
               </select>
             </div>
             <div>
@@ -95,9 +96,10 @@ import {
             <h4
               class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center"
             >
-              <Activity class="w-3.5 h-3.5 mr-2" /> Tasa de Referencia (<span
-                id="refName">TBP</span
-              >)
+              <Activity class="w-3.5 h-3.5 mr-2" /> Tasa de Referencia
+              <span class="ml-1 inline-flex items-center whitespace-nowrap">
+                (<span id="refName" class="tracking-normal normal-case">TBP</span>)
+              </span>
             </h4>
             <div class="flex items-center" id="syncStatus">
               <span class="status-dot bg-green-500"></span>
@@ -319,6 +321,14 @@ import {
         current: 4.8,
         desc: "El SOFR 3M es la tasa de referencia internacional para dólares.",
       },
+      USD_PRIME: {
+        name: "Prime Rate",
+        max: 8.5,
+        med: 5.5,
+        min: 3.25,
+        current: 7.5,
+        desc: "El Prime Rate en dólares es una tasa de referencia usada por bancos para créditos en USD.",
+      },
     };
 
     const elements = {
@@ -359,7 +369,11 @@ import {
     }
 
     function calculate() {
-      const currency = elements.currency.value as "CRC_TBP" | "CRC_TRI" | "USD";
+      const currency = elements.currency.value as
+        | "CRC_TBP"
+        | "CRC_TRI"
+        | "USD"
+        | "USD_PRIME";
       const amount = parseFloat(elements.loanAmount.value) || 0;
       const years = parseFloat(elements.termYears.value) || 0;
       const spread = parseFloat(elements.baseRate.value) || 0;
