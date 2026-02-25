@@ -242,6 +242,28 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
     </div>
   </main>
 
+  <section class="max-w-7xl mx-auto px-6 pb-20">
+    <div class="invest-cta">
+      <div class="invest-cta-copy">
+        <p class="invest-cta-text">
+          Estás listo para empezar a invertir y te gustaría aprender cómo?
+        </p>
+        <p class="invest-cta-text">
+          Completa este formulario y nosotros te contactamos con toda la
+          información.
+        </p>
+      </div>
+      <a
+        href="https://ripwallet.notion.site/312b26e639ea80a5a60ee770dad8b464?pvs=105"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-invest-learn"
+      >
+        Quiero aprender a invertir
+      </a>
+    </div>
+  </section>
+
   <Footer />
 </Layout>
 
@@ -632,6 +654,75 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
     background-color: #15803d;
     transform: translateY(-2px);
     box-shadow: 0 20px 25px -5px rgba(23, 163, 74, 0.3);
+  }
+
+  .invest-cta {
+    background: #f4f7ff;
+    border: 1px solid #dbe6fb;
+    border-radius: 32px;
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .invest-cta-text {
+    max-width: 920px;
+    font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+    line-height: 1.35;
+    color: #8f9aae;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .invest-cta-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .btn-invest-learn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #08a045;
+    color: #ffffff;
+    padding: 16px 34px;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
+
+  .btn-invest-learn:hover {
+    background-color: #0b8f40;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 768px) {
+    .invest-cta {
+      padding: 32px 20px;
+      border-radius: 24px;
+      gap: 20px;
+    }
+
+    .invest-cta-text {
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .btn-invest-learn {
+      width: 100%;
+      max-width: 320px;
+      padding: 14px 22px;
+      font-size: 0.78rem;
+    }
   }
 
   @keyframes reveal {
