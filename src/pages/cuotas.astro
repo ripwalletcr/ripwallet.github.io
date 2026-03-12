@@ -87,25 +87,41 @@ import {
                 value="5.5"
               />
             </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Seguros (mensual)</label
+              >
+              <input
+                type="text"
+                inputmode="decimal"
+                autocomplete="off"
+                id="insurance"
+                class="apple-input"
+                value="0"
+              />
+              <input type="hidden" id="insuranceValue" value="0" />
+            </div>
           </div>
         </div>
 
         <!-- Cuadro de Referencia Dinámico -->
         <div id="referenceCard" class="card-outline bg-gray-50/50">
-          <div class="flex items-center justify-between mb-6">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
             <h4
               class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center"
             >
               <Activity class="w-3.5 h-3.5 mr-2" /> Tasa de Referencia
               <span class="ml-1 inline-flex items-center whitespace-nowrap">
-                (<span id="refName" class="tracking-normal normal-case">TBP</span>)
+                (<span id="refName" class="tracking-normal normal-case"
+                  >TBP</span
+                >)
               </span>
             </h4>
-            <div class="flex items-center" id="syncStatus">
+            <div class="flex items-center gap-2 text-[8px] font-bold uppercase tracking-[0.2em] text-gray-400" id="syncStatus">
               <span class="status-dot bg-green-500"></span>
-              <span class="text-[8px] font-bold text-gray-400 uppercase"
-                >Actualizado</span
-              >
+              <span>Actualizado</span>
+              <span class="text-gray-500/70">11/03/2026</span>
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2 text-center">
@@ -211,6 +227,48 @@ import {
                     Diferencia vs Media
                   </p>
                   <p class="text-lg font-bold text-blue-600">0.00%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Escenario Actual -->
+          <div class="card-outline border-l-4 border-l-amber-500">
+            <div
+              class="flex flex-col md:flex-row justify-between md:items-center gap-6"
+            >
+              <div>
+                <p
+                  class="text-[10px] font-bold uppercase tracking-widest text-amber-700 mb-1 flex items-center"
+                >
+                  <Activity class="w-3.5 h-3.5 mr-2" /> Escenario Actual
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900" id="payCurrent">
+                  $0
+                </h3>
+              </div>
+              <div
+                class="flex gap-8 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-8"
+              >
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Tasa Total
+                  </p>
+                  <p class="text-lg font-bold text-amber-700" id="rateCurrent">
+                    0%
+                  </p>
+                </div>
+                <div>
+                  <p
+                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1"
+                  >
+                    Diferencia vs Media
+                  </p>
+                  <p class="text-lg font-bold text-amber-700" id="diffCurrent">
+                    0.00%
+                  </p>
                 </div>
               </div>
             </div>
@@ -335,10 +393,14 @@ import {
       currency: document.getElementById("currency") as HTMLSelectElement,
       loanAmount: document.getElementById("loanAmount") as HTMLInputElement,
       loanAmountFormatted: document.getElementById(
-        "loanAmountFormatted"
+        "loanAmountFormatted",
       ) as HTMLInputElement,
       termYears: document.getElementById("termYears") as HTMLInputElement,
       baseRate: document.getElementById("baseRate") as HTMLInputElement,
+      insurance: document.getElementById("insurance") as HTMLInputElement,
+      insuranceValue: document.getElementById(
+        "insuranceValue",
+      ) as HTMLInputElement,
       refName: document.getElementById("refName")!,
       refMax: document.getElementById("refMax")!,
       refMed: document.getElementById("refMed")!,
@@ -354,10 +416,20 @@ import {
       );
     }
 
+    function formatInputNumber(val: number): string {
+      const locale = elements.currency.value.startsWith("CRC")
+        ? "es-CR"
+        : "en-US";
+      return new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(val);
+    }
+
     function calculateMonthlyPayment(
       principal: number,
       annualRate: number,
-      years: number
+      years: number,
     ): number {
       if (annualRate === 0) return principal / (years * 12);
       const monthlyRate = annualRate / 100 / 12;
@@ -377,6 +449,7 @@ import {
       const amount = parseFloat(elements.loanAmount.value) || 0;
       const years = parseFloat(elements.termYears.value) || 0;
       const spread = parseFloat(elements.baseRate.value) || 0;
+      const insurance = parseFloat(elements.insuranceValue.value) || 0;
       const ref = refRates[currency];
 
       // Actualizar referencias en barra lateral
@@ -390,15 +463,19 @@ import {
       const rMax = spread + ref.max;
       const rMed = spread + ref.med;
       const rMin = spread + ref.min;
+      const rCurrent = spread + ref.current;
 
       // Diferencias vs Mediana
       const dMax = ref.max - ref.med;
       const dMin = ref.min - ref.med;
+      const dCurrent = ref.current - ref.med;
 
       // Cuotas
-      const payMax = calculateMonthlyPayment(amount, rMax, years);
-      const payMed = calculateMonthlyPayment(amount, rMed, years);
-      const payMin = calculateMonthlyPayment(amount, rMin, years);
+      const payMax = calculateMonthlyPayment(amount, rMax, years) + insurance;
+      const payMed = calculateMonthlyPayment(amount, rMed, years) + insurance;
+      const payMin = calculateMonthlyPayment(amount, rMin, years) + insurance;
+      const payCurrent =
+        calculateMonthlyPayment(amount, rCurrent, years) + insurance;
 
       // Actualizar UI - Pesimista
       document.getElementById("payMax")!.textContent = formatVal(payMax);
@@ -409,6 +486,14 @@ import {
       // Actualizar UI - Probable
       document.getElementById("payMed")!.textContent = formatVal(payMed);
       document.getElementById("rateMed")!.textContent = rMed.toFixed(2) + "%";
+
+      // Actualizar UI - Actual
+      document.getElementById("payCurrent")!.textContent =
+        formatVal(payCurrent);
+      document.getElementById("rateCurrent")!.textContent =
+        rCurrent.toFixed(2) + "%";
+      document.getElementById("diffCurrent")!.textContent =
+        (dCurrent >= 0 ? "+" : "") + dCurrent.toFixed(2) + "%";
 
       // Actualizar UI - Optimista
       document.getElementById("payMin")!.textContent = formatVal(payMin);
@@ -441,13 +526,40 @@ import {
       elements.loanAmount.value = defaultAmount.toString();
       elements.loanAmountFormatted.value =
         defaultAmount.toLocaleString("en-US");
+      elements.insurance.value = formatInputNumber(
+        parseFloat(elements.insuranceValue.value) || 0,
+      );
       calculate();
     });
 
+    elements.insurance.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      let v = target.value.replace(/[^0-9.,]/g, "");
+      const normalized = v.replace(/,/g, ".");
+      if (v === "") {
+        elements.insuranceValue.value = "";
+      } else if (!isNaN(Number(normalized))) {
+        elements.insuranceValue.value = normalized;
+      }
+      calculate();
+    });
+
+    elements.insurance.addEventListener("blur", () => {
+      if (elements.insurance.value.trim() === "") {
+        elements.insuranceValue.value = "0.00";
+      }
+      elements.insurance.value = formatInputNumber(
+        parseFloat(elements.insuranceValue.value) || 0,
+      );
+    });
+
     [elements.termYears, elements.baseRate].forEach((el) =>
-      el?.addEventListener("input", calculate)
+      el?.addEventListener("input", calculate),
     );
 
+    elements.insurance.value = formatInputNumber(
+      parseFloat(elements.insuranceValue.value) || 0,
+    );
     calculate();
   }
 
