@@ -36,17 +36,6 @@ import Footer from "../components/Footer.astro";
       />
 
       <ServiceCard
-        title="Inversiones 1:1"
-        description="Entiende el mercado y comienza a construir un portafolio sólido para el largo plazo."
-        icon="trending-up"
-        href="/asesorias"
-        bgColor="bg-[#fff7ed]"
-        textColor="text-orange-950"
-        iconColor="text-orange-600"
-        delay="delay-2"
-      />
-
-      <ServiceCard
         title="Finanzas en Pareja"
         description="Alineen sus objetivos, hablen de dinero sin pelear y crezcan juntos."
         icon="users"
@@ -57,16 +46,18 @@ import Footer from "../components/Footer.astro";
         delay="delay-3"
       />
 
-      <ServiceCard
-        title="Recursos Gratuitos"
-        description="Guías prácticas y plantillas para que des el primer paso hoy mismo."
-        icon="book-open"
-        href="/recursos"
-        bgColor="bg-[#f9fafb]"
-        textColor="text-gray-900"
-        iconColor="text-gray-600"
-        delay="delay-4"
-      />
+      <div class="md:col-span-2">
+        <ServiceCard
+          title="Recursos Gratuitos"
+          description="Guías prácticas y plantillas para que des el primer paso hoy mismo."
+          icon="book-open"
+          href="/recursos"
+          bgColor="bg-[#f9fafb]"
+          textColor="text-gray-900"
+          iconColor="text-gray-600"
+          delay="delay-4"
+        />
+      </div>
     </div>
   </main>
 

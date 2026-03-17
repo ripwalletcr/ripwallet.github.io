@@ -6,7 +6,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
 ---
 
 <Layout
-  title="Calculadora de Inversión | RIP Wallet"
+  title="Calculadora de Rentabilidad | RIP Wallet"
   description="Proyecta el crecimiento de tu patrimonio y visualiza el impacto de tus aportes a largo plazo."
 >
   <Navbar currentPath="/inversion" />
@@ -15,7 +15,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
   <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
     <header class="text-center mb-16 animate-reveal">
       <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
-        Calculadora de Inversión
+        Calculadora de Rentabilidad
       </h1>
     </header>
 
@@ -27,7 +27,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
           <h4
             class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
           >
-            <BarChart2 class="w-3.5 h-3.5 mr-2" /> Datos de Inversión
+            <BarChart2 class="w-3.5 h-3.5 mr-2" /> Datos
           </h4>
           <div class="space-y-5">
             <div>
@@ -44,7 +44,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             <div>
               <label
                 class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Inversión Inicial</label
+                >Aporte inicial</label
               >
               <input
                 type="text"
@@ -97,7 +97,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             <div>
               <label
                 class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Tipo de Inversión</label
+                >Tipo de interés</label
               >
               <select id="investmentType" class="apple-input">
                 <option value="compound"
@@ -154,7 +154,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             <h4
               class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-600 mb-8 flex items-center"
             >
-              <PieChart class="w-3.5 h-3.5 mr-2 text-green-500" /> Desglose de Inversión
+              <PieChart class="w-3.5 h-3.5 mr-2 text-green-500" /> Desglose de retornos
             </h4>
             <div class="space-y-4">
               <div class="flex justify-between items-center">
@@ -242,7 +242,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
     </div>
   </main>
 
-  <section class="max-w-7xl mx-auto px-6 pb-20">
+  <!-- <section class="max-w-7xl mx-auto px-6 pb-20">
     <div class="invest-cta">
       <div class="invest-cta-copy">
         <p class="invest-cta-text">
@@ -262,7 +262,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
         Quiero aprender a invertir
       </a>
     </div>
-  </section>
+  </section> -->
 
   <Footer />
 </Layout>
@@ -494,10 +494,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
       // CONFIG TABLE
       const configData = [
         ["Moneda", currency],
-        [
-          "Inversión Inicial",
-          formatVal(parseFloat(elements.initialAmount.value)),
-        ],
+        ["Aporte inicial", formatVal(parseFloat(elements.initialAmount.value))],
         [
           "Aporte Mensual",
           formatVal(parseFloat(elements.monthlyContribution.value)),
