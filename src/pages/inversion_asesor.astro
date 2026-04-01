@@ -8,6 +8,7 @@ import {
   TrendingUp,
   PieChart,
   FileDown,
+  LockKeyhole,
 } from "@lucide/astro";
 ---
 
@@ -17,8 +18,45 @@ import {
 >
   <Navbar currentPath="/inversion" />
 
+  <section id="authGate" class="max-w-xl mx-auto px-6 pt-20 pb-24">
+    <div class="card-outline animate-reveal text-center">
+      <div
+        class="w-14 h-14 mx-auto rounded-2xl bg-green-50 text-green-600 flex items-center justify-center mb-8"
+      >
+        <LockKeyhole class="w-7 h-7" />
+      </div>
+      <p
+        class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-4"
+      >
+        Acceso Privado
+      </p>
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-4">
+        Calculadora para asesores
+      </h1>
+      <p class="text-gray-500 leading-relaxed mb-8">
+        Ingresa la contraseña para acceder a esta versión de la calculadora.
+      </p>
+
+      <form id="authForm" class="space-y-4">
+        <input
+          id="passwordInput"
+          type="password"
+          class="apple-input text-center"
+          placeholder="Contraseña"
+          autocomplete="current-password"
+        />
+        <p id="authError" class="text-sm font-medium text-red-500 hidden">
+          Contraseña incorrecta.
+        </p>
+        <button type="submit" class="btn-report">
+          Ingresar
+        </button>
+      </form>
+    </div>
+  </section>
+
   <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+  <main id="protectedContent" class="max-w-7xl mx-auto px-6 pt-16 pb-32 hidden">
     <header class="text-center mb-16 animate-reveal">
       <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
         Calculadora de Inversión
@@ -36,6 +74,18 @@ import {
             <BarChart2 class="w-3.5 h-3.5 mr-2" /> Datos de Inversión
           </h4>
           <div class="space-y-5">
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Nombre del Cliente</label
+              >
+              <input
+                type="text"
+                id="clientName"
+                class="apple-input"
+                placeholder="Nombre completo"
+              />
+            </div>
             <div>
               <label
                 class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
@@ -306,6 +356,46 @@ import {
   import { jsPDF } from "jspdf";
   import autoTable from "jspdf-autotable";
 
+  function setupPasswordGate() {
+    const PASSWORD = "RipWalletCR";
+    const STORAGE_KEY = "ripwallet-inversion-asesores-access";
+    const authGate = document.getElementById("authGate");
+    const protectedContent = document.getElementById("protectedContent");
+    const authForm = document.getElementById("authForm") as HTMLFormElement;
+    const passwordInput = document.getElementById(
+      "passwordInput",
+    ) as HTMLInputElement;
+    const authError = document.getElementById("authError");
+
+    if (!authGate || !protectedContent || !authForm || !passwordInput) return false;
+
+    function unlock() {
+      localStorage.setItem(STORAGE_KEY, "granted");
+      authGate.classList.add("hidden");
+      protectedContent.classList.remove("hidden");
+    }
+
+    if (localStorage.getItem(STORAGE_KEY) === "granted") {
+      unlock();
+      return true;
+    }
+
+    authForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      if (passwordInput.value === PASSWORD) {
+        authError?.classList.add("hidden");
+        unlock();
+        setupInvestmentCalculator();
+      } else {
+        authError?.classList.remove("hidden");
+        passwordInput.select();
+      }
+    });
+
+    return false;
+  }
+
   function setupInvestmentCalculator() {
     const numericInputs = [
       { display: "initialAmountFormatted", hidden: "initialAmount" },
@@ -315,6 +405,7 @@ import {
       },
     ];
     const otherInputs = [
+      "clientName",
       "termYears",
       "annualReturn",
       "currency",
@@ -533,6 +624,7 @@ import {
     async function generatePDF() {
       const doc = new jsPDF("p", "mm", "a4");
       const currency = elements.currency?.value || "USD";
+      const clientName = elements.clientName?.value?.trim() || "No indicado";
 
       // HEADER
       doc.setFont("helvetica", "bold");
@@ -549,6 +641,7 @@ import {
 
       // CONFIG TABLE
       const configData = [
+        ["Cliente", clientName],
         ["Moneda", currency],
         [
           "Inversión Inicial",
@@ -653,8 +746,15 @@ import {
     calculate();
   }
 
-  setupInvestmentCalculator();
-  document.addEventListener("astro:page-load", setupInvestmentCalculator);
+  if (setupPasswordGate()) {
+    setupInvestmentCalculator();
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    if (setupPasswordGate()) {
+      setupInvestmentCalculator();
+    }
+  });
 </script>
 
 <style is:global>
