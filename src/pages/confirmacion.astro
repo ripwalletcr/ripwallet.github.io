@@ -1,0 +1,87 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import LegalDocument from "../components/LegalDocument.astro";
+---
+
+<Layout
+  title="¡Ya agendaste tu asesoría! | RIP Wallet"
+  description="Los últimos pasos para que confirmes tu asesoría con RIP Wallet."
+>
+  <Navbar currentPath="/" />
+  <LegalDocument
+    badge=""
+    title="¡Ya agendaste tu asesoría!"
+    subtitle="Aquí hay algunas instrucciones para completar el proceso y confirmar tu espacio."
+  >
+    <h2>1. Pago 💸</h2>
+    <p>
+      El costo de las asesorías es de ₡50,000 (o $95 USD). Podés realizar el
+      pago por los siguientes medios:
+    </p>
+    <ul>
+      <li>SINPE Móvil: 71369660 - Kevin Aguilar</li>
+      <li>
+        BAC Colones: 703432435 - CR25010200007034324351 - Cédula 116500328
+      </li>
+      <li>
+        BAC Dólares: 956599203 - CR96010200009565992033 - Cédula 116500328
+      </li>
+      <li><a href="https://paypal.me/kevinguilar">PayPal</a></li>
+    </ul>
+    <p>
+      Una vez realizado el pago, enviá el comprobante al WhatsApp de RIP Wallet
+      al <a href="https://wa.me/50671369660">(+506) 7136-9660</a>.
+    </p>
+
+    <h2>2. Cuestionario previo 📝</h2>
+    <p>
+      Para poder crear un plan personalizado necesitamos información extra sobre
+      tus finanzas. Por favor llenás el cuestionario según la asesoría que
+      agendaste:
+    </p>
+    <p>
+      ⚠️ Si no completás el formulario al menos 2 días antes de tu sesión, es
+      probable que necesitemos reagendar.
+    </p>
+
+    <div>
+      <a href="https://www.survio.com/survey/d/H6R0M9E9S3D6D6N6O"
+        >Inversiones
+      </a>
+    </div>
+
+    <div>
+      <a
+        href="https://www.survio.com/survey/d/G1E0E1J4F6M8K2Y2E"
+        target="_blank"
+        >Finanzas Personales
+      </a>
+    </div>
+
+    <div>
+      <a href="https://www.survio.com/survey/d/R6N9V9T9K5J3M3B9I"
+        >Finanzas en pareja</a
+      >
+    </div>
+
+    <h2>3. Conexión el día de la sesión 🧑‍💻</h2>
+    <p>
+      Cuando llegue el día de tu sesión podés conectarte por medio de Google
+      Meet. El link lo encontrarás en el correo de confirmación que recibiste
+      cuando agendaste, o en tu calendario.
+    </p>
+    <p>
+      En caso de necesitar reprogramar, escribinos por WhatsApp. ¡Nos vemos! 🥳
+    </p>
+  </LegalDocument>
+  <Footer />
+</Layout>
+
+<style>
+  a {
+    text-decoration: underline;
+    color: blue;
+  }
+</style>
