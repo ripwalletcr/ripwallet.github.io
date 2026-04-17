@@ -86,6 +86,19 @@ const { currentPath = "/" } = Astro.props;
               >Calculadora Rentabilidad</span
             >
           </a>
+          <a
+            href="/mediana"
+            class="flex items-center p-2.5 rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            <div
+              class="w-7 h-7 rounded-lg bg-violet-50 flex items-center justify-center mr-3 text-violet-600"
+            >
+              <Calculator class="w-4 h-4" />
+            </div>
+            <span class="text-[11px] font-bold text-gray-900"
+              >Calculadora Mediana</span
+            >
+          </a>
         </div>
       </div>
     </div>
@@ -179,6 +192,17 @@ const { currentPath = "/" } = Astro.props;
           <TrendingUp class="w-5 h-5" />
         </div>
         <span class="font-bold text-sm">Rentabilidad</span>
+      </a>
+      <a
+        href="/mediana"
+        class="flex items-center p-4 rounded-2xl bg-[#f5f3ff] border border-violet-100 text-violet-950 transition-transform active:scale-[0.98]"
+      >
+        <div
+          class="w-10 h-10 rounded-xl bg-white flex items-center justify-center mr-4 text-violet-600 border border-violet-50"
+        >
+          <Calculator class="w-5 h-5" />
+        </div>
+        <span class="font-bold text-sm">Mediana</span>
       </a>
     </div>
     <div
