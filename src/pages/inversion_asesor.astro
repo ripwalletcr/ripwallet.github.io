@@ -188,10 +188,6 @@ import {
               />
             </div>
             <div>
-              <label
-                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Frecuencia de Cobro</label
-              >
               <select id="commissionFrequency" class="apple-input">
                 <option value="monthly">Mensual</option>
                 <option value="daily">Diaria</option>
@@ -207,6 +203,30 @@ import {
                 <option value="global">Global de la Inversión</option>
                 <option value="contributions">Aportes solamente</option>
               </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comisión por Transferencia -->
+        <div class="card-outline">
+          <h4
+            class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-600 mb-8 flex items-center"
+          >
+            <ShieldAlert class="w-3.5 h-3.5 mr-2 text-green-500" /> Comisión por Transferencia
+          </h4>
+          <div class="space-y-5">
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Monto por Transferencia</label
+              >
+              <input
+                type="text"
+                id="transferCommissionFormatted"
+                class="apple-input"
+                value="0"
+              />
+              <input type="hidden" id="transferCommission" value="0" />
             </div>
           </div>
         </div>
@@ -403,6 +423,10 @@ import {
         display: "monthlyContributionFormatted",
         hidden: "monthlyContribution",
       },
+      {
+        display: "transferCommissionFormatted",
+        hidden: "transferCommission",
+      },
     ];
     const otherInputs = [
       "clientName",
@@ -514,6 +538,7 @@ import {
       const type = elements.investmentType?.value || "compound";
       const commRate = parseFloat(elements.commissionRate?.value) / 100 || 0;
       const commBase = elements.commissionBase?.value || "global";
+      const transferComm = parseFloat(elements.transferCommission?.value) || 0;
 
       if (years <= 0) return;
 
@@ -558,6 +583,7 @@ import {
           // Sobre aportes acumulados (ej: 100, 200, 300...) a medida que crecen mes a mes
           commissionThisMonth = totalContributed * (commRate / 12);
         }
+        commissionThisMonth += transferComm;
         balance -= commissionThisMonth;
         yearAccCommissions += commissionThisMonth;
         totalCommissions += commissionThisMonth;
