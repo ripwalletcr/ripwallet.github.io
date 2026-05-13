@@ -173,36 +173,44 @@ import {
           >
             <ShieldAlert class="w-3.5 h-3.5 mr-2 text-green-500" /> Comisión Administrativa
           </h4>
-          <div class="space-y-5">
-            <div>
-              <label
-                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Porcentaje Anual (%)</label
-              >
-              <input
-                type="number"
-                step="0.01"
-                id="commissionRate"
-                class="apple-input"
-                value="1.0"
-              />
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                Activar comisión
+              </label>
+              <input type="checkbox" id="commissionEnabled" class="w-4 h-4 rounded" checked />
             </div>
-            <div>
-              <select id="commissionFrequency" class="apple-input">
-                <option value="monthly">Mensual</option>
-                <option value="daily">Diaria</option>
-                <option value="annual">Anual</option>
-              </select>
-            </div>
-            <div>
-              <label
-                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Aplicar sobre</label
-              >
-              <select id="commissionBase" class="apple-input">
-                <option value="global">Global de la Inversión</option>
-                <option value="contributions">Aportes solamente</option>
-              </select>
+            <div id="commissionFields" class="space-y-5">
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Porcentaje Anual (%)</label
+                >
+                <input
+                  type="number"
+                  step="0.01"
+                  id="commissionRate"
+                  class="apple-input"
+                  value="1.0"
+                />
+              </div>
+              <div>
+                <select id="commissionFrequency" class="apple-input">
+                  <option value="monthly">Mensual</option>
+                  <option value="daily">Diaria</option>
+                  <option value="annual">Anual</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Aplicar sobre</label
+                >
+                <select id="commissionBase" class="apple-input">
+                  <option value="global">Global de la Inversión</option>
+                  <option value="contributions">Aportes solamente</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -214,19 +222,27 @@ import {
           >
             <ShieldAlert class="w-3.5 h-3.5 mr-2 text-green-500" /> Comisión por Transferencia
           </h4>
-          <div class="space-y-5">
-            <div>
-              <label
-                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Monto por Transferencia</label
-              >
-              <input
-                type="text"
-                id="transferCommissionFormatted"
-                class="apple-input"
-                value="0"
-              />
-              <input type="hidden" id="transferCommission" value="0" />
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                Activar comisión
+              </label>
+              <input type="checkbox" id="transferCommissionEnabled" class="w-4 h-4 rounded" />
+            </div>
+            <div id="transferCommissionFields" class="space-y-5">
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Monto por Transferencia</label
+                >
+                <input
+                  type="text"
+                  id="transferCommissionFormatted"
+                  class="apple-input"
+                  value="0"
+                />
+                <input type="hidden" id="transferCommission" value="0" />
+              </div>
             </div>
           </div>
         </div>
@@ -437,6 +453,8 @@ import {
       "commissionRate",
       "commissionFrequency",
       "commissionBase",
+      "commissionEnabled",
+      "transferCommissionEnabled",
     ];
     const elements: any = {};
 
@@ -463,6 +481,49 @@ import {
         el.addEventListener("input", calculate);
       }
     });
+
+    // Commission toggle handlers
+    const commissionEnabled = document.getElementById("commissionEnabled") as HTMLInputElement;
+    const commissionFields = document.getElementById("commissionFields");
+    const commissionRateInput = document.getElementById("commissionRate") as HTMLInputElement;
+
+    if (commissionEnabled) {
+      commissionEnabled.addEventListener("change", () => {
+        if (commissionFields) {
+          commissionFields.style.display = commissionEnabled.checked ? "block" : "none";
+        }
+        if (!commissionEnabled.checked && commissionRateInput) {
+          commissionRateInput.value = "0";
+        }
+        calculate();
+      });
+      // Initialize state
+      if (commissionFields) {
+        commissionFields.style.display = commissionEnabled.checked ? "block" : "none";
+      }
+    }
+
+    const transferCommissionEnabled = document.getElementById("transferCommissionEnabled") as HTMLInputElement;
+    const transferCommissionFields = document.getElementById("transferCommissionFields");
+    const transferCommissionFormatted = document.getElementById("transferCommissionFormatted") as HTMLInputElement;
+    const transferCommissionHidden = document.getElementById("transferCommission") as HTMLInputElement;
+
+    if (transferCommissionEnabled) {
+      transferCommissionEnabled.addEventListener("change", () => {
+        if (transferCommissionFields) {
+          transferCommissionFields.style.display = transferCommissionEnabled.checked ? "block" : "none";
+        }
+        if (!transferCommissionEnabled.checked) {
+          if (transferCommissionFormatted) transferCommissionFormatted.value = "0";
+          if (transferCommissionHidden) transferCommissionHidden.value = "0";
+        }
+        calculate();
+      });
+      // Initialize state
+      if (transferCommissionFields) {
+        transferCommissionFields.style.display = transferCommissionEnabled.checked ? "block" : "none";
+      }
+    }
 
     let chart: Chart | null = null;
     let yearlyResults: any[] = [];
@@ -536,9 +597,11 @@ import {
       const years = parseFloat(elements.termYears?.value) || 0;
       const rate = parseFloat(elements.annualReturn?.value) / 100 || 0;
       const type = elements.investmentType?.value || "compound";
-      const commRate = parseFloat(elements.commissionRate?.value) / 100 || 0;
+      const commissionEnabled = elements.commissionEnabled?.checked ?? true;
+      const commRate = commissionEnabled ? (parseFloat(elements.commissionRate?.value) / 100) || 0 : 0;
       const commBase = elements.commissionBase?.value || "global";
-      const transferComm = parseFloat(elements.transferCommission?.value) || 0;
+      const transferCommissionEnabled = elements.transferCommissionEnabled?.checked ?? false;
+      const transferComm = transferCommissionEnabled ? (parseFloat(elements.transferCommission?.value) || 0) : 0;
 
       if (years <= 0) return;
 
