@@ -123,6 +123,22 @@ import {
               />
               <input type="hidden" id="monthlyContribution" value="500" />
             </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Incremento Anual</label
+              >
+              <input
+                type="text"
+                id="annualIncrementFormatted"
+                class="apple-input"
+                value="0"
+              />
+              <input type="hidden" id="annualIncrement" value="0" />
+              <p class="text-[9px] text-gray-400 mt-1.5">
+                Se suma al aporte mensual a partir del segundo año.
+              </p>
+            </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label
@@ -440,6 +456,10 @@ import {
         hidden: "monthlyContribution",
       },
       {
+        display: "annualIncrementFormatted",
+        hidden: "annualIncrement",
+      },
+      {
         display: "transferCommissionFormatted",
         hidden: "transferCommission",
       },
@@ -594,6 +614,7 @@ import {
     function calculate() {
       const initial = parseFloat(elements.initialAmount?.value) || 0;
       const monthly = parseFloat(elements.monthlyContribution?.value) || 0;
+      const annualIncrement = parseFloat(document.getElementById("annualIncrement")?.value) || 0;
       const years = parseFloat(elements.termYears?.value) || 0;
       const rate = parseFloat(elements.annualReturn?.value) / 100 || 0;
       const type = elements.investmentType?.value || "compound";
@@ -622,6 +643,9 @@ import {
       let yearAccCommissions = 0;
 
       for (let m = 1; m <= months; m++) {
+        const currentYear = Math.ceil(m / 12);
+        const currentMonthly = monthly + (currentYear > 1 ? annualIncrement * (currentYear - 1) : 0);
+
         // 1. Rendimiento Mensual
         let earningThisMonth = 0;
         if (type === "simple") {
@@ -635,8 +659,8 @@ import {
         totalEarnings += earningThisMonth;
 
         // 2. Aportes
-        balance += monthly;
-        totalContributed += monthly;
+        balance += currentMonthly;
+        totalContributed += currentMonthly;
 
         // 3. Comisiones
         let commissionThisMonth = 0;
@@ -729,6 +753,7 @@ import {
       );
 
       // CONFIG TABLE
+      const annualIncrement = parseFloat(document.getElementById("annualIncrement")?.value) || 0;
       const configData = [
         ["Cliente", clientName],
         ["Moneda", currency],
@@ -739,6 +764,10 @@ import {
         [
           "Aporte Mensual",
           formatVal(parseFloat(elements.monthlyContribution.value)),
+        ],
+        [
+          "Incremento Anual",
+          formatVal(annualIncrement),
         ],
         ["Plazo", `${elements.termYears.value} años`],
         ["Retorno Anual", `${elements.annualReturn.value}%`],
