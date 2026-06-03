@@ -12,84 +12,131 @@ import LegalDocument from "../../../components/LegalDocument.astro";
   <Navbar currentPath="/" />
 
   <LegalDocument
-    badge=""
+    badge="Última actualización: 1 de junio de 2026"
     title="Política de Privacidad"
-    subtitle="Aquí puedes leer con claridad cómo se maneja la información personal."
+    subtitle='Gracias por usar Spent ("App"), desarrollada por Joseph Murillo ("nosotros", "nuestro" o "nos").'
   >
-    <h2>Spent - Política de Privacidad</h2>
-    <div>
-      <p>
-        Gracias por usar Spent (de ahora en adelante la "Aplicación"), una
-        aplicación desarrollada por Joseph Murillo ("nosotros", "nuestro" o
-        "nosotros"). Esta Política de privacidad tiene como objetivo informarle
-        sobre los tipos de información que se pueden recopilar cuando utiliza la
-        aplicación y cómo protegemos su privacidad. Al utilizar la aplicación,
-        acepta los términos de esta Política de privacidad.
-      </p>
-      <p>Recopilación y uso de información</p>
-      <p>
-        Spent está diseñado para recopilar ningún tipo de datos de usuario. No
-        recopilamos ninguna información personal, datos del dispositivo ni
-        ningún otro dato de los usuarios de la aplicación.
-      </p>
-      <p>Permisos</p>
-      <p>
-        La aplicación no requiere ningún permiso para acceder a su dispositivo o
-        información personal. Creemos en mantener su privacidad y garantizar que
-        sus datos personales permanezcan seguros.
-      </p>
-      <p>Cookies y tecnologías de seguimiento</p>
-      <p>
-        No utilizamos cookies, tecnologías de seguimiento o métodos similares
-        para rastrear sus actividades en la aplicación.
-      </p>
-      <p>Servicios de terceros</p>
-      <p>
-        Spent no se integra con ningún servicio o plataforma de terceros que
-        pueda recopilar datos del usuario.
-      </p>
-      <p>Privacidad de los niños</p>
-      <p>
-        Spent no está destinada a personas menores de 13 años. No recopilamos
-        deliberadamente ninguna información de niños menores de 13 años. Si cree
-        que hemos recopilado información de un niño menor de 13 años sin darnos
-        cuenta, comuníquese con nosotros de inmediato a ripwallet.cr@gmail.com,
-        y tomaremos medidas para eliminar la información lo antes posible.
-      </p>
-      <p>Seguridad de datos</p>
-      <p>
-        Nos tomamos muy en serio la seguridad de los datos e implementamos
-        medidas de seguridad estándar de la industria para proteger cualquier
-        dato potencial que pueda recopilarse. Sin embargo, dado que no
-        recopilamos ningún dato del usuario, no hay información personal o
-        confidencial que proteger.
-      </p>
-      <p>Cambios a esta Política de Privacidad</p>
-      <p>
-        Podemos actualizar esta Política de privacidad de vez en cuando para
-        reflejar cambios en nuestras prácticas o por otras razones operativas,
-        legales o reglamentarias. La versión más actual de la Política de
-        Privacidad siempre estará disponible dentro de la Aplicación. Cualquier
-        actualización de la Política de privacidad entrará en vigencia cuando se
-        publique. Su uso continuado de la Aplicación después de la fecha de
-        vigencia de cualquier cambio en la Política de privacidad constituye su
-        aceptación de dichos cambios.
-      </p>
-      <p>Contáctenos</p>
-      <p>
-        Si tiene alguna pregunta o inquietud sobre esta Política de privacidad o
-        las prácticas de privacidad de la aplicación, comuníquese con nosotros a
-        ripwallet.cr@gmail.com. Al descargar y utilizar Spent, usted reconoce
-        que ha leído y entendido esta Política de privacidad y acepta estar
-        sujeto a sus términos. ¡Gracias por confiarnos su privacidad y esperamos
-        que disfrute usando Spent!
-      </p>
-      <p>
-        Joseph Murillo, San Jose, Costa Rica ripwallet.cr@gmail.com +506 7136
-        9660
-      </p>
-    </div>
+    <h2>1. Información que recopilamos</h2>
 
-    <Footer />
+    <h3>Información de cuenta</h3>
+    <ul>
+      <li>Dirección de correo electrónico</li>
+      <li>Nombre de usuario</li>
+      <li>Información de autenticación proporcionada a través de Iniciar sesión con Apple o Google</li>
+    </ul>
+
+    <h3>Datos financieros</h3>
+    <ul>
+      <li>Transacciones</li>
+      <li>Nombres de billeteras</li>
+      <li>Categorías</li>
+      <li>Presupuestos</li>
+      <li>Notas</li>
+      <li>Registros financieros relacionados ingresados por el usuario</li>
+    </ul>
+
+    <h3>Datos técnicos</h3>
+    <ul>
+      <li>Tipo de dispositivo</li>
+      <li>Versión del sistema operativo</li>
+      <li>Información de fallos y diagnóstico cuando esté disponible</li>
+    </ul>
+
+    <h2>2. Cómo usamos tu información</h2>
+    <p>Usamos la información para:</p>
+    <ul>
+      <li>Operar y mantener la App</li>
+      <li>Sincronizar datos entre dispositivos</li>
+      <li>Proveer funcionalidades de suscripción</li>
+      <li>Habilitar billeteras compartidas</li>
+      <li>Atender solicitudes de soporte</li>
+      <li>Mejorar la confiabilidad y la seguridad</li>
+    </ul>
+    <p>No vendemos, alquilamos, intercambiamos ni monetizamos información financiera personal.</p>
+    <p>No enviamos correos de marketing, boletines ni comunicaciones promocionales. Las comunicaciones se limitan a respuestas de soporte, avisos de cuenta, anuncios de servicio y notificaciones legalmente requeridas.</p>
+
+    <h2>3. Billeteras compartidas</h2>
+    <p>Al participar en una billetera compartida:</p>
+    <ul>
+      <li>Los miembros autorizados pueden ver las transacciones y registros de la billetera.</li>
+      <li>Tu nombre de usuario puede ser visible para los participantes de la billetera.</li>
+      <li>Al eliminar tu cuenta, se eliminan los registros que hayas aportado a billeteras compartidas.</li>
+    </ul>
+
+    <h2>4. Almacenamiento, transferencias y seguridad</h2>
+    <p>Spent utiliza Supabase como proveedor de infraestructura en la nube para autenticación, almacenamiento de base de datos, sincronización y servicios relacionados.</p>
+    <p>Los datos se alojan en los Estados Unidos (región Este de EE. UU.). Los usuarios que accedan a la App desde otros países consienten la transferencia y el procesamiento de su información en los Estados Unidos.</p>
+    <p>Usamos medidas de seguridad estándar de la industria, incluyendo transmisión cifrada HTTPS/TLS.</p>
+    <p>Ningún método de almacenamiento o transmisión puede garantizarse como completamente seguro.</p>
+    <p><strong>Notificaciones:</strong> Podemos enviar notificaciones transaccionales relacionadas con reinicios de billetera, recordatorios, suscripciones, eventos de billeteras compartidas y actividad de cuenta. Las preferencias de notificación pueden gestionarse desde la configuración del dispositivo.</p>
+
+    <h2>5. Retención y eliminación de datos</h2>
+    <p>Conservamos la información personal mientras las cuentas estén activas y durante el tiempo razonablemente necesario para proveer los servicios de la App.</p>
+    <p>Al recibir una solicitud de eliminación verificada:</p>
+    <ul>
+      <li>La información personal y el contenido del usuario se eliminan de los sistemas activos en un plazo de 30 días.</li>
+      <li>Las transacciones y registros creados por el usuario en billeteras compartidas son eliminados.</li>
+      <li>Los saldos e informes de billeteras compartidas pueden cambiar como consecuencia.</li>
+      <li>Las copias cifradas de respaldo pueden permanecer hasta 30 días adicionales antes de su eliminación automática.</li>
+    </ul>
+
+    <h2>6. Servicios de terceros</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Servicio</th>
+          <th>Finalidad</th>
+          <th>Política de privacidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RevenueCat</td>
+          <td>Gestión de suscripciones, validación de compras y análisis</td>
+          <td><a href="https://www.revenuecat.com/privacy">https://www.revenuecat.com/privacy</a></td>
+        </tr>
+        <tr>
+          <td>Supabase</td>
+          <td>Autenticación, almacenamiento en la nube, base de datos y sincronización</td>
+          <td><a href="https://supabase.com/privacy">https://supabase.com/privacy</a></td>
+        </tr>
+        <tr>
+          <td>Apple Sign In</td>
+          <td>Autenticación</td>
+          <td><a href="https://www.apple.com/legal/privacy/">https://www.apple.com/legal/privacy/</a></td>
+        </tr>
+        <tr>
+          <td>Google Sign In</td>
+          <td>Autenticación</td>
+          <td><a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>7. Privacidad de menores</h2>
+    <p>Spent no está dirigida a menores de 13 años. Si llegamos a saber que se ha recopilado información de un menor de 13 años, tomaremos medidas razonables para eliminarla.</p>
+
+    <h2>8. Derechos de privacidad (RGPD / Ley 8968 de Costa Rica)</h2>
+    <p>Dependiendo de tu jurisdicción, puedes tener derecho a:</p>
+    <ul>
+      <li>Acceder a tu información</li>
+      <li>Corregir información inexacta</li>
+      <li>Solicitar la eliminación de tu información</li>
+      <li>Solicitar la portabilidad de tus datos</li>
+    </ul>
+    <p>Los registros financieros elegibles también pueden exportarse directamente desde la App en formato CSV.</p>
+    <p>Para ejercer estos derechos, contacta a: hola@spentapp.co</p>
+
+    <h2>9. Actualizaciones de la política de privacidad</h2>
+    <p>Podemos actualizar esta Política de privacidad periódicamente. Los cambios importantes pueden comunicarse a través de la App o por otros medios razonables antes de entrar en vigencia.</p>
+
+    <h2>10. Contáctanos</h2>
+    <p>
+      Joseph Murillo<br />
+      San José, Costa Rica<br />
+      hola@spentapp.co
+    </p>
   </LegalDocument>
+
+  <Footer />
 </Layout>
