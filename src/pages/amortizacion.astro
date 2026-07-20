@@ -2,7 +2,17 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
+import BannerTabs from "../components/BannerTabs.astro";
+import {
+  Settings,
+  Zap,
+  FileDown,
+  CircleSlash,
+  Sparkles,
+  Pencil,
+  Check,
+  X,
+} from "@lucide/astro";
 ---
 
 <Layout
@@ -54,11 +64,38 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
               />
               <input type="hidden" id="loanAmount" value="100000" />
             </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400"
+                  >Saldo Actual</label
+                >
+                <label class="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id="useCurrentBalance"
+                    class="sr-only peer"
+                  />
+                  <div
+                    class="relative w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"
+                  >
+                  </div>
+                </label>
+              </div>
+              <input
+                type="text"
+                id="currentBalanceFormatted"
+                class="apple-input"
+                value="0"
+                disabled
+              />
+              <input type="hidden" id="currentBalance" value="0" />
+            </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label
                   class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                  >Años</label
+                  >Años Restantes</label
                 >
                 <input
                   type="number"
@@ -91,12 +128,47 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
           >
             cuota mensual aproximada (sin seguros)
           </p>
-          <h3
-            class="text-3xl font-bold tracking-tight text-gray-900 text-center"
-            id="monthlyPaymentDisplay"
+          <div
+            class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-4"
           >
-            $0.00
-          </h3>
+            <h3
+              class="text-2xl md:text-3xl font-bold tracking-tight text-gray-900"
+              id="monthlyPaymentDisplay"
+            >
+              $0.00
+            </h3>
+            <button
+              id="editMonthlyPaymentBtn"
+              class="p-2.5 rounded-lg bg-gray-100 border border-gray-200 hover:bg-gray-200 transition-colors"
+              title="Editar cuota mensual"
+            >
+              <Pencil class="w-4 h-4 text-gray-500" />
+            </button>
+          </div>
+          <div id="monthlyPaymentEditContainer" class="hidden mt-4">
+            <div class="flex items-center gap-2">
+              <input
+                type="text"
+                id="customMonthlyPaymentFormatted"
+                class="apple-input text-center"
+                placeholder="0"
+              />
+              <input type="hidden" id="customMonthlyPayment" value="0" />
+              <button
+                id="confirmMonthlyPaymentBtn"
+                class="p-2 rounded-full hover:opacity-90 transition-colors"
+                style="background-color: #17a34a"
+              >
+                <Check class="w-4 h-4 text-white" />
+              </button>
+              <button
+                id="cancelMonthlyPaymentBtn"
+                class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+              >
+                <X class="w-4 h-4 text-gray-600" />
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Abonos Extra -->
@@ -247,6 +319,8 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
           </div>
         </div>
 
+        <!-- <BannerTabs iphoneUrl="/download/ios" androidUrl="/download/android" /> -->
+
         <!-- Tabla -->
         <div class="card-outline p-0! overflow-hidden animate-reveal">
           <div class="p-8 border-b border-gray-100">
@@ -294,6 +368,7 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
   function setupCalculator() {
     const numericInputs = [
       { display: "loanAmountFormatted", hidden: "loanAmount" },
+      { display: "currentBalanceFormatted", hidden: "currentBalance" },
       { display: "extraMonthlyFormatted", hidden: "extraMonthly" },
       { display: "extraAnnualFormatted", hidden: "extraAnnual" },
     ];
@@ -303,7 +378,7 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
 
     numericInputs.forEach((item) => {
       const displayEl = document.getElementById(
-        item.display
+        item.display,
       ) as HTMLInputElement;
       const hiddenEl = document.getElementById(item.hidden) as HTMLInputElement;
       if (!displayEl || !hiddenEl) return;
@@ -330,6 +405,103 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
         el.addEventListener("input", calculate);
       }
     });
+
+    const useCurrentBalanceEl = document.getElementById(
+      "useCurrentBalance",
+    ) as HTMLInputElement;
+    const currentBalanceDisplayEl = document.getElementById(
+      "currentBalanceFormatted",
+    ) as HTMLInputElement;
+
+    if (useCurrentBalanceEl && currentBalanceDisplayEl) {
+      useCurrentBalanceEl.addEventListener("change", () => {
+        currentBalanceDisplayEl.disabled = !useCurrentBalanceEl.checked;
+        if (!useCurrentBalanceEl.checked) {
+          currentBalanceDisplayEl.value = "0";
+          elements.currentBalance.value = "0";
+        }
+        calculate();
+      });
+    }
+
+    const editMonthlyPaymentBtn = document.getElementById(
+      "editMonthlyPaymentBtn",
+    );
+    const monthlyPaymentEditContainer = document.getElementById(
+      "monthlyPaymentEditContainer",
+    );
+    const monthlyPaymentDisplay = document.getElementById(
+      "monthlyPaymentDisplay",
+    );
+    const confirmMonthlyPaymentBtn = document.getElementById(
+      "confirmMonthlyPaymentBtn",
+    );
+    const cancelMonthlyPaymentBtn = document.getElementById(
+      "cancelMonthlyPaymentBtn",
+    );
+    const customMonthlyPaymentFormatted = document.getElementById(
+      "customMonthlyPaymentFormatted",
+    ) as HTMLInputElement;
+    const customMonthlyPayment = document.getElementById(
+      "customMonthlyPayment",
+    ) as HTMLInputElement;
+
+    let customMonthlyPaymentValue = 0;
+
+    if (editMonthlyPaymentBtn && monthlyPaymentEditContainer) {
+      editMonthlyPaymentBtn.addEventListener("click", () => {
+        monthlyPaymentEditContainer.classList.remove("hidden");
+        if (monthlyPaymentDisplay)
+          monthlyPaymentDisplay.classList.add("hidden");
+        editMonthlyPaymentBtn.classList.add("hidden");
+        if (customMonthlyPaymentFormatted) {
+          customMonthlyPaymentFormatted.focus();
+          customMonthlyPaymentFormatted.value =
+            customMonthlyPaymentValue > 0
+              ? customMonthlyPaymentValue.toLocaleString("en-US")
+              : "";
+        }
+      });
+    }
+
+    if (cancelMonthlyPaymentBtn && monthlyPaymentEditContainer) {
+      cancelMonthlyPaymentBtn.addEventListener("click", () => {
+        monthlyPaymentEditContainer.classList.add("hidden");
+        if (monthlyPaymentDisplay)
+          monthlyPaymentDisplay.classList.remove("hidden");
+        if (editMonthlyPaymentBtn)
+          editMonthlyPaymentBtn.classList.remove("hidden");
+        customMonthlyPaymentValue = 0;
+        customMonthlyPayment.value = "0";
+        calculate();
+      });
+    }
+
+    if (confirmMonthlyPaymentBtn && monthlyPaymentEditContainer) {
+      confirmMonthlyPaymentBtn.addEventListener("click", () => {
+        monthlyPaymentEditContainer.classList.add("hidden");
+        if (monthlyPaymentDisplay)
+          monthlyPaymentDisplay.classList.remove("hidden");
+        if (editMonthlyPaymentBtn)
+          editMonthlyPaymentBtn.classList.remove("hidden");
+        const val =
+          customMonthlyPaymentFormatted?.value.replace(/,/g, "") || "0";
+        customMonthlyPaymentValue = parseFloat(val) || 0;
+        customMonthlyPayment.value = String(customMonthlyPaymentValue);
+        calculate();
+      });
+    }
+
+    if (customMonthlyPaymentFormatted) {
+      customMonthlyPaymentFormatted.addEventListener("input", (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        let val = target.value.replace(/,/g, "");
+        if (isNaN(Number(val))) val = "0";
+        if (val !== "") {
+          target.value = Number(val).toLocaleString("en-US");
+        }
+      });
+    }
 
     let lineChart: Chart | null = null;
     let yearlyDetails: any[] = [];
@@ -416,13 +588,16 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
       r: number,
       t: number,
       extraM: number,
-      extraA: number
+      extraA: number,
+      customPayment?: number,
     ) {
       const monthlyRate = r / 100 / 12;
       const totalMonths = t * 12;
-      const basePayment =
+      const calculatedPayment =
         (p * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) /
         (Math.pow(1 + monthlyRate, totalMonths) - 1);
+      const basePayment =
+        customPayment && customPayment > 0 ? customPayment : calculatedPayment;
 
       let balance = p;
       let totalInt = 0;
@@ -468,16 +643,25 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
     }
 
     function calculate() {
-      const p = parseFloat(elements.loanAmount?.value) || 0;
+      const loanP = parseFloat(elements.loanAmount?.value) || 0;
       const t = parseFloat(elements.loanTerm?.value) || 0;
       const r = parseFloat(elements.interestRate?.value) || 0;
       const eM = parseFloat(elements.extraMonthly?.value) || 0;
       const eA = parseFloat(elements.extraAnnual?.value) || 0;
 
+      const useBalance =
+        useCurrentBalanceEl?.checked &&
+        (parseFloat(elements.currentBalance?.value) || 0) > 0;
+      const p = useBalance
+        ? parseFloat(elements.currentBalance?.value) || 0
+        : loanP;
+
       if (p <= 0 || t <= 0) return;
 
-      const std = simulate(p, r, t, 0, 0);
-      const adv = simulate(p, r, t, eM, eA);
+      const customPayment =
+        customMonthlyPaymentValue > 0 ? customMonthlyPaymentValue : undefined;
+      const std = simulate(p, r, t, 0, 0, customPayment);
+      const adv = simulate(p, r, t, eM, eA, customPayment);
       yearlyDetails = adv.yData;
 
       const monthlyEl = document.getElementById("monthlyPaymentDisplay");
@@ -502,7 +686,7 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
       if (lineChart) {
         lineChart.data.labels = Array.from(
           { length: Math.max(std.balances.length, adv.balances.length) },
-          (_, i) => Math.ceil(i / 12)
+          (_, i) => Math.ceil(i / 12),
         );
         lineChart.data.datasets[0].data = std.balances;
         lineChart.data.datasets[1].data = adv.balances;
@@ -518,10 +702,10 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
             <td class="px-8 py-5 text-gray-500">${formatVal(y.interest)}</td>
             <td class="px-8 py-5 text-gray-500">${formatVal(y.capital)}</td>
             <td class="px-8 py-5 font-bold text-gray-900">${formatVal(
-              y.balance
+              y.balance,
             )}</td>
           </tr>
-        `
+        `,
           )
           .join("");
       }
@@ -540,7 +724,7 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
       doc.text(
         `RIP Wallet | www.ripwallet.co - ${new Date().toLocaleDateString()}`,
         20,
-        38
+        38,
       );
 
       doc.setFontSize(12);
@@ -553,6 +737,16 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
           currency === "USD" ? "$" : currency === "CRC" ? "¢" : currency,
         ],
         ["Monto Inicial", formatVal(parseFloat(elements.loanAmount.value))],
+      ];
+
+      if (useCurrentBalanceEl?.checked) {
+        inputData.push([
+          "Saldo Actual",
+          formatVal(parseFloat(elements.currentBalance.value)),
+        ]);
+      }
+
+      inputData.push(
         ["Plazo Original", `${elements.loanTerm.value} años`],
         ["Tasa de Interés", `${elements.interestRate.value}%`],
         [
@@ -563,7 +757,7 @@ import { Settings, Zap, FileDown, CircleSlash, Sparkles } from "@lucide/astro";
           "Abono Anual Extra (Dic)",
           formatVal(parseFloat(elements.extraAnnual.value)),
         ],
-      ];
+      );
 
       autoTable(doc, {
         startY: 60,
