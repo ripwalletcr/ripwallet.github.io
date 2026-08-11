@@ -1,75 +1,54 @@
 ---
-import Document from "../../../layouts/document.astro";
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import LegalDocument from "../../components/LegalDocument.astro";
 ---
 
-<Document title="Focus Buddy">
-  <main class="mainContents">
-    <h2>Focus Buddy - Privacy Policy</h2>
-    <div>
-      <p>
-        Thank you for using Focus Buddy (the "App"), an application developed by Joseph Murillo ("we," "our," or "us"). This Privacy Policy is intended to inform you about the types of information that may be collected when you use the App and how we safeguard your privacy. By using the App, you agree to the terms of this Privacy Policy.
-      </p>
-      <p>
-        Information Collection and Use
-      </p>
-      <p>
-        Focus Buddy is designed to collect no user data whatsoever. We do not collect any personal information, device data, or any other data from users of the App. All of your timer settings, custom presets, theme preferences, and streak history are stored only on your device (and shared locally between the App, its home screen widget, and its Live Activity via an iOS App Group), and are never transmitted to us or to any server.
-      </p>
-      <p>
-        Permissions
-      </p>
-      <p>
-        The App may request permission to send you local notifications, which are used solely to alert you when a focus or rest session ends. These notifications are generated and delivered entirely on your device — no notification content or related data is sent to us or to any third party. You can disable this permission at any time in your device's Settings without affecting the App's core timer functionality.
-      </p>
-      <p>
-        Cookies and Tracking Technologies
-      </p>
-      <p>
-        We do not use any cookies, tracking technologies, analytics, or similar methods to track your activities on the App.
-      </p>
-      <p>
-        In-App Purchases
-      </p>
-      <p>
-        Focus Buddy offers an optional, repeatable "Support Development" purchase processed entirely through Apple's StoreKit. We do not receive or store any payment, billing, or card information — all purchase transactions are handled directly by Apple in accordance with Apple's own privacy practices.
-      </p>
-      <p>
-        Third-Party Services
-      </p>
-      <p>
-        Focus Buddy does not integrate with any third-party services or platforms that would collect user data.
-      </p>
-      <p>
-        Children's Privacy
-      </p>
-      <p>
-        Focus Buddy is not intended for use by individuals under the age of 13. We do not knowingly collect any information from children under the age of 13. If you believe that we have inadvertently collected information from a child under the age of 13, please contact us immediately at ripwallet.cr@gmail.com, and we will take steps to delete the information as soon as possible.
-      </p>
-      <p>
-        Data Security
-      </p>
-      <p>
-        We take data security seriously and implement industry-standard security measures to protect any potential data that could be collected. However, since we do not collect any user data, there is no personal or sensitive information to secure on our end — your timer data remains under your control, stored locally on your own device.
-      </p>
-      <p>
-        Changes to this Privacy Policy
-      </p>
-      <p>
-        We may update this Privacy Policy from time to time to reflect changes to our practices or for other operational, legal, or regulatory reasons. The most current version of the Privacy Policy will always be available within the App. Any updates to the Privacy Policy will be effective when posted. Your continued use of the App after the effective date of any changes to the Privacy Policy constitutes your acceptance of those changes.
-      </p>
-      <p>
-        Contact Us
-      </p>
-      <p>
-        If you have any questions or concerns about this Privacy Policy or the App's privacy practices, please contact us at ripwallet.cr@gmail.com.
-        By downloading and using Focus Buddy, you acknowledge that you have read and understood this Privacy Policy and agree to be bound by its terms. Thank you for trusting us with your privacy, and we hope you enjoy using Focus Buddy!
-      </p>
-      <p>
-        Joseph Murillo,
-        San Jose, Costa Rica
-        ripwallet.cr@gmail.com
-        +506 7136 9660
-      </p>
-    </div>
-  </main>
-</Document>
+<Layout
+  title="Privacy Policy | Focus Buddy"
+  description="Read the Focus Buddy app privacy policy."
+>
+  <Navbar currentPath="/" />
+
+  <LegalDocument
+    badge="Focus Buddy"
+    title="Privacy Policy"
+    subtitle='Thank you for using Focus Buddy (the "App"), an application developed by Joseph Murillo ("we," "our," or "us"). This Privacy Policy is intended to inform you about the types of information that may be collected when you use the App and how we safeguard your privacy. By using the App, you agree to the terms of this Privacy Policy.'
+  >
+    <h2>1. Information Collection and Use</h2>
+    <p>Focus Buddy is designed to collect no user data whatsoever. We do not collect any personal information, device data, or any other data from users of the App. All of your timer settings, custom presets, theme preferences, and streak history are stored only on your device (and shared locally between the App, its home screen widget, and its Live Activity via an iOS App Group), and are never transmitted to us or to any server.</p>
+
+    <h2>2. Permissions</h2>
+    <p>The App may request permission to send you local notifications, which are used solely to alert you when a focus or rest session ends. These notifications are generated and delivered entirely on your device — no notification content or related data is sent to us or to any third party. You can disable this permission at any time in your device's Settings without affecting the App's core timer functionality.</p>
+
+    <h2>3. Cookies and Tracking Technologies</h2>
+    <p>We do not use any cookies, tracking technologies, analytics, or similar methods to track your activities on the App.</p>
+
+    <h2>4. In-App Purchases</h2>
+    <p>Focus Buddy offers an optional, repeatable "Support Development" purchase processed entirely through Apple's StoreKit. We do not receive or store any payment, billing, or card information — all purchase transactions are handled directly by Apple in accordance with Apple's own privacy practices.</p>
+
+    <h2>5. Third-Party Services</h2>
+    <p>Focus Buddy does not integrate with any third-party services or platforms that would collect user data.</p>
+
+    <h2>6. Children's Privacy</h2>
+    <p>Focus Buddy is not intended for use by individuals under the age of 13. We do not knowingly collect any information from children under the age of 13. If you believe that we have inadvertently collected information from a child under the age of 13, please contact us immediately at ripwallet.cr@gmail.com, and we will take steps to delete the information as soon as possible.</p>
+
+    <h2>7. Data Security</h2>
+    <p>We take data security seriously and implement industry-standard security measures to protect any potential data that could be collected. However, since we do not collect any user data, there is no personal or sensitive information to secure on our end — your timer data remains under your control, stored locally on your own device.</p>
+
+    <h2>8. Changes to this Privacy Policy</h2>
+    <p>We may update this Privacy Policy from time to time to reflect changes to our practices or for other operational, legal, or regulatory reasons. The most current version of the Privacy Policy will always be available within the App. Any updates to the Privacy Policy will be effective when posted. Your continued use of the App after the effective date of any changes to the Privacy Policy constitutes your acceptance of those changes.</p>
+
+    <h2>9. Contact Us</h2>
+    <p>If you have any questions or concerns about this Privacy Policy or the App's privacy practices, please contact us at ripwallet.cr@gmail.com. By downloading and using Focus Buddy, you acknowledge that you have read and understood this Privacy Policy and agree to be bound by its terms. Thank you for trusting us with your privacy, and we hope you enjoy using Focus Buddy!</p>
+    <p>
+      Joseph Murillo<br />
+      San Jose, Costa Rica<br />
+      ripwallet.cr@gmail.com<br />
+      +506 7136 9660
+    </p>
+  </LegalDocument>
+
+  <Footer />
+</Layout>
