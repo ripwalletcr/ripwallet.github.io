@@ -1,17 +1,16 @@
 ---
 import { Image } from "astro:assets";
-import spentPreview from "../images/spent_preview.jpg";
+import spentBanner from "../images/spent_banner.png";
 
 interface Props {
-  iphoneUrl?: string;
-  androidUrl?: string;
+  downloadUrl?: string;
 }
 
-const { iphoneUrl = "#", androidUrl = "#" } = Astro.props;
+const { downloadUrl = "#" } = Astro.props;
 ---
 
 <section
-  class="banner-spent relative overflow-hidden rounded-[2.5rem] bg-[#0f2416] text-white"
+  class="banner-spent relative overflow-hidden rounded-[2.5rem] bg-[#0f2416] text-white lg:min-h-[420px]"
 >
   <div class="relative z-10 p-8 sm:p-12 lg:max-w-[58%]">
     <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
@@ -19,42 +18,30 @@ const { iphoneUrl = "#", androidUrl = "#" } = Astro.props;
     </h2>
 
     <p class="mt-6 max-w-xl leading-relaxed text-green-100/80">
-      Con <strong class="font-bold text-white">Spent</strong> organizas tus gastos
-      y ahorros con sobres, le pones un límite a cada categoría y ves al instante
-      cuánto te queda disponible.
+      Con <strong class="font-bold text-white" style="font-family: 'Outfit', sans-serif;">Spent</strong> registrás
+      tus gastos día a día y llevás el control de todas tus suscripciones en un
+      solo lugar, para que ningún cobro te tome por sorpresa.
     </p>
 
     <p class="mt-6 text-green-100/80">
       Toca abajo para <strong class="font-bold text-white">descargar gratis</strong>
     </p>
 
-    <div class="mt-6 flex flex-nowrap gap-4">
+    <div class="mt-6">
       <a
-        href={iphoneUrl}
-        class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-neutral-900 transition-transform hover:scale-105"
+        href={downloadUrl}
+        class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-neutral-900 transition-transform hover:scale-105"
       >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path>
-        </svg>
-        Para iPhone
-      </a>
-      <a
-        href={androidUrl}
-        class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-neutral-900 transition-transform hover:scale-105"
-      >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M17.523 15.34a.996.996 0 1 1 0-1.992.996.996 0 0 1 0 1.992m-11.046 0a.996.996 0 1 1 0-1.992.996.996 0 0 1 0 1.992m11.4-6.02 1.99-3.446a.415.415 0 0 0-.152-.566.416.416 0 0 0-.566.152l-2.015 3.49A12.1 12.1 0 0 0 12 7.921c-1.848 0-3.594.363-5.134 1.03L4.851 5.46a.416.416 0 0 0-.566-.152.415.415 0 0 0-.152.566l1.99 3.446C2.694 11.186.344 14.658 0 18.761h24c-.344-4.103-2.694-7.575-6.123-9.44"></path>
-        </svg>
-        Para Android
+        Descargar Spent
       </a>
     </div>
   </div>
 
   <div class="phone-wrapper hidden lg:block">
     <Image
-      src={spentPreview}
+      src={spentBanner}
       alt="App Spent en un iPhone"
-      width={420}
+      width={320}
       quality={95}
       class="phone-img"
     />
@@ -62,18 +49,27 @@ const { iphoneUrl = "#", androidUrl = "#" } = Astro.props;
 </section>
 
 <style>
+  .banner-spent {
+    background: radial-gradient(
+      120% 160% at 85% 0%,
+      #163d24 0%,
+      #0f2416 45%,
+      #08150c 100%
+    );
+  }
+
   .phone-wrapper {
     position: absolute;
-    right: 2rem;
-    bottom: -24px;
-    width: 260px;
+    right: 1.5rem;
+    bottom: -30px;
+    width: 320px;
     z-index: 20;
   }
 
   .phone-img {
     width: 100%;
     height: auto;
-    border-radius: 24px;
-    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.5));
+    transform: perspective(1400px) rotateY(-6deg) rotateZ(-4deg);
+    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.65));
   }
 </style>

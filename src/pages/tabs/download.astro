@@ -10,7 +10,7 @@ import { tabsStoreLinks } from "../../constants/apps-config";
 		<meta property="og:title" content="Descargar Tabs" />
 		<meta name="robots" content="noindex" />
 
-		<script define:vars={{ iosUrl: tabsStoreLinks.ios, androidUrl: tabsStoreLinks.android, fallbackUrl: "/tabs" }}>
+		<script define:vars={{ iosUrl: tabsStoreLinks.ios, androidUrl: tabsStoreLinks.android, fallbackUrl: "/apps" }}>
 			(function () {
 				const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
@@ -25,7 +25,7 @@ import { tabsStoreLinks } from "../../constants/apps-config";
 		</script>
 
 		<noscript>
-			<meta http-equiv="refresh" content="0;url=/tabs" />
+			<meta http-equiv="refresh" content="0;url=/apps" />
 		</noscript>
 	</head>
 	<body style="background: #1a1a1a; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: #fff;">
