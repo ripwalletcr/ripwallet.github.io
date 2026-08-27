@@ -1,0 +1,118 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import BannerSpent from "../../components/BannerSpent.astro";
+import { spentStoreLinks } from "../../constants/apps-config";
+
+const screenshots = [
+  { src: "/images/spent/screenshot-1.jpg", alt: "Pantalla principal de Spent mostrando los sobres de gastos" },
+  { src: "/images/spent/screenshot-2.jpg", alt: "Pantalla de ahorros de Spent con las metas del usuario" },
+  { src: "/images/spent/screenshot-3.jpg", alt: "Spent permite crear sobres en distintas monedas" },
+];
+---
+
+<Layout
+  title="Spent | RIP Wallet"
+  description="Spent es el app para controlar tus gastos y ahorros con el método de sobres, de forma simple. Descárgala gratis para iOS y Android."
+>
+  <link rel="preconnect" href="https://fonts.googleapis.com" slot="head" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin slot="head" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&display=swap"
+    rel="stylesheet"
+    slot="head"
+  />
+
+  <Navbar currentPath="/spent" />
+
+  <!-- Hero -->
+  <header class="max-w-4xl mx-auto px-6 pt-24 pb-4 text-center animate-reveal">
+    <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">
+      App
+    </p>
+    <h1
+      class="text-5xl md:text-6xl font-bold tracking-tight mb-6 text-green-700"
+      style="font-family: 'Outfit', sans-serif;"
+    >
+      Spent
+    </h1>
+    <p class="text-lg text-gray-500 max-w-xl mx-auto font-medium">
+      El app para controlar tus gastos y ahorros, sin complicaciones
+    </p>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 pb-32">
+    <div class="max-w-2xl mx-auto text-center space-y-4 text-gray-500 leading-relaxed mb-10 animate-reveal delay-1">
+      <p>
+        Spent te ayuda a organizar tu plata con el método de sobres: le pones un
+        límite a cada categoría (comida, transporte, salidas...) y el app te
+        avisa cuánto te queda disponible en cada una.
+      </p>
+      <p>
+        Podés llevar tus gastos y tus ahorros en un solo lugar, en la moneda que
+        necesites, sin hojas de cálculo ni cuentas complicadas.
+      </p>
+      <p>
+        Es gratis, es privado (no recopilamos tus datos) y funciona tanto en
+        iPhone como en Android.
+      </p>
+    </div>
+
+    <div class="flex justify-center mb-16 animate-reveal delay-2">
+      <a
+        href="/spent/download"
+        class="bg-green-600 text-white px-10 py-5 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-green-500 transition-colors inline-block"
+      >
+        Descargar Spent
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-16 animate-reveal delay-3">
+      {screenshots.map((screenshot) => (
+        <img
+          src={screenshot.src}
+          alt={screenshot.alt}
+          class="w-full h-auto rounded-3xl first:col-span-2 sm:first:col-span-1"
+        />
+      ))}
+    </div>
+
+    <div class="animate-reveal delay-4">
+      <BannerSpent iphoneUrl={spentStoreLinks.ios} androidUrl={spentStoreLinks.android} />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+  .delay-3 {
+    animation-delay: 0.3s;
+  }
+  .delay-4 {
+    animation-delay: 0.4s;
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+import { spentStoreLinks } from "../../constants/apps-config";
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Descargar Spent</title>
+		<meta property="og:title" content="Descargar Spent" />
+		<meta name="robots" content="noindex" />
+
+		<script define:vars={{ iosUrl: spentStoreLinks.ios, androidUrl: spentStoreLinks.android, fallbackUrl: "/spent" }}>
+			(function () {
+				const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+				if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+					window.location.replace(iosUrl);
+				} else if (/android/i.test(userAgent)) {
+					window.location.replace(androidUrl);
+				} else {
+					window.location.replace(fallbackUrl);
+				}
+			})();
+		</script>
+
+		<noscript>
+			<meta http-equiv="refresh" content="0;url=/spent" />
+		</noscript>
+	</head>
+	<body style="background: #eefcf1; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+		<p>Te estamos redirigiendo a la tienda de aplicaciones...</p>
+	</body>
+</html>
