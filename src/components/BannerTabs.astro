@@ -9,37 +9,39 @@ interface Props {
 const { downloadUrl = "#" } = Astro.props;
 ---
 
-<section
-  class="banner-tabs relative overflow-hidden rounded-[2.5rem] bg-neutral-950 text-white lg:min-h-[420px]"
->
-  <div class="relative z-10 p-8 sm:p-12 lg:max-w-[58%]">
-    <h2
-      class="text-4xl sm:text-5xl font-extrabold tracking-tight"
-      style="font-family: 'Bricolage Grotesque', sans-serif;"
-    >
-      Tabs<span class="text-yellow-400">.</span>
-    </h2>
-
-    <p class="mt-6 max-w-xl leading-relaxed text-neutral-200">
-      Con <strong class="font-bold text-white" style="font-family: 'Bricolage Grotesque', sans-serif;">Tabs.</strong> puedes
-      llevar el control de tus cuotas y abonos extra, para que siempre tengas
-      actualizada la fecha para cancelar cada deuda.
-    </p>
-
-    <p class="mt-6 text-neutral-200">
-      Disponible <strong class="font-bold text-white">gratis</strong> para iPhone
-      y Android
-    </p>
-
-    <div class="mt-6">
-      <a
-        href={downloadUrl}
-        class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-neutral-900 transition-transform hover:scale-105"
+<div class="relative">
+  <section
+    class="banner-tabs relative overflow-hidden rounded-[2.5rem] bg-neutral-950 text-white lg:min-h-[420px]"
+  >
+    <div class="relative z-10 p-8 sm:p-12 lg:max-w-[58%]">
+      <h2
+        class="text-4xl sm:text-5xl font-extrabold tracking-tight"
+        style="font-family: 'Bricolage Grotesque', sans-serif;"
       >
-        Descargar Tabs
-      </a>
+        Tabs<span class="text-yellow-400">.</span>
+      </h2>
+
+      <p class="mt-6 max-w-xl leading-relaxed text-neutral-200">
+        Con <strong class="font-bold text-white" style="font-family: 'Bricolage Grotesque', sans-serif;">Tabs.</strong> puedes
+        llevar el control de tus cuotas y abonos extra, para que siempre tengas
+        actualizada la fecha para cancelar cada deuda.
+      </p>
+
+      <p class="mt-6 text-neutral-200">
+        Disponible <strong class="font-bold text-white">gratis</strong> para iPhone
+        y Android
+      </p>
+
+      <div class="mt-6">
+        <a
+          href={downloadUrl}
+          class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-neutral-900 transition-transform hover:scale-105"
+        >
+          Descargar Tabs
+        </a>
+      </div>
     </div>
-  </div>
+  </section>
 
   <div class="phone-wrapper hidden lg:block">
     <Image
@@ -50,7 +52,7 @@ const { downloadUrl = "#" } = Astro.props;
       class="phone-img"
     />
   </div>
-</section>
+</div>
 
 <style>
   .banner-tabs {
@@ -64,7 +66,7 @@ const { downloadUrl = "#" } = Astro.props;
 
   .phone-wrapper {
     position: absolute;
-    right: 1.5rem;
+    right: 0;
     bottom: -30px;
     width: 320px;
     z-index: 20;

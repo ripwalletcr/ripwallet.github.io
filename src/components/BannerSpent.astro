@@ -9,37 +9,39 @@ interface Props {
 const { downloadUrl = "#" } = Astro.props;
 ---
 
-<section
-  class="banner-spent relative overflow-hidden rounded-[2.5rem] text-[#0b2f18] lg:min-h-[420px]"
->
-  <div class="relative z-10 p-8 sm:p-12 lg:max-w-[58%]">
-    <h2
-      class="text-4xl sm:text-5xl font-extrabold tracking-tight"
-      style="font-family: 'Outfit', sans-serif;"
-    >
-      Spent
-    </h2>
-
-    <p class="mt-6 max-w-xl leading-relaxed text-[#0b2f18]/80">
-      Con <strong class="font-bold text-[#0b2f18]" style="font-family: 'Outfit', sans-serif;">Spent</strong> puedes
-      llevar un control de tus gastos y de tus suscripciones en un solo lugar,
-      para que no se te pierda nada y puedas seguir el presupuesto.
-    </p>
-
-    <p class="mt-6 text-[#0b2f18]/80">
-      Disponible <strong class="font-bold text-[#0b2f18]">gratis</strong> para iPhone
-      y Android
-    </p>
-
-    <div class="mt-6">
-      <a
-        href={downloadUrl}
-        class="inline-flex items-center gap-2 rounded-full bg-[#0b2f18] px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105"
+<div class="relative">
+  <section
+    class="banner-spent relative overflow-hidden rounded-[2.5rem] text-[#0b2f18] lg:min-h-[420px]"
+  >
+    <div class="relative z-10 p-8 sm:p-12 lg:max-w-[58%]">
+      <h2
+        class="text-4xl sm:text-5xl font-extrabold tracking-tight"
+        style="font-family: 'Outfit', sans-serif;"
       >
-        Descargar Spent
-      </a>
+        Spent
+      </h2>
+
+      <p class="mt-6 max-w-xl leading-relaxed text-[#0b2f18]/80">
+        Con <strong class="font-bold text-[#0b2f18]" style="font-family: 'Outfit', sans-serif;">Spent</strong> puedes
+        llevar un control de tus gastos y de tus suscripciones en un solo lugar,
+        para que no se te pierda nada y puedas seguir el presupuesto.
+      </p>
+
+      <p class="mt-6 text-[#0b2f18]/80">
+        Disponible <strong class="font-bold text-[#0b2f18]">gratis</strong> para iPhone
+        y Android
+      </p>
+
+      <div class="mt-6">
+        <a
+          href={downloadUrl}
+          class="inline-flex items-center gap-2 rounded-full bg-[#0b2f18] px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105"
+        >
+          Descargar Spent
+        </a>
+      </div>
     </div>
-  </div>
+  </section>
 
   <div class="phone-wrapper hidden lg:block">
     <Image
@@ -50,7 +52,7 @@ const { downloadUrl = "#" } = Astro.props;
       class="phone-img"
     />
   </div>
-</section>
+</div>
 
 <style>
   .banner-spent {
@@ -64,7 +66,7 @@ const { downloadUrl = "#" } = Astro.props;
 
   .phone-wrapper {
     position: absolute;
-    right: 1.5rem;
+    right: 0;
     bottom: -30px;
     width: 320px;
     z-index: 20;
