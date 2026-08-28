@@ -4,13 +4,14 @@ import {
   TrendingUp,
   Users,
   BookOpen,
+  Smartphone,
   ChevronRight,
 } from "@lucide/astro";
 
 interface Props {
   title: string;
   description: string;
-  icon: "banknote" | "trending-up" | "users" | "book-open";
+  icon: "banknote" | "trending-up" | "users" | "book-open" | "smartphone";
   href: string;
   bgColor: string;
   textColor: string;
@@ -27,6 +28,7 @@ const iconMap = {
   "trending-up": TrendingUp,
   users: Users,
   "book-open": BookOpen,
+  smartphone: Smartphone,
 };
 
 const IconComponent = iconMap[icon];
