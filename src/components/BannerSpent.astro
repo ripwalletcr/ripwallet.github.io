@@ -10,27 +10,31 @@ const { downloadUrl = "#" } = Astro.props;
 ---
 
 <section
-  class="banner-spent relative overflow-hidden rounded-[2.5rem] bg-[#0f2416] text-white lg:min-h-[420px]"
+  class="banner-spent relative overflow-hidden rounded-[2.5rem] text-[#0b2f18] lg:min-h-[420px]"
 >
   <div class="relative z-10 p-8 sm:p-12 lg:max-w-[58%]">
-    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
-      Descarga el app<span class="text-green-400">!</span>
+    <h2
+      class="text-4xl sm:text-5xl font-extrabold tracking-tight"
+      style="font-family: 'Outfit', sans-serif;"
+    >
+      Spent
     </h2>
 
-    <p class="mt-6 max-w-xl leading-relaxed text-green-100/80">
-      Con <strong class="font-bold text-white" style="font-family: 'Outfit', sans-serif;">Spent</strong> registrás
-      tus gastos día a día y llevás el control de todas tus suscripciones en un
-      solo lugar, para que ningún cobro te tome por sorpresa.
+    <p class="mt-6 max-w-xl leading-relaxed text-[#0b2f18]/80">
+      Con <strong class="font-bold text-[#0b2f18]" style="font-family: 'Outfit', sans-serif;">Spent</strong> puedes
+      llevar un control de tus gastos y de tus suscripciones en un solo lugar,
+      para que no se te pierda nada y puedas seguir el presupuesto.
     </p>
 
-    <p class="mt-6 text-green-100/80">
-      Toca abajo para <strong class="font-bold text-white">descargar gratis</strong>
+    <p class="mt-6 text-[#0b2f18]/80">
+      Disponible <strong class="font-bold text-[#0b2f18]">gratis</strong> para iPhone
+      y Android
     </p>
 
     <div class="mt-6">
       <a
         href={downloadUrl}
-        class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-neutral-900 transition-transform hover:scale-105"
+        class="inline-flex items-center gap-2 rounded-full bg-[#0b2f18] px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105"
       >
         Descargar Spent
       </a>
@@ -52,9 +56,9 @@ const { downloadUrl = "#" } = Astro.props;
   .banner-spent {
     background: radial-gradient(
       120% 160% at 85% 0%,
-      #163d24 0%,
-      #0f2416 45%,
-      #08150c 100%
+      #a8f0bb 0%,
+      #7ce495 45%,
+      #5cd17d 100%
     );
   }
 
@@ -70,6 +74,6 @@ const { downloadUrl = "#" } = Astro.props;
     width: 100%;
     height: auto;
     transform: perspective(1400px) rotateY(-6deg) rotateZ(-4deg);
-    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.65));
+    filter: drop-shadow(0 24px 48px rgba(11, 47, 24, 0.35));
   }
 </style>
