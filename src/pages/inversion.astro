@@ -2,12 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
+import { BarChart2, ShieldAlert, TrendingUp, PieChart, FileDown } from "@lucide/astro";
 ---
 
 <Layout
-  title="Calculadora de Rentabilidad | RIP Wallet"
-  description="Proyecta el crecimiento de tu patrimonio y visualiza el impacto de tus aportes a largo plazo."
+  title="Calculadora de Inversión | RIP Wallet"
+  description="Proyecta el crecimiento de tu patrimonio y visualiza el impacto de los aportes y comisiones."
 >
   <Navbar currentPath="/inversion" />
 
@@ -15,7 +15,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
   <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
     <header class="text-center mb-16 animate-reveal">
       <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
-        Calculadora de Rentabilidad
+        Calculadora de Inversión
       </h1>
     </header>
 
@@ -27,9 +27,21 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
           <h4
             class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
           >
-            <BarChart2 class="w-3.5 h-3.5 mr-2" /> Datos
+            <BarChart2 class="w-3.5 h-3.5 mr-2" /> Datos de Inversión
           </h4>
           <div class="space-y-5">
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Nombre del Cliente</label
+              >
+              <input
+                type="text"
+                id="clientName"
+                class="apple-input"
+                placeholder="Nombre completo"
+              />
+            </div>
             <div>
               <label
                 class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
@@ -44,7 +56,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             <div>
               <label
                 class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Aporte inicial</label
+                >Inversión Inicial</label
               >
               <input
                 type="text"
@@ -66,6 +78,22 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
                 value="500"
               />
               <input type="hidden" id="monthlyContribution" value="500" />
+            </div>
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Incremento Anual</label
+              >
+              <input
+                type="text"
+                id="annualIncrementFormatted"
+                class="apple-input"
+                value="0"
+              />
+              <input type="hidden" id="annualIncrement" value="0" />
+              <p class="text-[9px] text-gray-400 mt-1.5">
+                Se suma al aporte mensual a partir del segundo año.
+              </p>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
@@ -97,7 +125,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             <div>
               <label
                 class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
-                >Tipo de interés</label
+                >Tipo de Inversión</label
               >
               <select id="investmentType" class="apple-input">
                 <option value="compound"
@@ -110,9 +138,90 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
           </div>
         </div>
 
+        <!-- Comisión Administrativa -->
+        <div class="card-outline">
+          <h4
+            class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-600 mb-8 flex items-center"
+          >
+            <ShieldAlert class="w-3.5 h-3.5 mr-2 text-green-500" /> Comisión Administrativa
+          </h4>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                Activar comisión
+              </label>
+              <input type="checkbox" id="commissionEnabled" class="w-4 h-4 rounded" checked />
+            </div>
+            <div id="commissionFields" class="space-y-5">
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Porcentaje Anual (%)</label
+                >
+                <input
+                  type="number"
+                  step="0.01"
+                  id="commissionRate"
+                  class="apple-input"
+                  value="1.0"
+                />
+              </div>
+              <div>
+                <select id="commissionFrequency" class="apple-input">
+                  <option value="monthly">Mensual</option>
+                  <option value="daily">Diaria</option>
+                  <option value="annual">Anual</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Aplicar sobre</label
+                >
+                <select id="commissionBase" class="apple-input">
+                  <option value="global">Global de la Inversión</option>
+                  <option value="contributions">Aportes solamente</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comisión por Transferencia -->
+        <div class="card-outline">
+          <h4
+            class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-600 mb-8 flex items-center"
+          >
+            <ShieldAlert class="w-3.5 h-3.5 mr-2 text-green-500" /> Comisión por Transferencia
+          </h4>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                Activar comisión
+              </label>
+              <input type="checkbox" id="transferCommissionEnabled" class="w-4 h-4 rounded" />
+            </div>
+            <div id="transferCommissionFields" class="space-y-5">
+              <div>
+                <label
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Monto por Transferencia</label
+                >
+                <input
+                  type="text"
+                  id="transferCommissionFormatted"
+                  class="apple-input"
+                  value="0"
+                />
+                <input type="hidden" id="transferCommission" value="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <button id="downloadPdf" class="btn-report">
           <FileDown class="w-5 h-5" />
-          <span>Exportar PDF</span>
+          <span>Exportar Reporte PDF</span>
         </button>
       </aside>
 
@@ -154,7 +263,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             <h4
               class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-600 mb-8 flex items-center"
             >
-              <PieChart class="w-3.5 h-3.5 mr-2 text-green-500" /> Desglose de retornos
+              <PieChart class="w-3.5 h-3.5 mr-2 text-green-500" /> Desglose de Inversión
             </h4>
             <div class="space-y-4">
               <div class="flex justify-between items-center">
@@ -170,11 +279,11 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
                 class="flex justify-between items-center border-t border-gray-50 pt-4"
               >
                 <span class="text-sm text-gray-600 font-medium"
-                  >Rendimientos Generados</span
+                  >Comisiones Pagadas</span
                 >
                 <span
-                  class="text-lg font-bold text-green-600"
-                  id="totalEarningsDisplay">$0.00</span
+                  class="text-lg font-bold text-red-500"
+                  id="totalCommissionsDisplay">$0.00</span
                 >
               </div>
             </div>
@@ -228,6 +337,10 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
                     >Rendimiento</th
                   >
                   <th
+                    class="px-8 py-4 text-[9px] font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100"
+                    >Comisión</th
+                  >
+                  <th
                     class="px-8 py-5 text-[9px] font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100"
                     >Saldo Final</th
                   >
@@ -241,28 +354,6 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
       </section>
     </div>
   </main>
-
-  <!-- <section class="max-w-7xl mx-auto px-6 pb-20">
-    <div class="invest-cta">
-      <div class="invest-cta-copy">
-        <p class="invest-cta-text">
-          Estás listo para empezar a invertir y te gustaría aprender cómo?
-        </p>
-        <p class="invest-cta-text">
-          Completa este formulario y nosotros te contactamos con toda la
-          información.
-        </p>
-      </div>
-      <a
-        href="https://ripwallet.notion.site/312b26e639ea80a5a60ee770dad8b464?pvs=105"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-invest-learn"
-      >
-        Quiero aprender a invertir
-      </a>
-    </div>
-  </section> -->
 
   <Footer />
 </Layout>
@@ -280,12 +371,26 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
         display: "monthlyContributionFormatted",
         hidden: "monthlyContribution",
       },
+      {
+        display: "annualIncrementFormatted",
+        hidden: "annualIncrement",
+      },
+      {
+        display: "transferCommissionFormatted",
+        hidden: "transferCommission",
+      },
     ];
     const otherInputs = [
+      "clientName",
       "termYears",
       "annualReturn",
       "currency",
       "investmentType",
+      "commissionRate",
+      "commissionFrequency",
+      "commissionBase",
+      "commissionEnabled",
+      "transferCommissionEnabled",
     ];
     const elements: any = {};
 
@@ -312,6 +417,49 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
         el.addEventListener("input", calculate);
       }
     });
+
+    // Commission toggle handlers
+    const commissionEnabled = document.getElementById("commissionEnabled") as HTMLInputElement;
+    const commissionFields = document.getElementById("commissionFields");
+    const commissionRateInput = document.getElementById("commissionRate") as HTMLInputElement;
+
+    if (commissionEnabled) {
+      commissionEnabled.addEventListener("change", () => {
+        if (commissionFields) {
+          commissionFields.style.display = commissionEnabled.checked ? "block" : "none";
+        }
+        if (!commissionEnabled.checked && commissionRateInput) {
+          commissionRateInput.value = "0";
+        }
+        calculate();
+      });
+      // Initialize state
+      if (commissionFields) {
+        commissionFields.style.display = commissionEnabled.checked ? "block" : "none";
+      }
+    }
+
+    const transferCommissionEnabled = document.getElementById("transferCommissionEnabled") as HTMLInputElement;
+    const transferCommissionFields = document.getElementById("transferCommissionFields");
+    const transferCommissionFormatted = document.getElementById("transferCommissionFormatted") as HTMLInputElement;
+    const transferCommissionHidden = document.getElementById("transferCommission") as HTMLInputElement;
+
+    if (transferCommissionEnabled) {
+      transferCommissionEnabled.addEventListener("change", () => {
+        if (transferCommissionFields) {
+          transferCommissionFields.style.display = transferCommissionEnabled.checked ? "block" : "none";
+        }
+        if (!transferCommissionEnabled.checked) {
+          if (transferCommissionFormatted) transferCommissionFormatted.value = "0";
+          if (transferCommissionHidden) transferCommissionHidden.value = "0";
+        }
+        calculate();
+      });
+      // Initialize state
+      if (transferCommissionFields) {
+        transferCommissionFields.style.display = transferCommissionEnabled.checked ? "block" : "none";
+      }
+    }
 
     let chart: Chart | null = null;
     let yearlyResults: any[] = [];
@@ -382,15 +530,22 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
     function calculate() {
       const initial = parseFloat(elements.initialAmount?.value) || 0;
       const monthly = parseFloat(elements.monthlyContribution?.value) || 0;
+      const annualIncrement = parseFloat(document.getElementById("annualIncrement")?.value) || 0;
       const years = parseFloat(elements.termYears?.value) || 0;
       const rate = parseFloat(elements.annualReturn?.value) / 100 || 0;
       const type = elements.investmentType?.value || "compound";
+      const commissionEnabled = elements.commissionEnabled?.checked ?? true;
+      const commRate = commissionEnabled ? (parseFloat(elements.commissionRate?.value) / 100) || 0 : 0;
+      const commBase = elements.commissionBase?.value || "global";
+      const transferCommissionEnabled = elements.transferCommissionEnabled?.checked ?? false;
+      const transferComm = transferCommissionEnabled ? (parseFloat(elements.transferCommission?.value) || 0) : 0;
 
       if (years <= 0) return;
 
       let balance = initial;
       let totalContributed = initial;
       let totalEarnings = 0;
+      let totalCommissions = 0;
 
       yearlyResults = [];
       let chartLabels: string[] = [];
@@ -401,8 +556,12 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
       const monthlyRate = rate / 12;
 
       let yearAccEarnings = 0;
+      let yearAccCommissions = 0;
 
       for (let m = 1; m <= months; m++) {
+        const currentYear = Math.ceil(m / 12);
+        const currentMonthly = monthly + (currentYear > 1 ? annualIncrement * (currentYear - 1) : 0);
+
         // 1. Rendimiento Mensual
         let earningThisMonth = 0;
         if (type === "simple") {
@@ -416,8 +575,21 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
         totalEarnings += earningThisMonth;
 
         // 2. Aportes
-        balance += monthly;
-        totalContributed += monthly;
+        balance += currentMonthly;
+        totalContributed += currentMonthly;
+
+        // 3. Comisiones
+        let commissionThisMonth = 0;
+        if (commBase === "global") {
+          commissionThisMonth = balance * (commRate / 12);
+        } else {
+          // Sobre aportes acumulados (ej: 100, 200, 300...) a medida que crecen mes a mes
+          commissionThisMonth = totalContributed * (commRate / 12);
+        }
+        commissionThisMonth += transferComm;
+        balance -= commissionThisMonth;
+        yearAccCommissions += commissionThisMonth;
+        totalCommissions += commissionThisMonth;
 
         // Registro anual
         if (m % 12 === 0) {
@@ -425,6 +597,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             year: m / 12,
             contributed: totalContributed, // Total acumulado, no solo del año
             earnings: yearAccEarnings,
+            commission: yearAccCommissions,
             balance: balance,
           });
           chartLabels.push(`Año ${m / 12}`);
@@ -432,6 +605,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
           chartContributionData.push(totalContributed);
 
           yearAccEarnings = 0;
+          yearAccCommissions = 0;
         }
       }
 
@@ -439,13 +613,14 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
       const finalCapital = document.getElementById("finalCapitalDisplay");
       const netEarnings = document.getElementById("netEarningsDisplay");
       const totalContrib = document.getElementById("totalContributionsDisplay");
-      const totalEarn = document.getElementById("totalEarningsDisplay");
+      const totalComm = document.getElementById("totalCommissionsDisplay");
       const tableBody = document.getElementById("investmentTableBody");
 
       if (finalCapital) finalCapital.textContent = formatVal(balance);
-      if (netEarnings) netEarnings.textContent = formatVal(totalEarnings);
+      if (netEarnings)
+        netEarnings.textContent = formatVal(totalEarnings - totalCommissions);
       if (totalContrib) totalContrib.textContent = formatVal(totalContributed);
-      if (totalEarn) totalEarn.textContent = formatVal(totalEarnings);
+      if (totalComm) totalComm.textContent = formatVal(totalCommissions);
 
       // Gráfico
       if (chart) {
@@ -464,6 +639,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
             <td class="px-8 py-5 font-bold text-gray-900">${y.year}</td>
             <td class="px-8 py-5 text-gray-500">${formatVal(y.contributed)}</td>
             <td class="px-8 py-5 text-green-600">+ ${formatVal(y.earnings)}</td>
+            <td class="px-8 py-5 text-red-500">- ${formatVal(y.commission)}</td>
             <td class="px-8 py-5 font-bold text-gray-900">${formatVal(
               y.balance,
             )}</td>
@@ -477,6 +653,7 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
     async function generatePDF() {
       const doc = new jsPDF("p", "mm", "a4");
       const currency = elements.currency?.value || "USD";
+      const clientName = elements.clientName?.value?.trim() || "No indicado";
 
       // HEADER
       doc.setFont("helvetica", "bold");
@@ -492,15 +669,25 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
       );
 
       // CONFIG TABLE
+      const annualIncrement = parseFloat(document.getElementById("annualIncrement")?.value) || 0;
       const configData = [
+        ["Cliente", clientName],
         ["Moneda", currency],
-        ["Aporte inicial", formatVal(parseFloat(elements.initialAmount.value))],
+        [
+          "Inversión Inicial",
+          formatVal(parseFloat(elements.initialAmount.value)),
+        ],
         [
           "Aporte Mensual",
           formatVal(parseFloat(elements.monthlyContribution.value)),
         ],
+        [
+          "Incremento Anual",
+          formatVal(annualIncrement),
+        ],
         ["Plazo", `${elements.termYears.value} años`],
         ["Retorno Anual", `${elements.annualReturn.value}%`],
+        ["Comisión Anual", `${elements.commissionRate.value}%`],
       ];
 
       doc.setFontSize(13);
@@ -568,11 +755,12 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
 
         autoTable(doc, {
           startY: 30,
-          head: [["Año", "Aportado", "Rendimiento", "Saldo"]],
+          head: [["Año", "Aportado", "Rendimiento", "Comisión", "Saldo"]],
           body: yearlyResults.map((y) => [
             y.year,
             formatVal(y.contributed),
             formatVal(y.earnings),
+            formatVal(y.commission),
             formatVal(y.balance),
           ]),
           styles: { fontSize: 9 },
@@ -651,75 +839,6 @@ import { BarChart2, TrendingUp, PieChart, FileDown } from "@lucide/astro";
     background-color: #15803d;
     transform: translateY(-2px);
     box-shadow: 0 20px 25px -5px rgba(23, 163, 74, 0.3);
-  }
-
-  .invest-cta {
-    background: #f4f7ff;
-    border: 1px solid #dbe6fb;
-    border-radius: 32px;
-    padding: 48px 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    text-align: center;
-  }
-
-  .invest-cta-text {
-    max-width: 920px;
-    font-size: clamp(1.2rem, 1.8vw, 1.8rem);
-    line-height: 1.35;
-    color: #8f9aae;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  .invest-cta-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .btn-invest-learn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #08a045;
-    color: #ffffff;
-    padding: 16px 34px;
-    border-radius: 9999px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.25s ease;
-    text-decoration: none;
-  }
-
-  .btn-invest-learn:hover {
-    background-color: #0b8f40;
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 768px) {
-    .invest-cta {
-      padding: 32px 20px;
-      border-radius: 24px;
-      gap: 20px;
-    }
-
-    .invest-cta-text {
-      font-size: 1rem;
-      line-height: 1.45;
-    }
-
-    .btn-invest-learn {
-      width: 100%;
-      max-width: 320px;
-      padding: 14px 22px;
-      font-size: 0.78rem;
-    }
   }
 
   @keyframes reveal {
