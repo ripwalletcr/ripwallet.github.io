@@ -91,6 +91,18 @@ import {
               />
               <input type="hidden" id="currentBalance" value="0" />
             </div>
+            <div id="originalTermContainer" class="hidden">
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Plazo inicial (en años)</label
+              >
+              <input
+                type="number"
+                id="originalTerm"
+                class="apple-input"
+                value="20"
+              />
+            </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label
@@ -126,7 +138,7 @@ import {
           <p
             class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4 text-center"
           >
-            cuota mensual aproximada (sin seguros)
+            cuota mensual (sin seguros)
           </p>
           <div
             class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-4"
@@ -373,7 +385,7 @@ import {
       { display: "extraAnnualFormatted", hidden: "extraAnnual" },
     ];
 
-    const otherInputs = ["loanTerm", "interestRate", "currency"];
+    const otherInputs = ["loanTerm", "interestRate", "currency", "originalTerm"];
     const elements: any = {};
 
     numericInputs.forEach((item) => {
@@ -412,10 +424,19 @@ import {
     const currentBalanceDisplayEl = document.getElementById(
       "currentBalanceFormatted",
     ) as HTMLInputElement;
+    const originalTermContainer = document.getElementById(
+      "originalTermContainer",
+    );
 
     if (useCurrentBalanceEl && currentBalanceDisplayEl) {
       useCurrentBalanceEl.addEventListener("change", () => {
         currentBalanceDisplayEl.disabled = !useCurrentBalanceEl.checked;
+        if (originalTermContainer) {
+          originalTermContainer.classList.toggle(
+            "hidden",
+            !useCurrentBalanceEl.checked,
+          );
+        }
         if (!useCurrentBalanceEl.checked) {
           currentBalanceDisplayEl.value = "0";
           elements.currentBalance.value = "0";
@@ -658,10 +679,16 @@ import {
 
       if (p <= 0 || t <= 0) return;
 
+      const originalTerm = parseFloat(elements.originalTerm?.value) || 0;
+      const elapsedYears = useBalance ? Math.max(0, originalTerm - t) : 0;
+
       const customPayment =
         customMonthlyPaymentValue > 0 ? customMonthlyPaymentValue : undefined;
       const std = simulate(p, r, t, 0, 0, customPayment);
       const adv = simulate(p, r, t, eM, eA, customPayment);
+      if (elapsedYears > 0) {
+        adv.yData = adv.yData.map((y) => ({ ...y, year: y.year + elapsedYears }));
+      }
       yearlyDetails = adv.yData;
 
       const monthlyEl = document.getElementById("monthlyPaymentDisplay");
@@ -686,7 +713,7 @@ import {
       if (lineChart) {
         lineChart.data.labels = Array.from(
           { length: Math.max(std.balances.length, adv.balances.length) },
-          (_, i) => Math.ceil(i / 12),
+          (_, i) => Math.ceil(i / 12) + elapsedYears,
         );
         lineChart.data.datasets[0].data = std.balances;
         lineChart.data.datasets[1].data = adv.balances;
@@ -743,6 +770,10 @@ import {
         inputData.push([
           "Saldo Actual",
           formatVal(parseFloat(elements.currentBalance.value)),
+        ]);
+        inputData.push([
+          "Plazo Inicial",
+          `${elements.originalTerm?.value || 0} años`,
         ]);
       }
 
