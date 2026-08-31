@@ -1,0 +1,583 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
+---
+
+<Layout
+  title="Calculadora de Mediana y Promedio | RIP Wallet"
+  description="Calcula la mediana y el promedio de tus ingresos mensuales de enero a diciembre."
+>
+  <Navbar currentPath="/mediana" />
+
+  <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+    <header class="text-center mb-16 animate-reveal">
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+        Calculadora de Mediana
+      </h1>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto font-medium">
+        Registra tus ingresos de enero a diciembre y obtén el promedio, la
+        mediana y una visualización clara para presupuestar.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <aside class="lg:col-span-4 space-y-6 animate-reveal">
+        <div class="card-outline">
+          <h4
+            class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
+          >
+            <Calculator class="w-3.5 h-3.5 mr-2" /> Ingresos Mensuales
+          </h4>
+
+          <div class="space-y-4">
+            <div>
+              <label
+                class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                >Moneda</label
+              >
+              <select id="currency" class="apple-input">
+                <option value="CRC">Colones (CRC)</option>
+                <option value="USD">Dólares (USD)</option>
+                <option value="EUR">Euros (EUR)</option>
+              </select>
+            </div>
+
+            <div class="income-grid">
+              <div class="income-row">
+                <label for="month-0">Enero</label>
+                <input id="month-0" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-1">Febrero</label>
+                <input id="month-1" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-2">Marzo</label>
+                <input id="month-2" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-3">Abril</label>
+                <input id="month-3" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-4">Mayo</label>
+                <input id="month-4" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-5">Junio</label>
+                <input id="month-5" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-6">Julio</label>
+                <input id="month-6" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-7">Agosto</label>
+                <input id="month-7" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-8">Setiembre</label>
+                <input id="month-8" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-9">Octubre</label>
+                <input id="month-9" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-10">Noviembre</label>
+                <input id="month-10" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+              <div class="income-row">
+                <label for="month-11">Diciembre</label>
+                <input id="month-11" class="apple-input income-input" type="text" value="0.00" inputmode="decimal" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="downloadPdf" class="btn-report">
+          <FileDown class="w-5 h-5" />
+          <span>Exportar PDF</span>
+        </button>
+      </aside>
+
+      <section class="lg:col-span-8 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-reveal">
+          <div class="card-outline">
+            <h4
+              class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-600 mb-8 flex items-center"
+            >
+              <Gauge class="w-3.5 h-3.5 mr-2 text-green-500" /> Valor Recomendado
+            </h4>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600 font-medium">Mediana</span>
+                <span class="text-2xl font-bold text-gray-900" id="medianDisplay"
+                  >CRC 0.00</span
+                >
+              </div>
+              <p class="text-xs text-gray-500 leading-relaxed">
+                Este es el valor más estable para presupuestar porque reduce el
+                impacto de meses extraordinariamente altos o bajos.
+              </p>
+            </div>
+          </div>
+
+          <div class="card-outline">
+            <h4
+              class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
+            >
+              <LineChart class="w-3.5 h-3.5 mr-2" /> Resumen Estadístico
+            </h4>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600 font-medium">Promedio</span>
+                <span class="text-lg font-bold text-gray-900" id="averageDisplay"
+                  >CRC 0.00</span
+                >
+              </div>
+              <div class="flex justify-between items-center border-t border-gray-50 pt-4">
+                <span class="text-sm text-gray-600 font-medium"
+                  >Meses con dato</span
+                >
+                <span class="text-lg font-bold text-blue-600" id="monthsCount"
+                  >12</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-outline animate-reveal">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+            <h4 class="font-bold text-xl text-gray-900">
+              Evolución de Ingresos
+            </h4>
+            <div class="flex flex-wrap gap-5 text-[10px] font-bold uppercase tracking-widest">
+              <div class="flex items-center text-gray-400">
+                <span class="w-2 h-2 rounded-full bg-green-600 mr-2"></span>
+                Ingreso mensual
+              </div>
+              <div class="flex items-center text-blue-600">
+                <span class="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
+                Mediana
+              </div>
+              <div class="flex items-center text-amber-500">
+                <span class="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
+                Promedio
+              </div>
+            </div>
+          </div>
+
+          <div class="h-87.5">
+            <canvas id="incomeChart"></canvas>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import Chart from "chart.js/auto";
+  import "jspdf-autotable";
+  import { jsPDF } from "jspdf";
+  import autoTable from "jspdf-autotable";
+
+  function setupMedianCalculator() {
+    const monthLabels = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Setiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
+    ];
+
+    const currency = document.getElementById("currency") as HTMLSelectElement;
+    const inputs = Array.from(
+      document.querySelectorAll(".income-input"),
+    ) as HTMLInputElement[];
+    const medianDisplay = document.getElementById("medianDisplay");
+    const averageDisplay = document.getElementById("averageDisplay");
+    const monthsCount = document.getElementById("monthsCount");
+    const canvas = document.getElementById("incomeChart") as HTMLCanvasElement;
+    const downloadBtn = document.getElementById("downloadPdf");
+
+    if (
+      !currency ||
+      !inputs.length ||
+      !medianDisplay ||
+      !averageDisplay ||
+      !monthsCount ||
+      !canvas ||
+      !downloadBtn
+    )
+      return;
+
+    let chart: Chart | null = null;
+
+    function getLocale() {
+      if (currency.value === "CRC") return "es-CR";
+      return "en-US";
+    }
+
+    function getCurrencyCode() {
+      return currency.value;
+    }
+
+    function formatValue(value: number) {
+      return new Intl.NumberFormat(getLocale(), {
+        style: "currency",
+        currency: getCurrencyCode(),
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(value);
+    }
+
+    function formatPdfValue(value: number) {
+      const locale = getLocale();
+      const amount = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(value);
+
+      if (currency.value === "CRC") return `CRC ${amount}`;
+      if (currency.value === "EUR") return `EUR ${amount}`;
+      return `$${amount}`;
+    }
+
+    function parseValue(raw: string) {
+      const cleaned = raw.replace(/[^0-9.,]/g, "");
+      const normalized = currency.value === "CRC"
+        ? cleaned.replace(/\./g, "").replace(/,/g, ".")
+        : cleaned.replace(/,/g, "");
+      const value = parseFloat(normalized);
+      return Number.isFinite(value) ? value : 0;
+    }
+
+    function getMedian(values: number[]) {
+      if (values.length === 0) return 0;
+      const sorted = [...values].sort((a, b) => a - b);
+      const middle = Math.floor(sorted.length / 2);
+      if (sorted.length % 2 === 0) {
+        return (sorted[middle - 1] + sorted[middle]) / 2;
+      }
+      return sorted[middle];
+    }
+
+    function createOrUpdateChart(values: number[], median: number, average: number) {
+      const data = {
+        labels: monthLabels,
+        datasets: [
+          {
+            type: "bar",
+            label: "Ingreso mensual",
+            data: values,
+            backgroundColor: "rgba(22, 163, 74, 0.18)",
+            borderColor: "#16a34a",
+            borderWidth: 1.5,
+            borderRadius: 10,
+          },
+          {
+            type: "line",
+            label: "Mediana",
+            data: values.map(() => median),
+            borderColor: "#2563eb",
+            borderWidth: 2,
+            borderDash: [8, 6],
+            pointRadius: 0,
+            tension: 0,
+          },
+          {
+            type: "line",
+            label: "Promedio",
+            data: values.map(() => average),
+            borderColor: "#f59e0b",
+            borderWidth: 2,
+            borderDash: [4, 4],
+            pointRadius: 0,
+            tension: 0,
+          },
+        ],
+      };
+
+      if (chart) {
+        chart.data = data;
+        chart.update();
+        return;
+      }
+
+      chart = new Chart(canvas, {
+        type: "bar",
+        data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "top",
+              labels: {
+                usePointStyle: true,
+                boxWidth: 8,
+                font: { family: "Poppins", size: 11 },
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label(context) {
+                  return `${context.dataset.label}: ${formatValue(
+                    Number(context.raw) || 0,
+                  )}`;
+                },
+              },
+            },
+          },
+          scales: {
+            y: {
+              ticks: {
+                font: { family: "Poppins", size: 10 },
+                callback(value) {
+                  return formatValue(Number(value));
+                },
+              },
+              grid: { color: "#eef2f7" },
+            },
+            x: {
+              ticks: { font: { family: "Poppins", size: 10 } },
+              grid: { display: false },
+            },
+          },
+        },
+      });
+    }
+
+    async function generatePDF() {
+      const values = inputs.map((input) => parseValue(input.value));
+      const average =
+        values.reduce((sum, value) => sum + value, 0) / values.length || 0;
+      const median = getMedian(values);
+
+      const doc = new jsPDF("p", "mm", "a4");
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(22);
+      doc.text("Reporte de Mediana y Promedio", 20, 25);
+
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "normal");
+      doc.text(
+        `RIP Wallet | www.ripwallet.co - ${new Date().toLocaleDateString()}`,
+        20,
+        32,
+      );
+
+      const summaryData = [
+        ["Moneda", getCurrencyCode()],
+        ["Mediana", formatPdfValue(median)],
+        ["Promedio", formatPdfValue(average)],
+        [
+          "Meses con dato",
+          String(values.filter((value) => value > 0).length),
+        ],
+      ];
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.text("Resumen", 20, 45);
+
+      autoTable(doc, {
+        startY: 50,
+        body: summaryData,
+        theme: "plain",
+        styles: { fontSize: 9, cellPadding: 2 },
+      });
+
+      autoTable(doc, {
+        startY: (doc as any).lastAutoTable.finalY + 8,
+        head: [["Mes", "Ingreso"]],
+        body: monthLabels.map((month, index) => [
+          month,
+          formatPdfValue(values[index]),
+        ]),
+        theme: "striped",
+        styles: { fontSize: 9 },
+      });
+
+      await new Promise(requestAnimationFrame);
+      const img = canvas.toDataURL("image/png", 1.0);
+
+      doc.addPage();
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.text("Grafico de Ingresos", 20, 25);
+      doc.addImage(img, "PNG", 15, 35, 180, 95);
+
+      doc.save(`RIP-Wallet-Mediana-${Date.now()}.pdf`);
+    }
+
+    function calculate() {
+      const values = inputs.map((input) => parseValue(input.value));
+      const average =
+        values.reduce((sum, value) => sum + value, 0) / values.length || 0;
+      const median = getMedian(values);
+
+      medianDisplay.textContent = formatValue(median);
+      averageDisplay.textContent = formatValue(average);
+      monthsCount.textContent = String(values.filter((value) => value > 0).length);
+
+      createOrUpdateChart(values, median, average);
+    }
+
+    inputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        if (parseValue(input.value) === 0) input.value = "";
+      });
+
+      input.addEventListener("input", () => {
+        input.value = input.value.replace(/[^0-9.,]/g, "");
+        calculate();
+      });
+
+      input.addEventListener("blur", () => {
+        input.value = formatValue(parseValue(input.value)).replace(/[A-Z]{3}\s?/g, "");
+        calculate();
+      });
+    });
+
+    currency.addEventListener("change", () => {
+      inputs.forEach((input) => {
+        input.value = formatValue(parseValue(input.value)).replace(/[A-Z]{3}\s?/g, "");
+      });
+      calculate();
+    });
+
+    downloadBtn.addEventListener("click", generatePDF);
+
+    inputs.forEach((input) => {
+      input.value = formatValue(parseValue(input.value)).replace(/[A-Z]{3}\s?/g, "");
+    });
+
+    calculate();
+  }
+
+  setupMedianCalculator();
+  document.addEventListener("astro:page-load", setupMedianCalculator);
+</script>
+
+<style is:global>
+  .apple-input {
+    width: 100%;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .apple-input:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05);
+  }
+
+  .card-outline {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 32px;
+    transition: border-color 0.3s ease;
+  }
+
+  .card-outline:hover {
+    border-color: #cbd5e1;
+  }
+
+  .btn-report {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background-color: #17a34a;
+    color: #ffffff;
+    padding: 16px 32px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(23, 163, 74, 0.1);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-report:hover {
+    background-color: #15803d;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(23, 163, 74, 0.3);
+  }
+
+  .income-grid {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .income-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(140px, 180px);
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .income-row label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .income-input {
+    text-align: right;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @media (max-width: 768px) {
+    .income-row {
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+
+    .income-input {
+      text-align: left;
+    }
+  }
+</style>

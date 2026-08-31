@@ -1,82 +1,137 @@
 ---
-import Document from "../layouts/document.astro";
-import SEO from "../components/seo/seo.astro";
-import styles from "./recursos.module.scss";
-import CardHome from "../components/cardHome.astro";
-import finanzas from "../images/ic_finanzas.png";
-import clipboard from "../images/ic_clipboard.png";
-import youtube from "../images/ic_youtube.png";
-import books from "../images/ic_books.png";
-
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { FileSpreadsheet } from "@lucide/astro";
 ---
 
-<Document title="Poner tus finanzas en orden no tiene que ser aburrido!">
-  <SEO slot="head" title="Recursos gratuitos para iniciar de la mejor forma!" />
-  <main class={`mainContentsOnlyAnim ${styles.container}`}>
-    <div class={styles.innerContainer}>
+<Layout
+  title="Recursos | RIP Wallet"
+  description="Descarga herramientas gratuitas para tomar el control de tu dinero y alcanzar tu libertad financiera."
+>
+  <Navbar currentPath="/recursos" />
 
-      <CardHome
-        title="(iPhone)"
-        subtitle="SPENT"
-        body="El app para controlar tus gastos"
-        image={finanzas}
-        alt="SPENT"
-        cardColor="#E9FCEC"
-        hoverColor="#D2F9D8"
-        color="#105624"
-        link="https://apps.apple.com/cr/app/spent/id6449729260"
-      />
+  <!-- Encabezado Principal -->
+  <header class="max-w-7xl mx-auto px-6 pt-24 pb-16 text-center animate-reveal">
+    <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+      Recursos gratuitos
+    </h1>
+    <p
+      class="text-lg text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed"
+    >
+      Descarga nuestras herramientas y plantillas para empezar a transformar tus
+      finanzas hoy mismo.
+    </p>
+  </header>
 
-      <CardHome
-        title=""
-        subtitle="0 a 100: Finanzas"
-        body="Mini-curso gratuito"
-        image={youtube}
-        alt="Icono YouTube"
-        cardColor="#EEEFF7"
-        color="#0E1332"
-        hoverColor="#DCDEEF"
-        link="https://youtu.be/L4aDAHrlGJ0?si=f1GhAyU9hWWwZdPJ"
-      />
-
-      <CardHome
-        title=""
-        subtitle="0 a 100: Inversiones"
-        body="Mini-curso gratuito"
-        image={youtube}
-        alt="Icono YouTube"
-        cardColor="#EEEFF7"
-        color="#0E1332"
-        hoverColor="#DCDEEF"
-        link="https://youtu.be/IHubwz0xODU?si=HXeVx7aR2akJ-p-2"
-      />
-
-      <CardHome
-        title=""
-        subtitle="Presupuesto simple"
-        body="Una plantilla gratuita para tu presupuesto"
-        image={clipboard}
-        alt="Icono Presupuesto"
-        cardColor="#FBF7E9"
-        color="#7F2C0E"
-        hoverColor="#FEEFD4"
-        link="https://ripwallet.kit.com/presupuesto"
-      />
-
-
-      <CardHome
-        title=""
-        subtitle="Biblioteca"
-        body="Lecturas que te pueden servir"
-        image={books}
-        alt="Icono Libros"
-        cardColor="#EAF8FB"
-        color="#145C6B"
-        hoverColor="#D4F1F7"
-        link="/libros"
-      />
-
-
+  <!-- Cuadrícula de Recursos -->
+  <main class="max-w-5xl mx-auto px-6 pb-32">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Tarjeta 1: Plantilla de Presupuesto (Amarillo) -->
+      <a
+        href="/PlantillaPresupuestoRIPWallet-2024.xlsx"
+        download
+        class="card-team border-yellow-400/40 animate-reveal delay-1 cursor-pointer"
+      >
+        <div class="resource-icon-container border-yellow-400">
+          <FileSpreadsheet class="w-12 h-12 text-yellow-600" />
+        </div>
+        <h3 class="text-xl font-bold text-gray-900">
+          Plantilla de Presupuesto
+        </h3>
+        <p class="text-xs text-gray-500 leading-relaxed mb-6">
+          Nuestra plantilla completa de presupuesto en Excel para que puedas
+          organizar tus ingresos, gastos y ahorros de manera profesional.
+        </p>
+      </a>
     </div>
+
+    <!-- CTA -->
+    <section class="mt-20 p-12 bg-gray-950 text-white rounded-3xl text-center">
+      <h2 class="text-3xl font-bold mb-4">¿Necesitas ayuda personalizada?</h2>
+      <p class="text-gray-400 mb-8 max-w-lg mx-auto text-sm">
+        Agenda una asesoría con nuestro equipo y recibe un plan personalizado
+        para alcanzar tus metas financieras.
+      </p>
+      <div class="flex justify-center">
+        <a
+          href="/asesorias"
+          class="bg-white text-black px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors inline-block"
+        >
+          Agendar asesoría
+        </a>
+      </div>
+    </section>
   </main>
-</Document>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  /* Estilo base de tarjeta */
+  .card-team {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 32px;
+    border-width: 1.5px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-team:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  }
+
+  .card-team:hover span {
+    background-color: #ca8a04;
+  }
+
+  /* Contenedor de icono de recurso */
+  .resource-icon-container {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb;
+    flex-shrink: 0;
+    border-width: 2px;
+    border-radius: 12px;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+  .delay-3 {
+    animation-delay: 0.3s;
+  }
+  .delay-4 {
+    animation-delay: 0.4s;
+  }
+</style>

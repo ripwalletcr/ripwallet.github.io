@@ -1,27 +1,22 @@
 {
-  "name": "ripwallet",
+  "name": "ripwalletcr",
   "type": "module",
   "version": "0.0.1",
-  "private": true,
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
-  "devDependencies": {
-    "astro": "^2.7.3",
-    "astro-icon": "^0.8.1",
-    "sass": "^1.63.6",
-    "@astrojs/react": "^2.2.1",
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6"
-  },
   "dependencies": {
-    "@calcom/embed-react": "^1.2.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@lucide/astro": "^0.563.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "chart.js": "^4.5.1",
+    "jspdf": "^4.1.0",
+    "jspdf-autotable": "^5.0.7",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4.1.18"
   },
   "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }

@@ -1,77 +1,93 @@
 ---
-import Document from "../layouts/document.astro";
-import SEO from "../components/seo/seo.astro";
-import { Button } from "../components/button";
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import LegalDocument from "../components/LegalDocument.astro";
 ---
 
-<Document>
-  <SEO
-    slot="head"
-    title="¡Ya agendaste tu asesoria!"
-    description={"Los últimos pasos para que confirmes tu asesoría"}
-  />
-  <main class="mainContents">
-    <h1>¡Ya agendaste tu asesoria!</h1>
-    <p>Aqui hay algunas instrucciones para completar el proceso...</p>
-    <hr />
-    <h2>💸 Pago</h2>
-    <p>El costo de las asesorías es de ₡50,000 (o $95 USD)</p>
-    <p>El pago lo puedes realizar por los siguientes medios:</p>
+<Layout
+  title="¡Ya agendaste tu asesoría! | RIP Wallet"
+  description="Los últimos pasos para que confirmes tu asesoría con RIP Wallet."
+>
+  <Navbar currentPath="/" />
+  <LegalDocument
+    badge=""
+    title="¡Ya agendaste tu asesoría!"
+    subtitle="Aquí hay algunas instrucciones para completar el proceso y confirmar tu espacio."
+  >
+    <h2>1. Pago 💸</h2>
+    <p>
+      Puedes realizar el pago de la reserva de tu sesión (¢10,000) o el pago
+      completo por los siguientes medios:
+    </p>
     <ul>
-      <li>SINPE Móvil: 71369660 - Kevin Aguilar</li>
-      <li>BAC Colones: 703432435 - CR25010200007034324351 - Cédula 116500328</li>      
-      <li>BAC Dólares: 956599203 - CR96010200009565992033 - Cédula 116500328</li>
-      <li><a href="https://paypal.me/kevinguilar">PayPal</a></li>
+      <li>SINPE Móvil: 71369660 - A nombre de Kevin Aguilar</li>
+      <li>
+        BAC Colones: 703432435 - CR25010200007034324351 - Cédula 116500328
+      </li>
+      <li>
+        BAC Dólares: 956599203 - CR96010200009565992033 - Cédula 116500328
+      </li>
+      <li>
+        <a href="https://paypal.me/kevinguilar" target="_blank" rel="noreferrer"
+          >PayPal</a
+        >
+      </li>
     </ul>
-    <br>
     <p>
-      Una vez realizado el pago, por favor envía el comprobante al WhatsApp de
-      RIP Wallet (+506) 7136-9660 o con <a href="https://wa.me/50671369660"
-        >este link</a
-      >
-    </p>
-    <hr />
-    <h2>📝 Cuestionario previo</h2>
-    <p>
-      Para poder crear un plan personalizado necesitamos alguna información
-      extra sobre tus finanzas.
+      Una vez realizado el pago, enviá el comprobante al WhatsApp de RIP Wallet
+      al <a href="https://wa.me/50671369660">(+506) 7136-9660</a>.
     </p>
 
+    <h2>2. Cuestionario previo 📝</h2>
     <p>
-      Por favor llena el cuestionario previo según la asesoría que agendaste,
-      utilizando los botones que se encuentran abajo.
+      Para poder crear un plan personalizado necesitamos información sobre tus
+      finanzas. Por favor llena el cuestionario según la asesoría que agendaste:
     </p>
-    <br>
-
-    <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;">
-      <Button href="https://www.survio.com/survey/d/H6R0M9E9S3D6D6N6O">
-        inversiones
-      </Button>
-      <Button href="https://www.survio.com/survey/d/G1E0E1J4F6M8K2Y2E">
-        Finanzas personales
-      </Button>
-      <Button href="https://www.survio.com/survey/d/R6N9V9T9K5J3M3B9I">
-        Finanzas en pareja
-      </Button>
-    </div>
-    <br>
     <p>
-      ⚠️ Si no completas el formulario al menos 2 días antes de tu sesión es
+      ⚠️ Si no completás el formulario al menos 7 días antes de tu sesión, es
       probable que necesitemos reagendar.
     </p>
-    <hr />
-    <h2>🧑‍💻 Conexión</h2>
-    <p>
-      Cuando llegue el día de tu sesión puedes conectarte por medio de Google
-      Meet, el link lo encontrarás en el correo de confirmación que recibiste
-      cuando agendaste o en tu calendario.
-    </p>
 
-    <p>
-      En caso de necesitar reprogramar tu sesión, puedes escribirnos por medio
-      de WhatsApp.
-    </p>
+    <div>
+      <a href="https://link.ripwallet.co/formulario-finanzas">Finanzas</a>
+    </div>
 
-    <p>Nos vemos! 🥳</p>
-  </main>
-</Document>
+    <div>
+      <a href="https://link.ripwallet.co/formulario-parejas">Parejas</a>
+    </div>
+
+    <div>
+      <a href="https://link.ripwallet.co/formulario-inversiones">Inversiones</a>
+    </div>
+
+    <h2>3. Conexión 🧑‍💻</h2>
+    <p>
+      La sesión que vas a tener es virtual. El link para conectarte lo vas a
+      encontrar en el correo de confirmación que recibiste cuando agendaste, o
+      en tu calendario.
+    </p>
+    <p>
+      En caso de necesitar reprogramar, puedes hacerlo solamente una vez y con
+      36 horas o más de anticipación. Solo nos escribes por WhatsApp y nosotros
+      te ayudamos a reprogramar el espacio.
+    </p>
+    <p>
+      Puedes ver nuestra política de cancelaciones, reprogramaciones y reservas
+      en este <a
+        href="https://ripwallet.co/reservas"
+        target="_blank"
+        rel="noreferrer">link</a
+      >.
+    </p>
+    <p>¡Nos vemos! 🥳</p>
+  </LegalDocument>
+  <Footer />
+</Layout>
+
+<style>
+  a {
+    text-decoration: underline;
+    color: blue;
+  }
+</style>
