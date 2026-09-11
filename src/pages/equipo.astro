@@ -7,6 +7,128 @@ import kevinImg from "../images/kevin.jpg";
 import johannaImg from "../images/johanna.jpg";
 import jostinImg from "../images/jostin_final.jpg";
 import eduardoImg from "../images/eduardo.jpeg";
+import josephImg from "../images/joseph.jpg";
+import brandonImg from "../images/brandon.jpg";
+import joselynImg from "../images/joselyn.jpg";
+
+type TeamMember = {
+  img: ImageMetadata;
+  alt: string;
+  name: string;
+  accent: string;
+  tags: string[];
+  eyebrow: string;
+  bio: string;
+  delay: string;
+  imgPosition?: string;
+};
+
+const team: TeamMember[] = [
+  {
+    img: kevinImg,
+    alt: "Kevin",
+    name: "Kevin",
+    accent: "yellow",
+    tags: ["Fundador", "Asesor"],
+    // Broma pendiente: si activamos el carrusel de tags, Kevin lleva todos los sombreros:
+    // tags: ["Fundador", "Asesor", "Operaciones", "Editor de video", "Escritor", "Community Manager"],
+    eyebrow: "Catador de hamburguesas",
+    bio: "El fundador de RIP Wallet y el que sale en los videos. Me encanta salir a comer, armar legos y compartir con los demás.",
+    delay: "delay-1",
+  },
+  {
+    img: johannaImg,
+    alt: "Perfil de Johanna",
+    name: "Johanna",
+    accent: "pink",
+    tags: ["Operaciones"],
+    eyebrow: "Ex ordenada-desordenada",
+    bio: "Soy project manager desde hace seis años y he trabajado para varias transnacionales. Me gusta mucho comprar ropa e ir al gym.",
+    delay: "delay-2",
+  },
+  {
+    img: joselynImg,
+    alt: "Perfil de Joselyn",
+    name: "Joselyn",
+    accent: "orange",
+    tags: ["Operaciones"],
+    eyebrow: "La más aplicada",
+    bio: "Soy ingeniera en mecatrónica y siempre me preocupo por seguir el presupuesto. Me gusta salir a comer y comprar cafés en Starbucks.",
+    delay: "delay-3",
+  },
+  {
+    img: jostinImg,
+    alt: "Perfil de Jostin",
+    name: "Jostin",
+    accent: "red",
+    tags: ["Asesor"],
+    eyebrow: "Siempre usa gorra",
+    bio: "Soy Administrador de Empresas con experiencia en procesos de administración y logística. Me gustan las motos y salir a comer.",
+    delay: "delay-4",
+  },
+  {
+    img: eduardoImg,
+    alt: "Perfil de Eduardo",
+    name: "Eduardo",
+    accent: "blue",
+    tags: ["Asesor"],
+    eyebrow: "Fiebre del gym",
+    bio: "Soy ingeniero industrial, amante de los números y del presupuesto. Me gusta la naturaleza, hacer ejercicio y gastar en salidas a comer.",
+    delay: "delay-5",
+  },
+  {
+    img: josephImg,
+    alt: "Perfil de Joseph",
+    name: "Joseph",
+    accent: "green",
+    tags: ["Desarrollador"],
+    eyebrow: "Coleccionista de Funkos",
+    bio: "Soy el desarrollador de las apps y las calculadoras de RIP Wallet. Llevo años programando y me gusta jugar pádel y gastar en... pádel.",
+    delay: "delay-6",
+  },
+  {
+    img: brandonImg,
+    alt: "Perfil de Brandon",
+    name: "Brandon",
+    accent: "purple",
+    tags: ["Editor de video"],
+    eyebrow: "Nunca duerme",
+    bio: "Soy el que edita los videos de RIP y atiende los 1000 cambios que pide Kevin. Me gusta pasar con mi familia y gastar en mi perrito.",
+    delay: "delay-7",
+    imgPosition: "center 15%",
+  },
+];
+
+const accentClasses: Record<string, { border: string; tag: string }> = {
+  yellow: {
+    border: "border-yellow-400/40",
+    tag: "bg-yellow-50 text-yellow-700",
+  },
+  pink: {
+    border: "border-pink-400/40",
+    tag: "bg-pink-50 text-pink-700",
+  },
+  red: {
+    border: "border-red-400/40",
+    tag: "bg-red-50 text-red-700",
+  },
+  blue: {
+    border: "border-blue-400/40",
+    tag: "bg-blue-50 text-blue-700",
+  },
+  green: {
+    border: "border-green-400/40",
+    tag: "bg-green-50 text-green-700",
+  },
+  purple: {
+    border: "border-purple-400/40",
+    tag: "bg-purple-50 text-purple-700",
+  },
+  orange: {
+    border: "border-orange-400/40",
+    tag: "bg-orange-50 text-orange-700",
+  },
+};
 ---
 
 <Layout
@@ -29,93 +151,48 @@ import eduardoImg from "../images/eduardo.jpeg";
   </header>
 
   <!-- Cuadrícula de Equipo -->
-  <main class="max-w-5xl mx-auto px-6 pb-32">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Tarjeta 1: Kevin (Amarillo) -->
-      <div class="card-team border-yellow-400/40 animate-reveal delay-1">
-        <div class="profile-img-container">
-          <Image
-            src={kevinImg}
-            alt="Kevin"
-            onerror="this.src='https://via.placeholder.com/150/ffffff/e5e7eb?text=Kevin'"
-            style="border-radius: 8px;"
-          />
-        </div>
-        <h3 class="text-xl font-bold text-gray-900">Kevin</h3>
-        <p
-          class="text-[9px] font-bold uppercase tracking-[0.2em] text-yellow-600 mb-6"
-        >
-          Catador de hamburguesas
-        </p>
-        <p class="text-xs text-gray-500 leading-relaxed">
-          El fundador de RIP Wallet y el que sale en los videos. Me encanta
-          salir a comer, armar legos y compartir con los demás.
-        </p>
-      </div>
-
-      <!-- Tarjeta 2: Johanna (Rosado) -->
-      <div class="card-team border-pink-400/40 animate-reveal delay-2">
-        <div class="profile-img-container">
-          <Image
-            src={johannaImg}
-            alt="Perfil de Johanna"
-            onerror="this.src='https://via.placeholder.com/150/ffffff/e5e7eb?text=Johanna'"
-          />
-        </div>
-        <h3 class="text-xl font-bold text-gray-900">Johanna</h3>
-        <p
-          class="text-[9px] font-bold uppercase tracking-[0.2em] text-pink-600 mb-6"
-        >
-          Ex ordenada-desordenada
-        </p>
-        <p class="text-xs text-gray-500 leading-relaxed">
-          Soy project manager desde hace seis años y he trabajado para varias
-          transnacionales. Me gusta mucho comprar ropa e ir al gym.
-        </p>
-      </div>
-
-      <!-- Tarjeta 3: Jostin (Rojo) -->
-      <div class="card-team border-red-400/40 animate-reveal delay-3">
-        <div class="profile-img-container">
-          <Image
-            src={jostinImg}
-            alt="Perfil de Operaciones"
-            onerror="this.src='https://via.placeholder.com/150/ffffff/e5e7eb?text=Jostin'"
-          />
-        </div>
-        <h3 class="text-xl font-bold text-gray-900">Jostin</h3>
-        <p
-          class="text-[9px] font-bold uppercase tracking-[0.2em] text-red-600 mb-6"
-        >
-          Siempre usa gorra
-        </p>
-        <p class="text-xs text-gray-500 leading-relaxed">
-          Soy Administrador de Empresas con experiencia en proyectos de
-          educación financiera y procesos de administración y logística. Me
-          gustan las motos y salir a comer.
-        </p>
-      </div>
-
-      <!-- Tarjeta 4: Eduardo (Azul) -->
-      <div class="card-team border-blue-400/40 animate-reveal delay-4">
-        <div class="profile-img-container">
-          <Image
-            src={eduardoImg}
-            alt="Perfil de Tecnología"
-            onerror="this.src='https://via.placeholder.com/150/ffffff/e5e7eb?text=Eduardo'"
-          />
-        </div>
-        <h3 class="text-xl font-bold text-gray-900">Eduardo</h3>
-        <p
-          class="text-[9px] font-bold uppercase tracking-[0.2em] text-blue-600 mb-6"
-        >
-          Fiebre del gym
-        </p>
-        <p class="text-xs text-gray-500 leading-relaxed">
-          Soy ingeniero industrial, amante de los números y del presupuesto. Me
-          gusta la naturaleza, hacer ejercicio y gastar en salidas a comer.
-        </p>
-      </div>
+  <main class="max-w-6xl mx-auto px-6 pb-32">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        team.map((member) => (
+          <div
+            class={`card-team ${accentClasses[member.accent].border} animate-reveal ${member.delay}`}
+          >
+            <div class="profile-img-container">
+              <Image
+                src={member.img}
+                alt={member.alt}
+                style={`border-radius: 8px; object-position: ${member.imgPosition ?? "center"};`}
+              />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900">{member.name}</h3>
+            <p class="text-sm text-gray-400 mt-1 mb-3">
+              {member.eyebrow}
+            </p>
+            {
+              /* Carrusel horizontal de tags (pendiente de activar):
+              <div class="tag-carousel flex flex-nowrap gap-2 mb-4 overflow-x-auto w-full">
+                {member.tags.map((tag) => (
+                  <span class={`shrink-0 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${accentClasses[member.accent].tag}`}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              */
+            }
+            <div class="flex flex-wrap gap-2 mb-4">
+              {member.tags.map((tag) => (
+                <span
+                  class={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${accentClasses[member.accent].tag}`}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p class="text-xs text-gray-500 leading-relaxed">{member.bio}</p>
+          </div>
+        ))
+      }
     </div>
 
     <!-- CTA -->
@@ -177,6 +254,17 @@ import eduardoImg from "../images/eduardo.jpeg";
     object-fit: cover;
   }
 
+  /* Carrusel de tags (pendiente de activar): scroll horizontal sin barra visible
+  .tag-carousel {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tag-carousel::-webkit-scrollbar {
+    display: none;
+  }
+  */
+
   @keyframes reveal {
     from {
       opacity: 0;
@@ -204,5 +292,14 @@ import eduardoImg from "../images/eduardo.jpeg";
   }
   .delay-4 {
     animation-delay: 0.4s;
+  }
+  .delay-5 {
+    animation-delay: 0.5s;
+  }
+  .delay-6 {
+    animation-delay: 0.6s;
+  }
+  .delay-7 {
+    animation-delay: 0.7s;
   }
 </style>
