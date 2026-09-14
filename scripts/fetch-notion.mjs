@@ -101,7 +101,8 @@ function normalizeInversion(page) {
     status: selectName(p["Status"]),
     cierre: p["Cierre"]?.date?.start ?? null,
     aporteUnico: p["Aporte Único"]?.number ?? 0,
-    aporteRegular: p["Aporte Regular"]?.number ?? 0,
+    aporteRegular: p["Aporte Regular"]?.number ?? null,
+    plazo: p["Plazo"]?.number ?? null,
     clienteIds: relationIds(p["Cliente"]),
   };
 }

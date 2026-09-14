@@ -1,6 +1,6 @@
 // Fetches the last ~6 months of Instagram Reels and TikTok posts for the
 // RIP Wallet account from the Metricool API, and writes
-// src/data/video-insights.json for the /rendimiento-videos page.
+// src/data/video-insights.json for the Videos tab on /biznus.
 //
 // Endpoints confirmed against Metricool's official OpenAPI spec
 // (https://app.metricool.com/api/swagger.json) as of 2026-09:

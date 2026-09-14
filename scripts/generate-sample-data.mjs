@@ -1,5 +1,5 @@
 // Generates a realistic fake dataset and writes src/data/video-insights.json,
-// so /rendimiento-videos can be built and reviewed before Metricool
+// so the Videos tab on /biznus can be built and reviewed before Metricool
 // credentials are available. Uses the exact same buildDashboard() function
 // that fetch-metricool.mjs uses, so the page never has to know which source
 // produced the data.

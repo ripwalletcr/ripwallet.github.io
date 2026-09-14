@@ -3,168 +3,157 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import {
+  Clock,
   CalendarCheck,
   Percent,
   DollarSign,
+  Star,
+  Users,
   Target,
   TrendingUp,
-  Clock,
-  Users,
+  Timer,
+  Repeat,
+  Trophy,
+  Eye,
+  Heart,
+  Share2,
+  Flame,
+  Bookmark,
+  RefreshCw,
+  Lightbulb,
 } from "@lucide/astro";
-import dashboard from "../data/business-insights.json";
+import business from "../data/business-insights.json";
+import videoDashboard from "../data/video-insights.json";
 
-const {
-  generatedAt,
-  source,
-  kpis,
-  monthlyTrend,
-  sessionBreakdown,
-  inversionesFunnel,
-  bestTimeToBook,
-  advisorPerformance,
-  advisorPerformanceWindow,
-} = dashboard;
-
-const numberFmt = new Intl.NumberFormat("es-CR");
-const crcFmt = new Intl.NumberFormat("es-CR", {
-  style: "currency",
-  currency: "CRC",
-  maximumFractionDigits: 0,
-});
 const dateTimeFmt = new Intl.DateTimeFormat("es-CR", {
   dateStyle: "medium",
   timeStyle: "short",
   timeZone: "America/Costa_Rica",
 });
-const monthFmt = new Intl.DateTimeFormat("es-CR", {
-  month: "short",
-  year: "numeric",
-  timeZone: "UTC",
+const numberFmt = new Intl.NumberFormat("es-CR");
+const dateFmt = new Intl.DateTimeFormat("es-CR", {
+  dateStyle: "medium",
+  timeZone: "America/Costa_Rica",
 });
 
-function monthLabel(month: string) {
-  return monthFmt.format(new Date(`${month}-01T00:00:00Z`));
+function truncate(text: string, max = 70) {
+  if (!text) return "";
+  return text.length > max ? text.slice(0, max).trim() + "…" : text;
 }
 
 const hours = Array.from({ length: 24 }, (_, i) => i);
+const networkLabels: Record<string, string> = { tiktok: "TikTok", instagram: "Instagram" };
+
+const {
+  kpis: videoKpis,
+  weeklyTrend,
+  tiktokTopics,
+  topVideos,
+  remakeCandidates,
+  networkComparison30d,
+  bestTimeToPost,
+  contentIdeas,
+} = videoDashboard;
 ---
 
 <Layout
   title="Rendimiento de Negocio | RIP Wallet"
-  description="Dashboard interno de asesorías, cierres de inversiones y horarios de RIP Wallet."
+  description="Dashboard interno de asesorías, inversiones y video de RIP Wallet."
 >
   <Navbar currentPath="/biznus" />
 
   <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
-    <header class="mb-12 animate-reveal">
+    <header class="mb-8 animate-reveal">
       <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-3">
         Rendimiento de Negocio
       </h1>
       <p class="text-sm text-gray-500 flex flex-wrap items-center gap-2">
-        <Clock class="w-3.5 h-3.5" /> Última actualización: {dateTimeFmt.format(
-          new Date(generatedAt),
+        <Clock class="w-3.5 h-3.5" /> Asesorías e inversiones actualizado: {dateTimeFmt.format(
+          new Date(business.generatedAt),
         )}
-        {source === "notion" && <span class="status-dot-badge">Datos reales de Notion</span>}
+        {business.source === "notion" && <span class="status-dot-badge">Datos reales de Notion</span>}
       </p>
     </header>
 
-    <!-- KPIs -->
-    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12 animate-reveal">
-      <div class="card-outline">
-        <CalendarCheck class="w-4 h-4 text-gray-400 mb-3" />
-        <p class="text-2xl font-bold">{numberFmt.format(kpis.totalAsesorias)}</p>
-        <p class="kpi-label">Asesorías totales</p>
-      </div>
-      <div class="card-outline">
-        <Percent class="w-4 h-4 text-gray-400 mb-3" />
-        <p class="text-2xl font-bold">{kpis.tasaPagoCompleto}%</p>
-        <p class="kpi-label">Pago completo</p>
-      </div>
-      <div class="card-outline">
-        <DollarSign class="w-4 h-4 text-gray-400 mb-3" />
-        <p class="text-2xl font-bold">{crcFmt.format(kpis.ingresoTotalCRC)}</p>
-        <p class="kpi-label">Ingreso por asesorías</p>
-      </div>
-      <div class="card-outline">
-        <Users class="w-4 h-4 text-gray-400 mb-3" />
-        <p class="text-2xl font-bold">{numberFmt.format(kpis.inversionesAtendidas)}</p>
-        <p class="kpi-label">Clientes atendidos (inversiones)</p>
-      </div>
-      <div class="card-outline">
-        <Target class="w-4 h-4 text-gray-400 mb-3" />
-        <p class="text-2xl font-bold">{numberFmt.format(kpis.inversionesCerradas)}</p>
-        <p class="kpi-label">Inversiones cerradas</p>
-      </div>
-      <div class="card-outline">
-        <TrendingUp class="w-4 h-4 text-gray-400 mb-3" />
-        <p class="text-2xl font-bold">{kpis.tasaCierreInversiones}%</p>
-        <p class="kpi-label">Tasa de cierre</p>
-      </div>
-    </section>
-
-    <!-- Monthly trend -->
-    <section class="card-outline mb-12 animate-reveal">
-      <h2 class="section-title">Asesorías e ingreso por mes</h2>
-      <div class="h-72">
-        <canvas id="monthlyTrendChart"></canvas>
-      </div>
-    </section>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-      <!-- Session breakdown -->
-      <section class="card-outline animate-reveal">
-        <h2 class="section-title">Asesorías por tipo de sesión</h2>
-        <div class="overflow-x-auto">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th class="text-right">Total</th>
-                <th class="text-right">Pagadas</th>
-                <th class="text-right">Ingreso</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                sessionBreakdown.map((s) => (
-                  <tr>
-                    <td>{s.sesion}</td>
-                    <td class="text-right">{s.total}</td>
-                    <td class="text-right">{s.pagadas}</td>
-                    <td class="text-right">{crcFmt.format(s.ingreso)}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Best time to book -->
-      <section class="card-outline animate-reveal">
-        <h2 class="section-title">Horario más efectivo</h2>
-        <p class="text-xs text-gray-400 mb-4">
-          Reservas normalizadas sobre el pico del día · hora Costa Rica
-        </p>
-        <div class="h-56">
-          <canvas id="bestTimeChart"></canvas>
-        </div>
-      </section>
+    <!-- Tabs -->
+    <div class="tabs-nav mb-6 animate-reveal">
+      <button type="button" class="tab-btn active" data-tab="asesorias">Asesorías</button>
+      <button type="button" class="tab-btn" data-tab="inversiones">Inversiones</button>
+      <button type="button" class="tab-btn" data-tab="videos">Videos</button>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-      <!-- Inversiones funnel -->
-      <section class="card-outline animate-reveal">
-        <h2 class="section-title">Inversiones: atendidos vs cerrados</h2>
-        <div class="h-64">
-          <canvas id="funnelChart"></canvas>
+    <!-- Filters (asesorías / inversiones only) -->
+    <div id="filterBar" class="filter-bar mb-10 animate-reveal">
+      <button type="button" class="filter-btn" data-filter="month">Este mes</button>
+      <button type="button" class="filter-btn" data-filter="3m">Últimos 3 meses</button>
+      <button type="button" class="filter-btn active" data-filter="ytd">YTD</button>
+      <button type="button" class="filter-btn" data-filter="all">Todo</button>
+    </div>
+
+    <!-- ============ TAB: ASESORÍAS ============ -->
+    <div id="tab-asesorias" class="tab-panel">
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 animate-reveal">
+        <div class="card-outline">
+          <CalendarCheck class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiAsesoriasTotal">—</p>
+          <p class="kpi-label">Asesorías totales</p>
+        </div>
+        <div class="card-outline">
+          <Percent class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiTasaPago">—</p>
+          <p class="kpi-label">Pago completo</p>
+        </div>
+        <div class="card-outline">
+          <DollarSign class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiIngreso">—</p>
+          <p class="kpi-label">Ingreso por asesorías</p>
+        </div>
+        <div class="card-outline">
+          <Star class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiProductoEfectivo">—</p>
+          <p class="kpi-label">Producto más costo-efectivo</p>
+          <p class="kpi-sub" id="kpiProductoEfectivoSub"></p>
         </div>
       </section>
 
-      <!-- Advisor performance -->
+      <section class="card-outline mb-12 animate-reveal">
+        <h2 class="section-title">Asesorías e ingreso por mes</h2>
+        <div class="h-72">
+          <canvas id="monthlyTrendChart"></canvas>
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <section class="card-outline animate-reveal">
+          <h2 class="section-title">Asesorías por tipo de sesión</h2>
+          <div class="overflow-x-auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th class="text-right">Total</th>
+                  <th class="text-right">Pagadas</th>
+                  <th class="text-right">Ingreso</th>
+                </tr>
+              </thead>
+              <tbody id="sessionTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card-outline animate-reveal">
+          <h2 class="section-title">Horario más efectivo</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            Reservas normalizadas sobre el pico del día · hora Costa Rica · últimos {business.months.length} meses
+          </p>
+          <div class="h-56">
+            <canvas id="bestTimeChartAsesorias"></canvas>
+          </div>
+        </section>
+      </div>
+
       <section class="card-outline animate-reveal">
         <h2 class="section-title">Rendimiento por asesor</h2>
-        <p class="text-xs text-gray-400 mb-4">{advisorPerformanceWindow}</p>
         <table class="data-table">
           <thead>
             <tr>
@@ -174,19 +163,271 @@ const hours = Array.from({ length: 24 }, (_, i) => i);
               <th class="text-right">Ingreso</th>
             </tr>
           </thead>
-          <tbody>
-            {
-              advisorPerformance.map((a) => (
+          <tbody id="advisorTableBody"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <!-- ============ TAB: INVERSIONES ============ -->
+    <div id="tab-inversiones" class="tab-panel" hidden>
+      <section class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 animate-reveal">
+        <div class="card-outline">
+          <Users class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiInvAtendidos">—</p>
+          <p class="kpi-label">Clientes atendidos</p>
+        </div>
+        <div class="card-outline">
+          <Target class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiInvCerrados">—</p>
+          <p class="kpi-label">Clientes con inversión cerrada</p>
+        </div>
+        <div class="card-outline">
+          <TrendingUp class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiInvTasaCierre">—</p>
+          <p class="kpi-label">Tasa de cierre</p>
+        </div>
+        <div class="card-outline">
+          <Timer class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiInvPlazo">—</p>
+          <p class="kpi-label">Plazo promedio</p>
+        </div>
+        <div class="card-outline">
+          <Repeat class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiInvAporteRegular">—</p>
+          <p class="kpi-label">Aporte regular promedio</p>
+        </div>
+        <div class="card-outline">
+          <Trophy class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold" id="kpiInvMesRecord">—</p>
+          <p class="kpi-label">Mes con más cierres</p>
+          <p class="kpi-sub" id="kpiInvMesRecordSub"></p>
+        </div>
+      </section>
+
+      <p class="text-xs text-gray-400 mb-4 -mt-8">
+        Tasa de cierre = clientes distintos con una inversión Ganada ÷ clientes distintos atendidos en
+        asesorías de Inversiones. Plazo, aporte regular y mes récord son sobre inversiones Ganadas.
+      </p>
+
+      <section class="card-outline animate-reveal">
+        <h2 class="section-title">Inversiones: atendidos vs cerrados</h2>
+        <div class="h-72">
+          <canvas id="funnelChart"></canvas>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ TAB: VIDEOS ============ -->
+    <div id="tab-videos" class="tab-panel" hidden>
+      <p class="text-sm text-gray-500 flex flex-wrap items-center gap-2 mb-8">
+        <Clock class="w-3.5 h-3.5" /> Videos actualizado: {dateTimeFmt.format(
+          new Date(videoDashboard.generatedAt),
+        )}
+        {
+          videoDashboard.source === "sample" && (
+            <span class="status-dot-badge">Datos de muestra — conecta Metricool para ver datos reales</span>
+          )
+        }
+      </p>
+
+      <section class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12 animate-reveal">
+        <div class="card-outline">
+          <Eye class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold">{numberFmt.format(videoKpis.totalViews)}</p>
+          <p class="kpi-label">Vistas totales</p>
+        </div>
+        <div class="card-outline">
+          <TrendingUp class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold">{numberFmt.format(videoKpis.avgViewsPerVideo)}</p>
+          <p class="kpi-label">Vistas promedio / video</p>
+        </div>
+        <div class="card-outline">
+          <Heart class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold">{videoKpis.avgEngagementRate}%</p>
+          <p class="kpi-label">Engagement promedio</p>
+        </div>
+        <div class="card-outline">
+          <Share2 class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold">{numberFmt.format(videoKpis.sharesTotal.tiktok)}</p>
+          <p class="kpi-label">Shares TikTok</p>
+        </div>
+        <div class="card-outline">
+          <Share2 class="w-4 h-4 text-gray-400 mb-3" />
+          <p class="text-2xl font-bold">{numberFmt.format(videoKpis.sharesTotal.instagram)}</p>
+          <p class="kpi-label">Shares Instagram</p>
+        </div>
+      </section>
+
+      <section class="card-outline mb-12 animate-reveal">
+        <h2 class="section-title">Tendencia semanal de vistas</h2>
+        <div class="h-72">
+          <canvas id="weeklyTrendChartVideos"></canvas>
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <section class="card-outline animate-reveal">
+          <h2 class="section-title">Rendimiento por tema (TikTok)</h2>
+          <div class="overflow-x-auto">
+            <table class="data-table">
+              <thead>
                 <tr>
-                  <td>{a.asesor}</td>
-                  <td class="text-right">{a.total}</td>
-                  <td class="text-right">{a.pagadas}</td>
-                  <td class="text-right">{a.ingreso == null ? "—" : crcFmt.format(a.ingreso)}</td>
+                  <th>Tema</th>
+                  <th class="text-right">Videos</th>
+                  <th class="text-right">Vistas prom.</th>
+                  <th class="text-right">Engagement</th>
+                  <th class="text-right">Shares prom.</th>
                 </tr>
+              </thead>
+              <tbody>
+                {
+                  tiktokTopics.map((topic) => (
+                    <tr>
+                      <td>{topic.label}</td>
+                      <td class="text-right">{topic.videoCount}</td>
+                      <td class="text-right">{numberFmt.format(topic.avgViews)}</td>
+                      <td class="text-right">{topic.avgEngagementRate}%</td>
+                      <td class="text-right">{topic.avgShares}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card-outline animate-reveal">
+          <h2 class="section-title">Mejor momento para publicar</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            Ritmo horario normalizado sobre el pico del día · hora Costa Rica
+          </p>
+          <div class="h-56">
+            <canvas id="bestTimeChartVideos"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <section class="mb-12 animate-reveal">
+        <h2 class="section-title mb-6">Top videos</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="card-outline">
+            <h3 class="subsection-title">
+              <Flame class="w-3.5 h-3.5 mr-1.5 inline" /> TikTok por vistas
+            </h3>
+            <ul class="video-list">
+              {
+                topVideos.tiktokByViews.slice(0, 5).map((v) => (
+                  <li>
+                    <a href={v.url} target="_blank" rel="noopener noreferrer">
+                      {truncate(v.caption, 55)}
+                    </a>
+                    <span class="video-metric">{numberFmt.format(v.views)} vistas</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="card-outline">
+            <h3 class="subsection-title">
+              <Flame class="w-3.5 h-3.5 mr-1.5 inline" /> Instagram por vistas
+            </h3>
+            <ul class="video-list">
+              {
+                topVideos.instagramByViews.slice(0, 5).map((v) => (
+                  <li>
+                    <a href={v.url} target="_blank" rel="noopener noreferrer">
+                      {truncate(v.caption, 55)}
+                    </a>
+                    <span class="video-metric">{numberFmt.format(v.views)} vistas</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="card-outline">
+            <h3 class="subsection-title">
+              <Bookmark class="w-3.5 h-3.5 mr-1.5 inline" /> Reels por guardados
+            </h3>
+            <ul class="video-list">
+              {
+                topVideos.instagramBySaves.slice(0, 5).map((v) => (
+                  <li>
+                    <a href={v.url} target="_blank" rel="noopener noreferrer">
+                      {truncate(v.caption, 55)}
+                    </a>
+                    <span class="video-metric">{numberFmt.format(v.saved)} guardados</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <section class="card-outline animate-reveal">
+          <h2 class="section-title">
+            <RefreshCw class="w-4 h-4 mr-1.5 inline" /> Candidatos para rehacer
+          </h2>
+          <ul class="video-list">
+            {
+              remakeCandidates.map((v) => (
+                <li>
+                  <a href={v.url} target="_blank" rel="noopener noreferrer">
+                    {networkLabels[v.network]} · {truncate(v.caption, 45)}
+                  </a>
+                  <span class="video-metric">
+                    {numberFmt.format(v.views)} vistas · {dateFmt.format(new Date(v.publishedAt))}
+                  </span>
+                </li>
               ))
             }
-          </tbody>
-        </table>
+          </ul>
+        </section>
+
+        <section class="card-outline animate-reveal">
+          <h2 class="section-title">Instagram vs TikTok (últimos 30 días)</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Métrica</th>
+                <th class="text-right">Instagram</th>
+                <th class="text-right">TikTok</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vistas totales</td>
+                <td class="text-right">{numberFmt.format(networkComparison30d.instagram.totalViews)}</td>
+                <td class="text-right">{numberFmt.format(networkComparison30d.tiktok.totalViews)}</td>
+              </tr>
+              <tr>
+                <td>Vistas prom. / video</td>
+                <td class="text-right">{numberFmt.format(networkComparison30d.instagram.avgViewsPerVideo)}</td>
+                <td class="text-right">{numberFmt.format(networkComparison30d.tiktok.avgViewsPerVideo)}</td>
+              </tr>
+              <tr>
+                <td>Shares promedio</td>
+                <td class="text-right">{networkComparison30d.instagram.avgShares}</td>
+                <td class="text-right">{networkComparison30d.tiktok.avgShares}</td>
+              </tr>
+              <tr>
+                <td>Engagement rate</td>
+                <td class="text-right">{networkComparison30d.instagram.avgEngagementRate}%</td>
+                <td class="text-right">{networkComparison30d.tiktok.avgEngagementRate}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <section class="card-outline animate-reveal">
+        <h2 class="section-title">
+          <Lightbulb class="w-4 h-4 mr-1.5 inline" /> Ideas de contenido nuevo
+        </h2>
+        <ul class="idea-list">
+          {contentIdeas.map((idea) => <li>{idea}</li>)}
+        </ul>
       </section>
     </div>
   </main>
@@ -196,143 +437,399 @@ const hours = Array.from({ length: 24 }, (_, i) => i);
 
 <script
   type="application/json"
-  id="chart-data"
-  set:html={JSON.stringify({
-    monthlyTrend: monthlyTrend.map((m) => ({ ...m, label: monthLabel(m.month) })),
-    inversionesFunnel: inversionesFunnel.map((m) => ({ ...m, label: monthLabel(m.month) })),
-    bestTimeToBook,
-    hours,
-  })}
+  id="business-data"
+  set:html={JSON.stringify(business)}
+/>
+<script
+  type="application/json"
+  id="video-data"
+  set:html={JSON.stringify({ weeklyTrend, bestTimeToPost, hours })}
 />
 
 <script>
   import Chart from "chart.js/auto";
 
-  const chartDataEl = document.getElementById("chart-data");
-  const { monthlyTrend, inversionesFunnel, bestTimeToBook, hours } = JSON.parse(
-    chartDataEl?.textContent || "{}",
-  );
+  const biz = JSON.parse(document.getElementById("business-data")?.textContent || "{}");
+  const vid = JSON.parse(document.getElementById("video-data")?.textContent || "{}");
 
-  {
-    const monthlyCanvas = document.getElementById("monthlyTrendChart");
-    if (monthlyCanvas) {
-      new Chart(monthlyCanvas.getContext("2d"), {
-        type: "bar",
-        data: {
-          labels: monthlyTrend.map((m) => m.label),
-          datasets: [
-            {
-              type: "bar",
-              label: "Asesorías",
-              data: monthlyTrend.map((m) => m.total),
-              backgroundColor: "rgba(23, 163, 74, 0.7)",
-              yAxisID: "y",
-            },
-            {
-              type: "line",
-              label: "Ingreso (₡)",
-              data: monthlyTrend.map((m) => m.ingreso),
-              borderColor: "#2563eb",
-              backgroundColor: "rgba(37, 99, 235, 0.08)",
-              borderWidth: 2,
-              pointRadius: 0,
-              fill: true,
-              tension: 0.3,
-              yAxisID: "y1",
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
-          scales: {
-            y: {
-              position: "left",
-              ticks: { font: { size: 9 }, color: "#9ca3af" },
-              grid: { color: "#f1f5f9" },
-            },
-            y1: {
-              position: "right",
-              ticks: { font: { size: 9 }, color: "#9ca3af" },
-              grid: { display: false },
-            },
-            x: {
-              ticks: { font: { size: 8 }, color: "#9ca3af", maxRotation: 0 },
-              grid: { display: false },
-            },
-          },
-        },
-      });
+  const numberFmt = new Intl.NumberFormat("es-CR");
+  const crcFmt = new Intl.NumberFormat("es-CR", {
+    style: "currency",
+    currency: "CRC",
+    maximumFractionDigits: 0,
+  });
+  const usdFmt = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  });
+  const monthFmt = new Intl.DateTimeFormat("es-CR", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+  const monthLabel = (m: string) => monthFmt.format(new Date(`${m}-01T00:00:00Z`));
+
+  function monthsForFilter(filter: string): string[] {
+    const all: string[] = biz.months || [];
+    if (all.length === 0) return [];
+    const current = all[all.length - 1];
+    if (filter === "month") return [current];
+    if (filter === "3m") return all.slice(-3);
+    if (filter === "ytd") {
+      const year = current.slice(0, 4);
+      return all.filter((m: string) => m.startsWith(year));
     }
+    return all;
+  }
 
-    const bestTimeCanvas = document.getElementById("bestTimeChart");
-    if (bestTimeCanvas) {
-      new Chart(bestTimeCanvas.getContext("2d"), {
-        type: "bar",
-        data: {
-          labels: hours.map((h) => `${h}h`),
-          datasets: [
-            {
-              label: "Reservas",
-              data: bestTimeToBook,
-              backgroundColor: "rgba(23, 163, 74, 0.7)",
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { min: 0, max: 1, ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
-            x: { ticks: { font: { size: 8 }, color: "#9ca3af" }, grid: { display: false } },
-          },
-        },
-      });
+  type Row = { month: string; [key: string]: any };
+
+  function groupSum(rows: Row[], keyField: string) {
+    const map = new Map<string, { key: string; total: number; pagadas: number; ingreso: number }>();
+    for (const r of rows) {
+      const key = r[keyField];
+      if (!map.has(key)) map.set(key, { key, total: 0, pagadas: 0, ingreso: 0 });
+      const b = map.get(key)!;
+      b.total += r.total;
+      b.pagadas += r.pagadas;
+      b.ingreso += r.ingreso;
     }
+    return [...map.values()].sort((a, b) => b.total - a.total);
+  }
 
-    const funnelCanvas = document.getElementById("funnelChart");
-    if (funnelCanvas) {
-      new Chart(funnelCanvas.getContext("2d"), {
-        type: "line",
-        data: {
-          labels: inversionesFunnel.map((m) => m.label),
-          datasets: [
-            {
-              label: "Clientes atendidos",
-              data: inversionesFunnel.map((m) => m.clientesAtendidos),
-              borderColor: "#2563eb",
-              backgroundColor: "rgba(37, 99, 235, 0.06)",
-              borderWidth: 2,
-              pointRadius: 2,
-              fill: true,
-              tension: 0.3,
-            },
-            {
-              label: "Cerrados (Ganado)",
-              data: inversionesFunnel.map((m) => m.cierresGanados),
-              borderColor: "#17A34A",
-              backgroundColor: "rgba(23, 163, 74, 0.08)",
-              borderWidth: 2,
-              pointRadius: 2,
-              fill: true,
-              tension: 0.3,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
-          scales: {
-            y: { ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
-            x: { ticks: { font: { size: 8 }, color: "#9ca3af", maxRotation: 0 }, grid: { display: false } },
-          },
-        },
-      });
+  function renderRows(tbodyId: string, rows: { key: string; total: number; pagadas: number; ingreso: number }[]) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    tbody.innerHTML = rows
+      .map(
+        (r) => `<tr>
+          <td>${r.key}</td>
+          <td class="text-right">${r.total}</td>
+          <td class="text-right">${r.pagadas}</td>
+          <td class="text-right">${crcFmt.format(r.ingreso)}</td>
+        </tr>`,
+      )
+      .join("");
+  }
+
+  let monthlyTrendChart: Chart | undefined;
+  let bestTimeChartAsesorias: Chart | undefined;
+  let funnelChart: Chart | undefined;
+  let weeklyTrendChartVideos: Chart | undefined;
+  let bestTimeChartVideos: Chart | undefined;
+
+  function updateAsesoriasView(filter: string) {
+    const months = monthsForFilter(filter);
+    const trendRows: Row[] = (biz.asesoriasByMonth || []).filter((r: Row) => months.includes(r.month));
+
+    const total = trendRows.reduce((s, r) => s + r.total, 0);
+    const pagadas = trendRows.reduce((s, r) => s + r.pagadas, 0);
+    const ingreso = trendRows.reduce((s, r) => s + r.ingreso, 0);
+
+    setText("kpiAsesoriasTotal", numberFmt.format(total));
+    setText("kpiTasaPago", total > 0 ? `${Math.round((pagadas / total) * 1000) / 10}%` : "—");
+    setText("kpiIngreso", crcFmt.format(ingreso));
+
+    const sessionRows: Row[] = (biz.sessionByMonth || []).filter((r: Row) => months.includes(r.month));
+    const sessionAgg = groupSum(sessionRows, "sesion");
+    renderRows("sessionTableBody", sessionAgg);
+
+    const best = sessionAgg
+      .filter((r) => r.key !== "Sin categoría" && r.pagadas > 0)
+      .sort((a, b) => b.ingreso / b.pagadas - a.ingreso / a.pagadas)[0];
+    setText("kpiProductoEfectivo", best ? best.key : "—");
+    setText(
+      "kpiProductoEfectivoSub",
+      best ? `${crcFmt.format(Math.round(best.ingreso / best.pagadas))} / asesoría` : "",
+    );
+
+    const advisorRows: Row[] = (biz.advisorByMonth || []).filter((r: Row) => months.includes(r.month));
+    renderRows("advisorTableBody", groupSum(advisorRows, "asesor"));
+
+    if (monthlyTrendChart) {
+      monthlyTrendChart.data.labels = trendRows.map((r) => monthLabel(r.month));
+      monthlyTrendChart.data.datasets[0].data = trendRows.map((r) => r.total);
+      monthlyTrendChart.data.datasets[1].data = trendRows.map((r) => r.ingreso);
+      monthlyTrendChart.update();
     }
   }
+
+  function updateInversionesView(filter: string) {
+    const months = monthsForFilter(filter);
+    const funnelRows: Row[] = (biz.inversionesFunnelByMonth || []).filter((r: Row) =>
+      months.includes(r.month),
+    );
+
+    let atendidos: number;
+    let cerrados: number;
+    if (filter === "all") {
+      atendidos = biz.kpisAllTime?.inversionesAtendidasDistinct ?? 0;
+      cerrados = biz.kpisAllTime?.inversionesCerradasDistinct ?? 0;
+    } else {
+      atendidos = funnelRows.reduce((s, r) => s + r.clientesAtendidos, 0);
+      cerrados = funnelRows.reduce((s, r) => s + r.cierresGanadosClientesDistintos, 0);
+    }
+    const tasa = atendidos > 0 ? Math.round((cerrados / atendidos) * 1000) / 10 : 0;
+
+    setText("kpiInvAtendidos", numberFmt.format(atendidos));
+    setText("kpiInvCerrados", numberFmt.format(cerrados));
+    setText("kpiInvTasaCierre", `${tasa}%`);
+
+    const plazoRows: Row[] = (biz.inversionesPlazoAporteByMonth || []).filter((r: Row) =>
+      months.includes(r.month),
+    );
+    const plazoSum = plazoRows.reduce((s, r) => s + r.plazoSum, 0);
+    const plazoN = plazoRows.reduce((s, r) => s + r.plazoN, 0);
+    const aporteSum = plazoRows.reduce((s, r) => s + r.aporteRegularSum, 0);
+    const aporteN = plazoRows.reduce((s, r) => s + r.aporteRegularN, 0);
+
+    setText("kpiInvPlazo", plazoN > 0 ? `${Math.round((plazoSum / plazoN) * 10) / 10} años` : "—");
+    setText("kpiInvAporteRegular", aporteN > 0 ? usdFmt.format(Math.round(aporteSum / aporteN)) : "—");
+
+    const rec = biz.kpisAllTime?.mesConMasCierres;
+    setText("kpiInvMesRecord", rec ? monthLabel(rec.month) : "—");
+    setText("kpiInvMesRecordSub", rec ? `${rec.cierres} cierres` : "");
+
+    if (funnelChart) {
+      funnelChart.data.labels = funnelRows.map((r) => monthLabel(r.month));
+      funnelChart.data.datasets[0].data = funnelRows.map((r) => r.clientesAtendidos);
+      funnelChart.data.datasets[1].data = funnelRows.map((r) => r.cierresGanadosClientesDistintos);
+      funnelChart.update();
+    }
+  }
+
+  function setText(id: string, text: string) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  function initChartsForTab(tab: string) {
+    if (tab === "asesorias" && !monthlyTrendChart) {
+      const canvas = document.getElementById("monthlyTrendChart") as HTMLCanvasElement | null;
+      if (canvas) {
+        monthlyTrendChart = new Chart(canvas.getContext("2d")!, {
+          type: "bar",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                type: "bar",
+                label: "Asesorías",
+                data: [],
+                backgroundColor: "rgba(23, 163, 74, 0.7)",
+                yAxisID: "y",
+              },
+              {
+                type: "line",
+                label: "Ingreso (₡)",
+                data: [],
+                borderColor: "#2563eb",
+                backgroundColor: "rgba(37, 99, 235, 0.08)",
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: true,
+                tension: 0.3,
+                yAxisID: "y1",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
+            scales: {
+              y: { position: "left", ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
+              y1: { position: "right", ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { display: false } },
+              x: { ticks: { font: { size: 8 }, color: "#9ca3af", maxRotation: 0 }, grid: { display: false } },
+            },
+          },
+        });
+      }
+
+      const bestTimeCanvas = document.getElementById("bestTimeChartAsesorias") as HTMLCanvasElement | null;
+      if (bestTimeCanvas) {
+        bestTimeChartAsesorias = new Chart(bestTimeCanvas.getContext("2d")!, {
+          type: "bar",
+          data: {
+            labels: (biz.months ? Array.from({ length: 24 }, (_, h) => h) : []).map((h: number) => `${h}h`),
+            datasets: [
+              {
+                label: "Reservas",
+                data: biz.bestTimeToBook || [],
+                backgroundColor: "rgba(23, 163, 74, 0.7)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { min: 0, max: 1, ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
+              x: { ticks: { font: { size: 8 }, color: "#9ca3af" }, grid: { display: false } },
+            },
+          },
+        });
+      }
+    }
+
+    if (tab === "inversiones" && !funnelChart) {
+      const canvas = document.getElementById("funnelChart") as HTMLCanvasElement | null;
+      if (canvas) {
+        funnelChart = new Chart(canvas.getContext("2d")!, {
+          type: "line",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: "Clientes atendidos",
+                data: [],
+                borderColor: "#2563eb",
+                backgroundColor: "rgba(37, 99, 235, 0.06)",
+                borderWidth: 2,
+                pointRadius: 2,
+                fill: true,
+                tension: 0.3,
+              },
+              {
+                label: "Cerrados (Ganado)",
+                data: [],
+                borderColor: "#17A34A",
+                backgroundColor: "rgba(23, 163, 74, 0.08)",
+                borderWidth: 2,
+                pointRadius: 2,
+                fill: true,
+                tension: 0.3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
+            scales: {
+              y: { ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
+              x: { ticks: { font: { size: 8 }, color: "#9ca3af", maxRotation: 0 }, grid: { display: false } },
+            },
+          },
+        });
+      }
+    }
+
+    if (tab === "videos" && !weeklyTrendChartVideos) {
+      const weeklyCanvas = document.getElementById("weeklyTrendChartVideos") as HTMLCanvasElement | null;
+      if (weeklyCanvas) {
+        weeklyTrendChartVideos = new Chart(weeklyCanvas.getContext("2d")!, {
+          type: "line",
+          data: {
+            labels: vid.weeklyTrend?.weeks || [],
+            datasets: [
+              {
+                label: "TikTok",
+                data: vid.weeklyTrend?.series?.tiktok || [],
+                borderColor: "#17A34A",
+                backgroundColor: "rgba(23, 163, 74, 0.06)",
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: true,
+                tension: 0.3,
+              },
+              {
+                label: "Instagram",
+                data: vid.weeklyTrend?.series?.instagram || [],
+                borderColor: "#db2777",
+                backgroundColor: "rgba(219, 39, 119, 0.05)",
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: true,
+                tension: 0.3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
+            scales: {
+              y: { ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
+              x: {
+                ticks: { font: { size: 8 }, color: "#9ca3af", maxRotation: 0, autoSkip: true, maxTicksLimit: 10 },
+                grid: { display: false },
+              },
+            },
+          },
+        });
+      }
+
+      const bestTimeCanvas = document.getElementById("bestTimeChartVideos") as HTMLCanvasElement | null;
+      if (bestTimeCanvas) {
+        bestTimeChartVideos = new Chart(bestTimeCanvas.getContext("2d")!, {
+          type: "bar",
+          data: {
+            labels: (vid.hours || []).map((h: number) => `${h}h`),
+            datasets: [
+              {
+                label: "TikTok",
+                data: vid.bestTimeToPost?.tiktok || [],
+                backgroundColor: "rgba(23, 163, 74, 0.7)",
+              },
+              {
+                label: "Instagram",
+                data: vid.bestTimeToPost?.instagram || [],
+                backgroundColor: "rgba(219, 39, 119, 0.6)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
+            scales: {
+              y: { min: 0, max: 1, ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
+              x: { ticks: { font: { size: 8 }, color: "#9ca3af" }, grid: { display: false } },
+            },
+          },
+        });
+      }
+    }
+  }
+
+  const tabButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".tab-btn"));
+  const panels: Record<string, HTMLElement | null> = {
+    asesorias: document.getElementById("tab-asesorias"),
+    inversiones: document.getElementById("tab-inversiones"),
+    videos: document.getElementById("tab-videos"),
+  };
+  const filterBar = document.getElementById("filterBar");
+  const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".filter-btn"));
+  let currentFilter = "ytd";
+  let activeTab = "asesorias";
+
+  function showTab(tab: string) {
+    activeTab = tab;
+    for (const [key, el] of Object.entries(panels)) {
+      if (el) el.hidden = key !== tab;
+    }
+    tabButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.tab === tab));
+    if (filterBar) filterBar.hidden = tab === "videos";
+    initChartsForTab(tab);
+    if (tab === "asesorias") updateAsesoriasView(currentFilter);
+    if (tab === "inversiones") updateInversionesView(currentFilter);
+  }
+
+  tabButtons.forEach((btn) => btn.addEventListener("click", () => showTab(btn.dataset.tab || "asesorias")));
+
+  filterButtons.forEach((btn) =>
+    btn.addEventListener("click", () => {
+      currentFilter = btn.dataset.filter || "ytd";
+      filterButtons.forEach((b) => b.classList.toggle("active", b === btn));
+      if (activeTab === "asesorias") updateAsesoriasView(currentFilter);
+      if (activeTab === "inversiones") updateInversionesView(currentFilter);
+    }),
+  );
+
+  showTab("asesorias");
 </script>
 
 <style is:global>
@@ -357,6 +854,15 @@ const hours = Array.from({ length: 24 }, (_, i) => i);
     margin-bottom: 1.5rem;
   }
 
+  .subsection-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin-bottom: 1rem;
+  }
+
   .kpi-label {
     font-size: 0.7rem;
     font-weight: 600;
@@ -364,6 +870,12 @@ const hours = Array.from({ length: 24 }, (_, i) => i);
     letter-spacing: 0.08em;
     color: #9ca3af;
     margin-top: 0.25rem;
+  }
+
+  .kpi-sub {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    margin-top: 0.15rem;
   }
 
   .status-dot-badge {
@@ -394,6 +906,109 @@ const hours = Array.from({ length: 24 }, (_, i) => i);
   .data-table td {
     padding: 0.6rem 0;
     border-bottom: 1px solid #f8fafc;
+  }
+
+  .video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .video-list li {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f8fafc;
+  }
+
+  .video-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .video-list a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #111827;
+    text-decoration: none;
+  }
+
+  .video-list a:hover {
+    text-decoration: underline;
+  }
+
+  .video-metric {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    margin-top: 0.15rem;
+  }
+
+  .idea-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: #374151;
+  }
+
+  .tabs-nav {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .tab-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    margin-bottom: -1px;
+    transition: color 0.2s ease;
+  }
+
+  .tab-btn:hover {
+    color: #374151;
+  }
+
+  .tab-btn.active {
+    color: #111827;
+    border-bottom-color: #17a34a;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: #cbd5e1;
+  }
+
+  .filter-btn.active {
+    background: #111827;
+    color: #ffffff;
+    border-color: #111827;
   }
 
   @keyframes reveal {
