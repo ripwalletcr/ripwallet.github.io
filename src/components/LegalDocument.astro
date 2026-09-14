@@ -1,0 +1,95 @@
+---
+interface Props {
+  badge: string;
+  title: string;
+  subtitle?: string;
+  updatedAt?: string;
+}
+
+const {
+  badge,
+  title,
+  subtitle = "",
+  updatedAt = "",
+} = Astro.props;
+---
+
+<main class="max-w-5xl mx-auto px-6 pt-16 pb-20">
+  <header class="text-center mb-10 animate-reveal">
+    <p
+      class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-4"
+    >
+      {badge}
+    </p>
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">{title}</h1>
+    {subtitle && <p class="text-gray-500 max-w-2xl mx-auto">{subtitle}</p>}
+    {updatedAt && (
+      <p class="text-[11px] uppercase tracking-widest text-gray-400 mt-5">
+        Última actualización: {updatedAt}
+      </p>
+    )}
+  </header>
+
+  <section class="legal-card animate-reveal delay-1">
+    <article class="legal-content">
+      <slot />
+    </article>
+  </section>
+</main>
+
+<style is:global>
+  .legal-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 28px;
+  }
+
+  .legal-content {
+    color: #4b5563;
+    font-size: 0.96rem;
+    line-height: 1.7;
+  }
+
+  .legal-content h2 {
+    color: #111827;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .legal-content h3 {
+    color: #111827;
+    font-size: 1.02rem;
+    font-weight: 700;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-content p {
+    margin: 0.6rem 0;
+  }
+
+  .legal-content ul,
+  .legal-content ol {
+    margin: 0.7rem 0;
+    padding-left: 1.2rem;
+  }
+
+  .legal-content li {
+    margin: 0.35rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .legal-card {
+      padding: 20px;
+      border-radius: 18px;
+    }
+
+    .legal-content {
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+  }
+</style>

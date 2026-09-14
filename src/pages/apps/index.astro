@@ -1,0 +1,65 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import BannerSpent from "../../components/BannerSpent.astro";
+import BannerTabs from "../../components/BannerTabs.astro";
+---
+
+<Layout
+  title="Nuestras Apps | RIP Wallet"
+  description="Spent para controlar tus gastos y suscripciones, y Tabs para salir de deudas más rápido. Descárgalas gratis para iOS y Android."
+>
+  <link rel="preconnect" href="https://fonts.googleapis.com" slot="head" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin slot="head" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Bricolage+Grotesque:wght@600;800&display=swap"
+    rel="stylesheet"
+    slot="head"
+  />
+
+  <Navbar currentPath="/apps" />
+
+  <!-- Encabezado Principal -->
+  <header class="max-w-3xl mx-auto px-6 pt-24 pb-16 text-center animate-reveal">
+    <h1 class="text-5xl md:text-6xl font-bold tracking-tight">
+      Nuestras apps
+    </h1>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 pb-32 space-y-8">
+    <div class="animate-reveal delay-1">
+      <BannerSpent downloadUrl="/spent/download" />
+    </div>
+    <div class="animate-reveal delay-2">
+      <BannerTabs downloadUrl="/tabs/download" />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+</style>

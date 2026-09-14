@@ -1,0 +1,62 @@
+{
+  "generatedAt": "2026-09-13T05:20:00.000Z",
+  "source": "notion",
+  "windowMonths": 13,
+  "kpis": {
+    "totalAsesorias": 385,
+    "tasaPagoCompleto": 100.0,
+    "ingresoTotalCRC": 20685000,
+    "inversionesAtendidas": 90,
+    "inversionesCerradas": 73,
+    "tasaCierreInversiones": 81.1
+  },
+  "monthlyTrend": [
+    { "month": "2025-09", "total": 14, "pagadas": 14, "ingreso": 560000 },
+    { "month": "2025-10", "total": 30, "pagadas": 30, "ingreso": 1200000 },
+    { "month": "2025-11", "total": 25, "pagadas": 25, "ingreso": 1000000 },
+    { "month": "2025-12", "total": 32, "pagadas": 32, "ingreso": 1240000 },
+    { "month": "2026-01", "total": 16, "pagadas": 16, "ingreso": 650000 },
+    { "month": "2026-02", "total": 15, "pagadas": 15, "ingreso": 2670000 },
+    { "month": "2026-03", "total": 37, "pagadas": 37, "ingreso": 1660000 },
+    { "month": "2026-04", "total": 42, "pagadas": 42, "ingreso": 2010000 },
+    { "month": "2026-05", "total": 45, "pagadas": 45, "ingreso": 2230000 },
+    { "month": "2026-06", "total": 32, "pagadas": 32, "ingreso": 1740000 },
+    { "month": "2026-07", "total": 44, "pagadas": 44, "ingreso": 2565000 },
+    { "month": "2026-08", "total": 39, "pagadas": 39, "ingreso": 2330000 },
+    { "month": "2026-09", "total": 14, "pagadas": 14, "ingreso": 830000 }
+  ],
+  "sessionBreakdown": [
+    { "sesion": "Seguimiento", "total": 342, "pagadas": 0, "ingreso": 0 },
+    { "sesion": "Finanzas", "total": 217, "pagadas": 178, "ingreso": 10655080 },
+    { "sesion": "Inversiones", "total": 143, "pagadas": 90, "ingreso": 5161948 },
+    { "sesion": "Sin categoría", "total": 86, "pagadas": 58, "ingreso": 6750000 },
+    { "sesion": "Revisión de Portafolio", "total": 75, "pagadas": 0, "ingreso": 381 },
+    { "sesion": "Parejas", "total": 60, "pagadas": 59, "ingreso": 2870000 }
+  ],
+  "inversionesFunnel": [
+    { "month": "2025-09", "clientesAtendidos": 6, "cierresGanados": 5 },
+    { "month": "2025-10", "clientesAtendidos": 9, "cierresGanados": 5 },
+    { "month": "2025-11", "clientesAtendidos": 7, "cierresGanados": 4 },
+    { "month": "2025-12", "clientesAtendidos": 14, "cierresGanados": 4 },
+    { "month": "2026-01", "clientesAtendidos": 5, "cierresGanados": 7 },
+    { "month": "2026-02", "clientesAtendidos": 11, "cierresGanados": 8 },
+    { "month": "2026-03", "clientesAtendidos": 12, "cierresGanados": 6 },
+    { "month": "2026-04", "clientesAtendidos": 15, "cierresGanados": 5 },
+    { "month": "2026-05", "clientesAtendidos": 10, "cierresGanados": 8 },
+    { "month": "2026-06", "clientesAtendidos": 0, "cierresGanados": 11 },
+    { "month": "2026-07", "clientesAtendidos": 0, "cierresGanados": 4 },
+    { "month": "2026-08", "clientesAtendidos": 0, "cierresGanados": 5 },
+    { "month": "2026-09", "clientesAtendidos": 1, "cierresGanados": 1 }
+  ],
+  "bestTimeToBook": [
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0.12, 0.01, 0.01, 0.11, 0.01, 0.2, 0.36, 0.03,
+    0.03, 0.42, 1, 0.46, 0.01, 0, 0, 0
+  ],
+  "advisorPerformance": [
+    { "asesor": "Jostin H.", "total": 104, "pagadas": 104, "ingreso": null },
+    { "asesor": "Kevin A.", "total": 76, "pagadas": 76, "ingreso": null },
+    { "asesor": "Eduardo C.", "total": 56, "pagadas": 56, "ingreso": null }
+  ],
+  "advisorPerformanceWindow": "Últimos 6 meses (ingreso por asesor se completa en el próximo sync)"
+}

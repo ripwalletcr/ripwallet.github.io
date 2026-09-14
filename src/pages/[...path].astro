@@ -1,0 +1,27 @@
+---
+import { redirects } from "../data/redirects";
+
+export function getStaticPaths() {
+  return Object.entries(redirects).map(([path, destination]) => ({
+    params: { path },
+    props: { destination },
+  }));
+}
+
+const { destination } = Astro.props as { destination: string };
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RIP Wallet</title>
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <link rel="canonical" href={destination} />
+    <script is:inline define:vars={{ destination }}>
+      window.location.replace(destination);
+    </script>
+  </head>
+  <body></body>
+</html>
