@@ -1,0 +1,414 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import {
+  CalendarCheck,
+  Percent,
+  DollarSign,
+  Target,
+  TrendingUp,
+  Clock,
+  Users,
+} from "@lucide/astro";
+import dashboard from "../data/business-insights.json";
+
+const {
+  generatedAt,
+  source,
+  kpis,
+  monthlyTrend,
+  sessionBreakdown,
+  inversionesFunnel,
+  bestTimeToBook,
+  advisorPerformance,
+  advisorPerformanceWindow,
+} = dashboard;
+
+const numberFmt = new Intl.NumberFormat("es-CR");
+const crcFmt = new Intl.NumberFormat("es-CR", {
+  style: "currency",
+  currency: "CRC",
+  maximumFractionDigits: 0,
+});
+const dateTimeFmt = new Intl.DateTimeFormat("es-CR", {
+  dateStyle: "medium",
+  timeStyle: "short",
+  timeZone: "America/Costa_Rica",
+});
+const monthFmt = new Intl.DateTimeFormat("es-CR", {
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+function monthLabel(month: string) {
+  return monthFmt.format(new Date(`${month}-01T00:00:00Z`));
+}
+
+const hours = Array.from({ length: 24 }, (_, i) => i);
+---
+
+<Layout
+  title="Rendimiento de Negocio | RIP Wallet"
+  description="Dashboard interno de asesorías, cierres de inversiones y horarios de RIP Wallet."
+>
+  <Navbar currentPath="/biznus" />
+
+  <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+    <header class="mb-12 animate-reveal">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-3">
+        Rendimiento de Negocio
+      </h1>
+      <p class="text-sm text-gray-500 flex flex-wrap items-center gap-2">
+        <Clock class="w-3.5 h-3.5" /> Última actualización: {dateTimeFmt.format(
+          new Date(generatedAt),
+        )}
+        {source === "notion" && <span class="status-dot-badge">Datos reales de Notion</span>}
+      </p>
+    </header>
+
+    <!-- KPIs -->
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12 animate-reveal">
+      <div class="card-outline">
+        <CalendarCheck class="w-4 h-4 text-gray-400 mb-3" />
+        <p class="text-2xl font-bold">{numberFmt.format(kpis.totalAsesorias)}</p>
+        <p class="kpi-label">Asesorías totales</p>
+      </div>
+      <div class="card-outline">
+        <Percent class="w-4 h-4 text-gray-400 mb-3" />
+        <p class="text-2xl font-bold">{kpis.tasaPagoCompleto}%</p>
+        <p class="kpi-label">Pago completo</p>
+      </div>
+      <div class="card-outline">
+        <DollarSign class="w-4 h-4 text-gray-400 mb-3" />
+        <p class="text-2xl font-bold">{crcFmt.format(kpis.ingresoTotalCRC)}</p>
+        <p class="kpi-label">Ingreso por asesorías</p>
+      </div>
+      <div class="card-outline">
+        <Users class="w-4 h-4 text-gray-400 mb-3" />
+        <p class="text-2xl font-bold">{numberFmt.format(kpis.inversionesAtendidas)}</p>
+        <p class="kpi-label">Clientes atendidos (inversiones)</p>
+      </div>
+      <div class="card-outline">
+        <Target class="w-4 h-4 text-gray-400 mb-3" />
+        <p class="text-2xl font-bold">{numberFmt.format(kpis.inversionesCerradas)}</p>
+        <p class="kpi-label">Inversiones cerradas</p>
+      </div>
+      <div class="card-outline">
+        <TrendingUp class="w-4 h-4 text-gray-400 mb-3" />
+        <p class="text-2xl font-bold">{kpis.tasaCierreInversiones}%</p>
+        <p class="kpi-label">Tasa de cierre</p>
+      </div>
+    </section>
+
+    <!-- Monthly trend -->
+    <section class="card-outline mb-12 animate-reveal">
+      <h2 class="section-title">Asesorías e ingreso por mes</h2>
+      <div class="h-72">
+        <canvas id="monthlyTrendChart"></canvas>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <!-- Session breakdown -->
+      <section class="card-outline animate-reveal">
+        <h2 class="section-title">Asesorías por tipo de sesión</h2>
+        <div class="overflow-x-auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th class="text-right">Total</th>
+                <th class="text-right">Pagadas</th>
+                <th class="text-right">Ingreso</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                sessionBreakdown.map((s) => (
+                  <tr>
+                    <td>{s.sesion}</td>
+                    <td class="text-right">{s.total}</td>
+                    <td class="text-right">{s.pagadas}</td>
+                    <td class="text-right">{crcFmt.format(s.ingreso)}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Best time to book -->
+      <section class="card-outline animate-reveal">
+        <h2 class="section-title">Horario más efectivo</h2>
+        <p class="text-xs text-gray-400 mb-4">
+          Reservas normalizadas sobre el pico del día · hora Costa Rica
+        </p>
+        <div class="h-56">
+          <canvas id="bestTimeChart"></canvas>
+        </div>
+      </section>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <!-- Inversiones funnel -->
+      <section class="card-outline animate-reveal">
+        <h2 class="section-title">Inversiones: atendidos vs cerrados</h2>
+        <div class="h-64">
+          <canvas id="funnelChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Advisor performance -->
+      <section class="card-outline animate-reveal">
+        <h2 class="section-title">Rendimiento por asesor</h2>
+        <p class="text-xs text-gray-400 mb-4">{advisorPerformanceWindow}</p>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Asesor</th>
+              <th class="text-right">Asesorías</th>
+              <th class="text-right">Pagadas</th>
+              <th class="text-right">Ingreso</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              advisorPerformance.map((a) => (
+                <tr>
+                  <td>{a.asesor}</td>
+                  <td class="text-right">{a.total}</td>
+                  <td class="text-right">{a.pagadas}</td>
+                  <td class="text-right">{a.ingreso == null ? "—" : crcFmt.format(a.ingreso)}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script
+  type="application/json"
+  id="chart-data"
+  set:html={JSON.stringify({
+    monthlyTrend: monthlyTrend.map((m) => ({ ...m, label: monthLabel(m.month) })),
+    inversionesFunnel: inversionesFunnel.map((m) => ({ ...m, label: monthLabel(m.month) })),
+    bestTimeToBook,
+    hours,
+  })}
+/>
+
+<script>
+  import Chart from "chart.js/auto";
+
+  const chartDataEl = document.getElementById("chart-data");
+  const { monthlyTrend, inversionesFunnel, bestTimeToBook, hours } = JSON.parse(
+    chartDataEl?.textContent || "{}",
+  );
+
+  {
+    const monthlyCanvas = document.getElementById("monthlyTrendChart");
+    if (monthlyCanvas) {
+      new Chart(monthlyCanvas.getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: monthlyTrend.map((m) => m.label),
+          datasets: [
+            {
+              type: "bar",
+              label: "Asesorías",
+              data: monthlyTrend.map((m) => m.total),
+              backgroundColor: "rgba(23, 163, 74, 0.7)",
+              yAxisID: "y",
+            },
+            {
+              type: "line",
+              label: "Ingreso (₡)",
+              data: monthlyTrend.map((m) => m.ingreso),
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37, 99, 235, 0.08)",
+              borderWidth: 2,
+              pointRadius: 0,
+              fill: true,
+              tension: 0.3,
+              yAxisID: "y1",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
+          scales: {
+            y: {
+              position: "left",
+              ticks: { font: { size: 9 }, color: "#9ca3af" },
+              grid: { color: "#f1f5f9" },
+            },
+            y1: {
+              position: "right",
+              ticks: { font: { size: 9 }, color: "#9ca3af" },
+              grid: { display: false },
+            },
+            x: {
+              ticks: { font: { size: 8 }, color: "#9ca3af", maxRotation: 0 },
+              grid: { display: false },
+            },
+          },
+        },
+      });
+    }
+
+    const bestTimeCanvas = document.getElementById("bestTimeChart");
+    if (bestTimeCanvas) {
+      new Chart(bestTimeCanvas.getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: hours.map((h) => `${h}h`),
+          datasets: [
+            {
+              label: "Reservas",
+              data: bestTimeToBook,
+              backgroundColor: "rgba(23, 163, 74, 0.7)",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { min: 0, max: 1, ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
+            x: { ticks: { font: { size: 8 }, color: "#9ca3af" }, grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    const funnelCanvas = document.getElementById("funnelChart");
+    if (funnelCanvas) {
+      new Chart(funnelCanvas.getContext("2d"), {
+        type: "line",
+        data: {
+          labels: inversionesFunnel.map((m) => m.label),
+          datasets: [
+            {
+              label: "Clientes atendidos",
+              data: inversionesFunnel.map((m) => m.clientesAtendidos),
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37, 99, 235, 0.06)",
+              borderWidth: 2,
+              pointRadius: 2,
+              fill: true,
+              tension: 0.3,
+            },
+            {
+              label: "Cerrados (Ganado)",
+              data: inversionesFunnel.map((m) => m.cierresGanados),
+              borderColor: "#17A34A",
+              backgroundColor: "rgba(23, 163, 74, 0.08)",
+              borderWidth: 2,
+              pointRadius: 2,
+              fill: true,
+              tension: 0.3,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "top", labels: { boxWidth: 10, font: { size: 11 } } } },
+          scales: {
+            y: { ticks: { font: { size: 9 }, color: "#9ca3af" }, grid: { color: "#f1f5f9" } },
+            x: { ticks: { font: { size: 8 }, color: "#9ca3af", maxRotation: 0 }, grid: { display: false } },
+          },
+        },
+      });
+    }
+  }
+</script>
+
+<style is:global>
+  .card-outline {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 32px;
+    transition: border-color 0.3s ease;
+  }
+
+  .card-outline:hover {
+    border-color: #cbd5e1;
+  }
+
+  .section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+  }
+
+  .kpi-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-top: 0.25rem;
+  }
+
+  .status-dot-badge {
+    background-color: #dcfce7;
+    color: #166534;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+  }
+
+  .data-table {
+    width: 100%;
+    font-size: 0.8rem;
+    border-collapse: collapse;
+  }
+
+  .data-table th {
+    text-align: left;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .data-table td {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f8fafc;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>

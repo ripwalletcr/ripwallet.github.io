@@ -1,0 +1,38 @@
+name: Refresh business insights
+
+on:
+  schedule:
+    # Every Monday at 12:00 UTC (06:00 America/Costa_Rica)
+    - cron: "0 12 * * 1"
+  workflow_dispatch: {}
+
+# GitHub only fires `schedule` workflows from the repo's default branch, so
+# this job will only actually run on a schedule once merged to main.
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch Notion business insights
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: node scripts/fetch-notion.mjs
+
+      - name: Commit updated data if changed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "UPDATE business insights data"
+          file_pattern: src/data/business-insights.json

@@ -6,7 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "insights:videos:fetch": "node scripts/fetch-metricool.mjs",
+    "insights:videos:sample": "node scripts/generate-sample-data.mjs",
+    "insights:business:fetch": "node scripts/fetch-notion.mjs"
   },
   "dependencies": {
     "@lucide/astro": "^0.563.0",
