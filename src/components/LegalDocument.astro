@@ -4,6 +4,9 @@ interface Props {
   title: string;
   subtitle?: string;
   updatedAt?: string;
+  // When true, the slot provides its own `.legal-card` sections instead of
+  // being wrapped in a single card.
+  multiCard?: boolean;
 }
 
 const {
@@ -11,6 +14,7 @@ const {
   title,
   subtitle = "",
   updatedAt = "",
+  multiCard = false,
 } = Astro.props;
 ---
 
@@ -30,11 +34,17 @@ const {
     )}
   </header>
 
-  <section class="legal-card animate-reveal delay-1">
-    <article class="legal-content">
+  {multiCard ? (
+    <div class="legal-card-stack animate-reveal delay-1">
       <slot />
-    </article>
-  </section>
+    </div>
+  ) : (
+    <section class="legal-card animate-reveal delay-1">
+      <article class="legal-content">
+        <slot />
+      </article>
+    </section>
+  )}
 </main>
 
 <style is:global>
@@ -43,6 +53,20 @@ const {
     border: 1px solid #e5e7eb;
     border-radius: 24px;
     padding: 28px;
+  }
+
+  .legal-card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .legal-card-stack .legal-content > h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-card-stack .legal-content ul {
+    list-style: disc;
   }
 
   .legal-content {
