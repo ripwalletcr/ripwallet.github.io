@@ -11,6 +11,7 @@ import {
   X,
   Home,
   Smartphone,
+  CreditCard,
 } from "@lucide/astro";
 
 interface Props {
@@ -98,6 +99,19 @@ const { currentPath = "/" } = Astro.props;
             </div>
             <span class="text-[11px] font-bold text-gray-900"
               >Calculadora Mediana</span
+            >
+          </a>
+          <a
+            href="/tarjetas/comparador"
+            class="flex items-center p-2.5 rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            <div
+              class="w-7 h-7 rounded-lg bg-rose-50 flex items-center justify-center mr-3 text-rose-600"
+            >
+              <CreditCard class="w-4 h-4" />
+            </div>
+            <span class="text-[11px] font-bold text-gray-900"
+              >Comparador de Tarjetas</span
             >
           </a>
         </div>
@@ -211,6 +225,17 @@ const { currentPath = "/" } = Astro.props;
           <Calculator class="w-5 h-5" />
         </div>
         <span class="font-bold text-sm">Mediana</span>
+      </a>
+      <a
+        href="/tarjetas/comparador"
+        class="flex items-center p-4 rounded-2xl bg-[#fff1f2] border border-rose-100 text-rose-950 transition-transform active:scale-[0.98]"
+      >
+        <div
+          class="w-10 h-10 rounded-xl bg-white flex items-center justify-center mr-4 text-rose-600 border border-rose-50"
+        >
+          <CreditCard class="w-5 h-5" />
+        </div>
+        <span class="font-bold text-sm">Tarjetas</span>
       </a>
       <a
         href="/apps"
