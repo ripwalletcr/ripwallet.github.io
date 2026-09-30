@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
+import { Scale, ArrowRight } from "@lucide/astro";
 ---
 
 <!--
@@ -30,6 +31,26 @@ import Footer from "../../components/Footer.astro";
         <span class="text-gray-500/70">Julio 18, 2026</span>
       </div>
     </header>
+
+    <a
+      href="/tarjetas/comparador"
+      class="comparador-banner group flex items-center gap-4 p-4 mb-12 rounded-2xl border border-gray-200 bg-gray-50/60 hover:border-gray-300 hover:bg-white transition-colors animate-reveal"
+    >
+      <div
+        class="w-10 h-10 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-gray-700 shrink-0"
+      >
+        <Scale class="w-5 h-5" />
+      </div>
+      <div class="min-w-0 flex-1">
+        <p class="text-sm font-bold text-gray-900">Comparador de tarjetas</p>
+        <p class="text-xs text-gray-500">
+          Filtra y compara las tarjetas de crédito de Costa Rica lado a lado.
+        </p>
+      </div>
+      <ArrowRight
+        class="w-4 h-4 text-gray-400 shrink-0 transition-transform group-hover:translate-x-1 group-hover:text-gray-900"
+      />
+    </a>
 
     <article class="guia animate-reveal">
 
