@@ -24,6 +24,7 @@ export interface Tarjeta {
   banco: string;
   nombre: string;
   red: Red | null;
+  imagen?: string;
   categoria: string;
   nivel: Nivel;
   modalidad: Modalidad;
@@ -39,6 +40,18 @@ export interface Tarjeta {
 }
 
 export const actualizado = "Julio 2026";
+
+// Logo de cada banco (tomado de la guía), para tarjetas sin imagen propia.
+export const logosBanco: Record<string, string> = {
+  "BAC Credomatic": "/images/tarjetas/icono-bac-icono.webp",
+  BCR: "/images/tarjetas/icono-bcr-icon.webp",
+  "Banco BCT": "/images/tarjetas/icono-bct-icon.webp",
+  "Banco Nacional": "/images/tarjetas/icono-bn-icon.webp",
+  "Banco Popular": "/images/tarjetas/icono-popular-icon.webp",
+  "Davivienda (Scotiabank)": "/images/tarjetas/icono-davibank-icono.webp",
+  Promerica: "/images/tarjetas/icono-promerica.webp",
+  Wink: "/images/tarjetas/icono-wink-icon.webp",
+};
 
 // Color principal del logo de cada banco, usado para identificar el banco en cada tarjeta.
 export const coloresBanco: Record<string, string> = {
@@ -56,6 +69,7 @@ export const tarjetas: Tarjeta[] = [
   // BAC Credomatic
   {
     id: "bac-economia-visa",
+    imagen: "/images/tarjetas/img-bf0b26e6-7700.png",
     banco: "BAC Credomatic",
     nombre: "EconoMía Visa",
     red: "Visa",
@@ -124,6 +138,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-cashback-premium-mc",
+    imagen: "/images/tarjetas/img-a0db26e6-dd45.png",
     banco: "BAC Credomatic",
     nombre: "CashBack Premium Mastercard Black",
     red: "Mastercard",
@@ -147,6 +162,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-amex-blue",
+    imagen: "/images/tarjetas/img-f20b26e6-cc40.png",
     banco: "BAC Credomatic",
     nombre: "Cashback AMEX Blue",
     red: "AMEX",
@@ -165,9 +181,10 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-walmart-clasica",
+    imagen: "/images/tarjetas/img-876b26e6-0e87.png",
     banco: "BAC Credomatic",
     nombre: "Walmart Cash Clásica",
-    red: null,
+    red: "AMEX",
     categoria: "Clásica",
     nivel: 1,
     modalidad: "Supermercado",
@@ -185,7 +202,7 @@ export const tarjetas: Tarjeta[] = [
     id: "bac-walmart-gold",
     banco: "BAC Credomatic",
     nombre: "Walmart Cash Gold",
-    red: null,
+    red: "AMEX",
     categoria: "Gold",
     nivel: 2,
     modalidad: "Supermercado",
@@ -203,7 +220,7 @@ export const tarjetas: Tarjeta[] = [
     id: "bac-walmart-platinum",
     banco: "BAC Credomatic",
     nombre: "Walmart Cash Platinum",
-    red: null,
+    red: "AMEX",
     categoria: "Platinum",
     nivel: 3,
     modalidad: "Supermercado",
@@ -219,11 +236,12 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-automercado",
+    imagen: "/images/tarjetas/img-887b26e6-b98b.png",
     banco: "BAC Credomatic",
     nombre: "AutoMercado",
-    red: null,
-    categoria: "Clásica",
-    nivel: 1,
+    red: "Mastercard",
+    categoria: "Platinum",
+    nivel: 3,
     modalidad: "Supermercado",
     programa: "AutoMercado",
     acumulacionTop: { valor: 5, unidad: "%" },
@@ -237,9 +255,10 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-pricesmart",
+    imagen: "/images/tarjetas/img-c4ab26e6-c930.png",
     banco: "BAC Credomatic",
     nombre: "PriceSmart Cash",
-    red: null,
+    red: "Visa",
     categoria: "Clásica",
     nivel: 1,
     modalidad: "Supermercado",
@@ -255,9 +274,10 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-millasplus",
+    imagen: "/images/tarjetas/img-c84b26e6-b9a2.png",
     banco: "BAC Credomatic",
     nombre: "MillasPlus",
-    red: null,
+    red: "Mastercard",
     categoria: "Platinum",
     nivel: 3,
     modalidad: "Millas",
@@ -273,6 +293,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-lifemiles-infinite",
+    imagen: "/images/tarjetas/img-3a1b26e6-d04a.png",
     banco: "BAC Credomatic",
     nombre: "LifeMiles Visa Infinite",
     red: "Visa",
@@ -330,6 +351,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-amex-platinum",
+    imagen: "/images/tarjetas/img-08fb26e6-5132.jpg",
     banco: "BAC Credomatic",
     nombre: "AMEX Platinum",
     red: "AMEX",
@@ -348,6 +370,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-the-platinum-card",
+    imagen: "/images/tarjetas/img-3dbb26e6-b5b7.png",
     banco: "BAC Credomatic",
     nombre: "The Platinum Card (AMEX Metal)",
     red: "AMEX",
@@ -368,6 +391,7 @@ export const tarjetas: Tarjeta[] = [
   // BCR
   {
     id: "bcr-mc-black",
+    imagen: "/images/tarjetas/img-a34b26e6-6244.png",
     banco: "BCR",
     nombre: "BCR Mastercard Black",
     red: "Mastercard",
@@ -386,6 +410,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bcr-visa-infinite",
+    imagen: "/images/tarjetas/img-134b26e6-005c.png",
     banco: "BCR",
     nombre: "BCR Visa Infinite",
     red: "Visa",
@@ -407,9 +432,10 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bcr-jade",
+    imagen: "/images/tarjetas/img-879b26e6-2a2a.png",
     banco: "BCR",
     nombre: "BCR Jade",
-    red: null,
+    red: "Mastercard",
     categoria: "Jade",
     nivel: 4,
     modalidad: "Premios",
@@ -427,9 +453,10 @@ export const tarjetas: Tarjeta[] = [
   // BCT
   {
     id: "bct-cashback",
+    imagen: "/images/tarjetas/img-949b26e6-9aea.png",
     banco: "Banco BCT",
-    nombre: "Tarjeta BCT",
-    red: null,
+    nombre: "Cash Back BCT",
+    red: "Visa",
     categoria: "—",
     nivel: 2,
     modalidad: "Cashback",
@@ -451,6 +478,7 @@ export const tarjetas: Tarjeta[] = [
   // Banco Nacional
   {
     id: "bn-black",
+    imagen: "/images/tarjetas/img-2f9b26e6-4047.png",
     banco: "Banco Nacional",
     nombre: "BN Black",
     red: "Mastercard",
@@ -469,6 +497,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bn-platino",
+    imagen: "/images/tarjetas/img-ee4b26e6-8e0b.png",
     banco: "Banco Nacional",
     nombre: "BN Platino",
     red: null,
@@ -487,6 +516,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bn-internacional",
+    imagen: "/images/tarjetas/img-87cb26e6-8ccc.png",
     banco: "Banco Nacional",
     nombre: "BN Internacional (Millas)",
     red: null,
@@ -505,6 +535,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bn-oro",
+    imagen: "/images/tarjetas/img-af3b26e6-8efe.png",
     banco: "Banco Nacional",
     nombre: "BN Oro",
     red: null,
@@ -557,6 +588,7 @@ export const tarjetas: Tarjeta[] = [
   // Davivienda / Scotiabank
   {
     id: "scotia-lifemiles-infinite",
+    imagen: "/images/tarjetas/img-c16b26e6-646b.png",
     banco: "Davivienda (Scotiabank)",
     nombre: "LifeMiles Visa Infinite (ex Scotiabank)",
     red: "Visa",
@@ -599,6 +631,7 @@ export const tarjetas: Tarjeta[] = [
   // Promerica
   {
     id: "promerica-emerald",
+    imagen: "/images/tarjetas/img-c5cb26e6-9d26.jpg",
     banco: "Promerica",
     nombre: "Emerald Visa Infinite",
     red: "Visa",
@@ -622,6 +655,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "promerica-connectmiles",
+    imagen: "/images/tarjetas/img-288b26e6-34f6.png",
     banco: "Promerica",
     nombre: "ConnectMiles Visa Infinite",
     red: "Visa",
@@ -647,6 +681,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "promerica-mc-black",
+    imagen: "/images/tarjetas/img-3a1b26e6-845b.png",
     banco: "Promerica",
     nombre: "Promerica Mastercard Black",
     red: "Mastercard",
@@ -690,9 +725,10 @@ export const tarjetas: Tarjeta[] = [
   // Wink
   {
     id: "wink",
+    imagen: "/images/tarjetas/img-aeab26e6-3e7f.png",
     banco: "Wink",
     nombre: "Tarjeta de crédito Wink",
-    red: null,
+    red: "Visa",
     categoria: "—",
     nivel: 1,
     modalidad: "Premios",

@@ -379,7 +379,7 @@ const perfiles = [
 </Layout>
 
 <script>
-  import { tarjetas, coloresBanco, type Tarjeta } from "../../data/tarjetas-credito";
+  import { tarjetas, coloresBanco, logosBanco, type Tarjeta } from "../../data/tarjetas-credito";
 
   const MAX_COMPARE = 3;
 
@@ -479,6 +479,14 @@ const perfiles = [
       return `<span class="inline-flex items-center px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-widest ${cls}">${escapeHtml(text)}</span>`;
     }
 
+    function cardImage(t: Tarjeta, cls: string) {
+      if (t.imagen) {
+        return `<div class="${cls}"><img src="${t.imagen}" alt="${escapeHtml(t.nombre)}" loading="lazy" /></div>`;
+      }
+      const logo = logosBanco[t.banco];
+      return `<div class="${cls} is-logo">${logo ? `<img src="${logo}" alt="${escapeHtml(t.banco)}" loading="lazy" />` : ""}</div>`;
+    }
+
     function cardHtml(t: Tarjeta) {
       const color = coloresBanco[t.banco] ?? "#9ca3af";
       const top = formatTop(t);
@@ -493,6 +501,7 @@ const perfiles = [
 
       return `
         <article class="card-outline card-tarjeta flex flex-col ${selected ? "is-selected" : ""}">
+          ${cardImage(t, "card-visual")}
           <div class="flex items-start justify-between gap-4 mb-5">
             <div class="min-w-0">
               <p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${color}">${escapeHtml(t.banco)}</p>
@@ -571,7 +580,7 @@ const perfiles = [
       el.compareTable.innerHTML = `
         <thead><tr><th></th>${selected
           .map(
-            (t) => `<th><p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${coloresBanco[t.banco] ?? "#9ca3af"}">${escapeHtml(t.banco)}</p>
+            (t) => `<th>${cardImage(t, "compare-visual")}<p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${coloresBanco[t.banco] ?? "#9ca3af"}">${escapeHtml(t.banco)}</p>
               <p class="text-base font-bold text-gray-900 leading-tight">${escapeHtml(t.nombre)}</p>
               <button type="button" data-remove="${t.id}" class="mt-2 text-[9px] font-bold uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors">Quitar</button></th>`,
           )
@@ -736,6 +745,56 @@ const perfiles = [
   .card-tarjeta:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+  }
+
+  .card-visual,
+  .compare-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    border-radius: 1rem;
+  }
+
+  .card-visual {
+    height: 150px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .compare-visual {
+    height: 96px;
+    padding: 0.6rem;
+    margin-bottom: 0.9rem;
+    max-width: 200px;
+  }
+
+  .card-visual img,
+  .compare-visual img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-tarjeta:hover .card-visual img {
+    transform: translateY(-3px);
+  }
+
+  .card-visual.is-logo img,
+  .compare-visual.is-logo img {
+    width: 56px;
+    height: 56px;
+    border-radius: 0.9rem;
+    filter: none;
+  }
+
+  .compare-visual.is-logo img {
+    width: 40px;
+    height: 40px;
   }
 
   .card-tarjeta.is-selected {
