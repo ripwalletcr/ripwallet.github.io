@@ -15,7 +15,7 @@ export type Perfil =
   | "salud"
   | "gasolina";
 
-// Nivel 1 = Clásica / de entrada, 4 = Infinite / Black / Metal.
+// Nivel del filtro de categoría: 1 = Básica (Clásica), 2 = Gold (Oro/Dorada), 3 = Platino, 4 = Black (Infinite/Metal).
 // Se usa como referencia del límite de crédito, que en la práctica depende del ingreso de cada persona.
 export type Nivel = 1 | 2 | 3 | 4;
 
@@ -62,6 +62,7 @@ export const logosBanco: Record<string, string> = {
   "Banco Popular": "/images/tarjetas/icono-popular-icon.webp",
   "Davibank (Scotiabank)": "/images/tarjetas/icono-davibank-icono.webp",
   Davivienda: "/images/tarjetas/icono-davivienda.webp",
+  LAFISE: "/images/tarjetas/icono-lafise.webp",
   Promerica: "/images/tarjetas/icono-promerica.webp",
   Wink: "/images/tarjetas/icono-wink-icon.webp",
 };
@@ -75,6 +76,7 @@ export const coloresBanco: Record<string, string> = {
   "Banco Popular": "#F58220",
   "Davibank (Scotiabank)": "#ED1C24",
   Davivienda: "#E30613",
+  LAFISE: "#037FB0",
   Promerica: "#00A651",
   Wink: "#7B2CBF",
 };
@@ -192,7 +194,7 @@ export const tarjetas: Tarjeta[] = [
     nombre: "Cashback AMEX Blue",
     red: "AMEX",
     categoria: "Clásica",
-    nivel: 2,
+    nivel: 1,
     modalidad: "Cashback",
     programa: "CashBack BAC",
     acumulacionTop: { valor: 5, unidad: "%" },
@@ -302,27 +304,222 @@ export const tarjetas: Tarjeta[] = [
     beneficios: [],
     perfiles: ["supermercado"],
   },
+  // BAC: familia Millas Plus (según las páginas del BAC, setiembre 2026)
   {
     id: "bac-millasplus",
-    imagen: "/images/tarjetas/img-c84b26e6-b9a2.png",
+    imagen: "/images/tarjetas/bac-millasplus-black-mc.webp",
     banco: "BAC Credomatic",
-    nombre: "MillasPlus",
+    nombre: "Millas Plus Black Mastercard",
+    red: "Mastercard",
+    categoria: "Black",
+    nivel: 4,
+    modalidad: "Millas",
+    programa: "Millas Plus",
+    acumulacionTop: { valor: 2, unidad: "millas/$" },
+    acumulacion: [
+      "2 millas por cada $1",
+      "Hasta 5 millas extra por $1 en comercios seleccionados",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: true,
+    beneficios: [
+      "Membresía Priority Pass",
+      "Mastercard Airport Experiences",
+      "Canje mínimo de 1.000 millas en MiViaje.cr",
+      "Las millas vencen cada 2 años",
+    ],
+    perfiles: ["viajeros"],
+  },
+  {
+    id: "bac-millasplus-black-amex",
+    imagen: "/images/tarjetas/bac-millasplus-black-amex.webp",
+    banco: "BAC Credomatic",
+    nombre: "Millas Plus Black American Express",
+    red: "AMEX",
+    categoria: "Black",
+    nivel: 4,
+    modalidad: "Millas",
+    programa: "Millas Plus",
+    acumulacionTop: { valor: 3.5, unidad: "millas/$" },
+    acumulacion: [
+      "2 millas por cada $1",
+      "3,5 millas por $1 en compras internacionales",
+      "Hasta 5 millas extra por $1 en comercios seleccionados",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: true,
+    beneficios: [
+      "2 pases Priority Pass de cortesía al año",
+      "Hasta 30% de descuento en hoteles seleccionados",
+      "Canje mínimo de 1.000 millas en MiViaje.cr",
+    ],
+    perfiles: ["viajeros"],
+  },
+  {
+    id: "bac-millasplus-infinite-visa",
+    imagen: "/images/tarjetas/bac-millasplus-infinite-visa.webp",
+    banco: "BAC Credomatic",
+    nombre: "Millas Plus Infinite Visa",
+    red: "Visa",
+    categoria: "Infinite",
+    nivel: 4,
+    modalidad: "Millas",
+    programa: "Millas Plus",
+    acumulacionTop: { valor: 2, unidad: "millas/$" },
+    acumulacion: [
+      "2 millas por cada $1",
+      "Hasta 5 millas extra por $1 en comercios seleccionados",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: true,
+    beneficios: [
+      "Membresía Priority Pass",
+      "Valet Parking",
+      "Canje mínimo de 1.000 millas en MiViaje.cr",
+    ],
+    perfiles: ["viajeros"],
+  },
+  {
+    id: "bac-millasplus-platinum",
+    imagen: "/images/tarjetas/bac-millasplus-platinum.webp",
+    banco: "BAC Credomatic",
+    nombre: "Millas Plus Platinum Mastercard",
     red: "Mastercard",
     categoria: "Platinum",
     nivel: 3,
     modalidad: "Millas",
-    programa: "MillasPlus BAC",
-    acumulacionTop: null,
+    programa: "Millas Plus",
+    acumulacionTop: { valor: 1.5, unidad: "millas/$" },
     acumulacion: [
-      "Millas redimibles como cashback o viajes",
+      "1,5 millas por cada $1",
+      "Hasta 5 millas extra por $1 en comercios seleccionados",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: true,
+    beneficios: [
+      "Membresía Priority Pass",
+      "Canje mínimo de 1.000 millas en MiViaje.cr",
+      "Las millas vencen cada 2 años",
+    ],
+    perfiles: ["viajeros"],
+  },
+  {
+    id: "bac-millasplus-gold",
+    imagen: "/images/tarjetas/bac-millasplus-gold.webp",
+    banco: "BAC Credomatic",
+    nombre: "Millas Plus Gold Mastercard",
+    red: "Mastercard",
+    categoria: "Gold",
+    nivel: 2,
+    modalidad: "Millas",
+    programa: "Millas Plus",
+    acumulacionTop: { valor: 1.25, unidad: "millas/$" },
+    acumulacion: [
+      "1,25 millas por cada $1",
+      "Hasta 5 millas extra por $1 en comercios seleccionados",
     ],
     metaGasto: null,
     tope: null,
     salaVip: false,
     priorityPass: false,
-    beneficios: [],
+    beneficios: [
+      "Canje mínimo de 1.000 millas en MiViaje.cr",
+      "Las millas vencen cada 2 años",
+    ],
     perfiles: ["viajeros"],
   },
+
+  // BAC: familia CashBack
+  ...(
+    [
+      ["bac-cashback-clasica-amex", "CashBack Clásica American Express", "AMEX", "Clásica", 1, "4.099", "bac-cashback-clasica-amex"],
+      ["bac-cashback-clasica-visa", "CashBack Clásica Visa", "Visa", "Clásica", 1, "4.099", "bac-cashback-clasica-visa"],
+      ["bac-cashback-gold-amex", "CashBack Gold American Express", "AMEX", "Gold", 2, "12.296", "bac-cashback-gold-amex"],
+      ["bac-cashback-dorada-visa", "CashBack Dorada Visa", "Visa", "Gold", 2, "12.296", "bac-cashback-dorada-visa"],
+      ["bac-cashback-platinum-amex", "CashBack Platinum American Express", "AMEX", "Platinum", 3, "16.395", "bac-cashback-platinum-amex"],
+    ] as const
+  ).map(
+    ([id, nombre, red, categoria, nivel, topePuntos, img]): Tarjeta => ({
+      id,
+      imagen: `/images/tarjetas/${img}.webp`,
+      banco: "BAC Credomatic",
+      nombre,
+      red,
+      categoria,
+      nivel,
+      modalidad: "Cashback",
+      programa: "CashBack BAC",
+      acumulacionTop: { valor: 1, unidad: "%" },
+      acumulacion: [
+        "1% en supermercados",
+        "1% en farmacias",
+        "1% en restaurantes y comidas rápidas",
+        "1% en tiendas por departamento",
+        "1% en zapaterías",
+        "Hasta 10% en comercios del catálogo de Acumulación Extra",
+      ],
+      metaGasto: "Sin meta de gasto",
+      tope: `${topePuntos} puntos por mes`,
+      salaVip: false,
+      priorityPass: false,
+      beneficios: [
+        "Canje mínimo de ₡15.000",
+        "Los puntos vencen cada 2 años",
+        ...(red === "AMEX" ? ["Hasta 30% de descuento en hoteles seleccionados"] : []),
+      ],
+      perfiles: nivel === 1 ? ["principiantes", "supermercado"] : ["supermercado"],
+    }),
+  ),
+
+  // BAC: familia Gane Premios
+  ...(
+    [
+      ["bac-ganepremios-clasica-amex", "Gane Premios Clásica American Express", "AMEX", "Clásica", 1],
+      ["bac-ganepremios-dorada-visa", "Millas Gane Premios Dorada Visa", "Visa", "Gold", 2],
+      ["bac-ganepremios-gold-mc", "Millas Gane Premios Gold Mastercard", "Mastercard", "Gold", 2],
+      ["bac-ganepremios-platinum-amex", "Gane Premios Platinum American Express", "AMEX", "Platinum", 3],
+      ["bac-ganepremios-platinum-mc", "Millas Gane Premios Platinum Mastercard", "Mastercard", "Platinum", 3],
+    ] as const
+  ).map(
+    ([id, nombre, red, categoria, nivel]): Tarjeta => ({
+      id,
+      imagen: `/images/tarjetas/${id}.webp`,
+      banco: "BAC Credomatic",
+      nombre,
+      red,
+      categoria,
+      nivel,
+      modalidad: "Premios",
+      programa: "Millas Gane Premios",
+      acumulacionTop: { valor: 1, unidad: "millas/$" },
+      acumulacion: [
+        "1 milla por $1 en supermercados",
+        "1 milla por $1 en farmacias",
+        "1 milla por $1 en restaurantes y comidas rápidas",
+        "1 milla por $1 en tiendas por departamento",
+        "1 milla por $1 en ropa y zapaterías",
+        "1 milla por $1 en otros comercios participantes",
+      ],
+      metaGasto: null,
+      tope: null,
+      salaVip: false,
+      priorityPass: false,
+      beneficios: [
+        "Canje en más de 500 comercios afiliados, boletos aéreos y hospedaje",
+        "2 millas Gane Premios equivalen a 1 milla LifeMiles",
+        ...(red === "AMEX" ? ["Hasta 30% de descuento en hoteles seleccionados"] : []),
+      ],
+      perfiles: nivel === 1 ? ["principiantes"] : [],
+    }),
+  ),
   {
     id: "bac-lifemiles-infinite",
     imagen: "/images/tarjetas/img-3a1b26e6-d04a.png",
@@ -641,7 +838,7 @@ export const tarjetas: Tarjeta[] = [
     nombre: "BN Internacional (Millas)",
     red: null,
     categoria: "Internacional",
-    nivel: 2,
+    nivel: 1,
     modalidad: "Millas",
     programa: "LifeMiles (conversión)",
     acumulacionTop: { valor: 1, unidad: "pts/$" },
@@ -916,6 +1113,51 @@ export const tarjetas: Tarjeta[] = [
       ],
       perfiles: ["viajeros"],
     }),
+  ),
+
+  // LAFISE (según las páginas de LAFISE Costa Rica, setiembre 2026)
+  ...(
+    [
+      ["lafise-visa-clasica", "LAFISE Visa Clásica", "Clásica", 1, 1, "2.000", "clasica", ["principiantes"]],
+      ["lafise-visa-oro", "LAFISE Visa Oro", "Oro", 2, 1, "5.000", "gold", []],
+      ["lafise-mi-meta-clasica", "LAFISE Mi Meta Visa Clásica", "Clásica", 1, 2, "2.000", "clasica", ["principiantes"]],
+      ["lafise-mi-meta-oro", "LAFISE Mi Meta Visa Oro", "Oro", 2, 2, "5.000", "gold", []],
+      ["lafise-mi-meta-platinum", "LAFISE Mi Meta Visa Platinum", "Platinum", 3, 2, "10.000", "platinum", []],
+      ["lafise-visa-signature", "LAFISE Visa Signature", "Signature", 4, 2, "15.000", "signature", ["viajeros"]],
+      ["lafise-visa-infinite", "LAFISE Visa Infinite", "Infinite", 4, 2, "20.000", "infinite", ["viajeros"]],
+    ] as const
+  ).map(
+    ([id, nombre, categoria, nivel, millas, bono, img, perfiles]): Tarjeta => {
+      const premium = categoria === "Signature" || categoria === "Infinite";
+      return {
+        id,
+        imagen: `/images/tarjetas/lafise-visa-${img}.webp`,
+        banco: "LAFISE",
+        nombre,
+        red: "Visa",
+        categoria,
+        nivel,
+        modalidad: "Millas",
+        programa: "Millas LAFISE",
+        acumulacionTop: { valor: millas, unidad: "millas/$" },
+        acumulacion: [
+          `${millas} ${millas === 1 ? "milla" : "millas"} por cada $1`,
+          "Canjeables por cashback, saldo a tu cuenta o millas LifeMiles",
+        ],
+        metaGasto: null,
+        tope: null,
+        salaVip: premium,
+        priorityPass: false,
+        beneficios: [
+          `Bono de bienvenida de hasta ${bono} millas`,
+          "Hasta 5 compras por corte a Línea 0% de interés",
+          ...(premium
+            ? ["Salón VIP Visa en el Juan Santamaría y en salas alrededor del mundo", "Visa Luxury Hotel Collection y Visa Digital Concierge"]
+            : ["Protección de precio y garantía extendida Visa"]),
+        ],
+        perfiles: [...perfiles],
+      };
+    },
   ),
 
   // Wink
