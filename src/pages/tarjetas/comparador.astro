@@ -1,0 +1,937 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import {
+  SlidersHorizontal,
+  Search,
+  Landmark,
+  Gift,
+  CreditCard,
+  Layers,
+  Sparkles,
+  ArrowUpDown,
+  Info,
+  BookOpen,
+  RotateCcw,
+  Scale,
+  X,
+  Percent,
+} from "@lucide/astro";
+import { tarjetas, actualizado, mercadoMeic, coloresBanco } from "../../data/tarjetas-credito";
+
+const bancos = [...new Set(tarjetas.map((t) => t.banco))];
+const modalidades = ["Cashback", "Supermercado", "Millas", "Premios"];
+const redes = ["Visa", "Mastercard", "AMEX"];
+const niveles = [
+  { value: "1", label: "Entrada" },
+  { value: "2", label: "Intermedia" },
+  { value: "3", label: "Alta" },
+  { value: "4", label: "Premium" },
+];
+const perfiles = [
+  { value: "", label: "Cualquier uso" },
+  { value: "principiantes", label: "Mi primera tarjeta 🏁" },
+  { value: "supermercado", label: "Supermercado 🛒" },
+  { value: "internet", label: "Compras por internet 📦" },
+  { value: "suscripciones", label: "Suscripciones 🎬" },
+  { value: "viajeros", label: "Viajes ✈️" },
+  { value: "comida", label: "Restaurantes 🍕" },
+  { value: "salud", label: "Farmacias y salud 💊" },
+  { value: "gasolina", label: "Gasolina ⛽" },
+];
+---
+
+<Layout
+  title="Comparador de Tarjetas de Crédito | RIP Wallet"
+  description="Compara las tarjetas de crédito de Costa Rica por banco, modalidad, red, categoría y beneficios."
+>
+  <Navbar currentPath="/tarjetas/comparador" />
+
+  <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+    <header class="text-center mb-16 animate-reveal">
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+        Comparador de Tarjetas
+      </h1>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto font-medium">
+        Filtra las tarjetas de crédito de Costa Rica por banco, modalidad y
+        beneficios, y compara hasta 3 lado a lado.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Filtros -->
+      <aside class="lg:col-span-4 space-y-6 animate-reveal">
+        <button
+          id="filtersToggle"
+          class="lg:hidden w-full flex items-center justify-between card-outline py-4! px-6!"
+          aria-expanded="false"
+          aria-controls="filtersPanel"
+        >
+          <span
+            class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center"
+          >
+            <SlidersHorizontal class="w-3.5 h-3.5 mr-2" /> Filtros
+            <span
+              id="activeFiltersCount"
+              class="ml-2 hidden bg-gray-900 text-white rounded-full px-2 py-0.5 text-[9px] tracking-normal"
+            ></span>
+          </span>
+          <span class="text-xs font-semibold text-gray-400" id="filtersToggleLabel"
+            >Mostrar</span
+          >
+        </button>
+
+        <div id="filtersPanel" class="hidden lg:block space-y-6">
+          <div class="card-outline">
+            <div class="flex items-center justify-between mb-8">
+              <h4
+                class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 flex items-center"
+              >
+                <SlidersHorizontal class="w-3.5 h-3.5 mr-2" /> Filtros
+              </h4>
+              <button
+                id="resetFilters"
+                class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors flex items-center"
+              >
+                <RotateCcw class="w-3 h-3 mr-1" /> Limpiar
+              </button>
+            </div>
+
+            <div class="space-y-6">
+              <div>
+                <label
+                  for="search"
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >Buscar</label
+                >
+                <div class="relative">
+                  <Search
+                    class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  />
+                  <input
+                    id="search"
+                    type="search"
+                    class="apple-input pl-10!"
+                    placeholder="EconoMía, LifeMiles, Walmart…"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  for="perfil"
+                  class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2"
+                  >¿Para qué la quiero?</label
+                >
+                <select id="perfil" class="apple-input">
+                  {perfiles.map((p) => <option value={p.value}>{p.label}</option>)}
+                </select>
+              </div>
+
+              <fieldset>
+                <legend
+                  class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3"
+                >
+                  <Landmark class="w-3 h-3 mr-1.5" /> Banco
+                </legend>
+                <div class="flex flex-wrap gap-2" data-filter="banco">
+                  {bancos.map((b) => (
+                    <button type="button" class="chip flex items-center gap-1.5" data-value={b}>
+                      <span class="w-2 h-2 rounded-full shrink-0" style={`background-color: ${coloresBanco[b]}`}></span>
+                      {b}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend
+                  class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3"
+                >
+                  <Gift class="w-3 h-3 mr-1.5" /> Modalidad
+                </legend>
+                <div class="flex flex-wrap gap-2" data-filter="modalidad">
+                  {modalidades.map((m) => <button type="button" class="chip" data-value={m}>{m}</button>)}
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend
+                  class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3"
+                >
+                  <CreditCard class="w-3 h-3 mr-1.5" /> Red
+                </legend>
+                <div class="flex flex-wrap gap-2" data-filter="red">
+                  {redes.map((r) => <button type="button" class="chip" data-value={r}>{r}</button>)}
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend
+                  class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3"
+                >
+                  <Layers class="w-3 h-3 mr-1.5" /> Categoría / límite
+                </legend>
+                <div class="grid grid-cols-4 gap-1 p-1 bg-gray-50 border border-gray-100 rounded-xl" data-filter="nivel">
+                  {niveles.map((n) => <button type="button" class="segment" data-value={n.value}>{n.label}</button>)}
+                </div>
+                <p class="text-[9px] text-gray-400 mt-2 leading-snug">
+                  Entrada: Clásica · Intermedia: Oro/Gold · Alta: Platinum ·
+                  Premium: Infinite, Black o Metal. El límite exacto lo define
+                  el banco según tu ingreso.
+                </p>
+              </fieldset>
+
+              <fieldset>
+                <legend
+                  class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3"
+                >
+                  <Sparkles class="w-3 h-3 mr-1.5" /> Beneficios
+                </legend>
+                <div class="space-y-2.5">
+                  <label class="toggle-row">
+                    <input type="checkbox" id="fVip" />
+                    <span>Acceso a sala VIP</span>
+                  </label>
+                  <label class="toggle-row">
+                    <input type="checkbox" id="fPriority" />
+                    <span>Priority Pass</span>
+                  </label>
+                  <label class="toggle-row">
+                    <input type="checkbox" id="fSinMeta" />
+                    <span>Sin meta de gasto mensual</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mercado MEIC -->
+        <div class="card-outline bg-gray-50/50 hidden lg:block" id="meicCard">
+          <div class="flex items-center justify-between mb-6">
+            <h4
+              class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center"
+            >
+              <Percent class="w-3.5 h-3.5 mr-2" /> Tasas del mercado
+            </h4>
+            <div
+              class="flex items-center gap-2 text-[8px] font-bold uppercase tracking-[0.2em] text-gray-400"
+            >
+              <span class="status-dot bg-green-500"></span>
+              <span>MEIC</span>
+              <span class="text-gray-500/70">{mercadoMeic.corte}</span>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="grid grid-cols-3 gap-2 px-3 text-[8px] font-bold text-gray-400 uppercase tracking-widest">
+              <span>Entidad</span><span class="text-right">Colones</span><span class="text-right">Dólares</span>
+            </div>
+            {
+              mercadoMeic.tasas.map((t) => (
+                <div class="grid grid-cols-3 gap-2 p-3 bg-white rounded-xl border border-gray-100 text-[11px]">
+                  <span class="font-bold text-gray-900">{t.entidad}</span>
+                  <span class="text-right font-semibold text-gray-600">{t.colones}</span>
+                  <span class="text-right font-semibold text-gray-600">{t.dolares}</span>
+                </div>
+              ))
+            }
+          </div>
+          <p class="text-[9px] text-gray-400 mt-4 leading-snug">
+            Tasa de interés corriente anual. {mercadoMeic.plazoPago}. Si pagas
+            de contado, la tasa no te afecta.
+            <a
+              href={mercadoMeic.url}
+              target="_blank"
+              rel="noopener"
+              class="underline hover:text-black">Ver estudio</a
+            >
+          </p>
+        </div>
+      </aside>
+
+      <!-- Resultados -->
+      <section class="lg:col-span-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
+          <h4
+            class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400"
+          >
+            <span id="resultCount" class="text-gray-900">0</span> tarjetas
+          </h4>
+          <label class="flex items-center gap-2">
+            <ArrowUpDown class="w-3.5 h-3.5 text-gray-400" />
+            <span class="sr-only">Ordenar por</span>
+            <select id="sort" class="apple-input py-2! text-xs! w-auto!">
+              <option value="acumulacion">Mayor acumulación</option>
+              <option value="nivel">Categoría (menor a mayor)</option>
+              <option value="banco">Banco (A-Z)</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+        <div id="emptyState" class="hidden card-outline text-center py-16!">
+          <p class="text-sm font-bold text-gray-900 mb-1">
+            Ninguna tarjeta cumple con esos filtros
+          </p>
+          <p class="text-xs text-gray-500 mb-6">
+            Prueba quitando algún filtro.
+          </p>
+          <button
+            id="emptyReset"
+            class="bg-gray-900 text-white px-6 py-2.5 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-black transition-colors"
+          >
+            Limpiar filtros
+          </button>
+        </div>
+
+        <!-- Info y Disclaimer -->
+        <div class="space-y-4 pt-4">
+          <div class="p-8 bg-blue-50/40 rounded-3xl border border-blue-100">
+            <div class="flex items-start">
+              <BookOpen class="w-5 h-5 text-blue-600 mr-4 mt-1 shrink-0" />
+              <div>
+                <h5 class="text-sm font-bold text-blue-900 mb-1">
+                  ¿Primera vez escogiendo tarjeta?
+                </h5>
+                <p class="text-xs text-blue-800/60 leading-relaxed">
+                  Lee nuestra <a
+                    href="https://ripwallet.notion.site/tarjetas"
+                    target="_blank"
+                    rel="noopener"
+                    class="font-bold text-blue-700 underline">guía completa de tarjetas de crédito</a
+                  > para entender fechas de corte, pago de contado, planes de beneficios
+                  y cómo usarlas sin caer en deudas.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p
+            class="px-8 text-[10px] text-gray-400 leading-relaxed text-center italic"
+          >
+            * Información actualizada a {actualizado} con base en la guía de
+            RIP Wallet y la información pública de cada banco. Las condiciones
+            cambian con frecuencia: confirma siempre con el banco antes de
+            solicitar una tarjeta.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- Comparación -->
+    <section id="compareSection" class="hidden mt-16 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6 px-2">
+        <h2 class="text-3xl font-bold tracking-tight flex items-center">
+          <Scale class="w-6 h-6 mr-3 text-gray-400" /> Comparación
+        </h2>
+        <button
+          id="compareClear"
+          class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors flex items-center"
+        >
+          <X class="w-3 h-3 mr-1" /> Quitar todas
+        </button>
+      </div>
+      <div class="card-outline p-0! overflow-x-auto">
+        <table class="compare-table" id="compareTable"></table>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mt-20 p-12 bg-gray-950 text-white rounded-3xl text-center">
+      <h2 class="text-3xl font-bold mb-4">¿Tienes deudas con tarjetas?</h2>
+      <p class="text-gray-400 mb-8 max-w-lg mx-auto text-sm">
+        Te ayudamos a cotizar con las mejores entidades, escoger buenas
+        condiciones y crear un plan sostenible para salir de ellas.
+      </p>
+      <div class="flex justify-center">
+        <a
+          href="/asesorias"
+          class="bg-white text-black px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors inline-block"
+        >
+          Agendar asesoría
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Barra de comparación -->
+  <div
+    id="compareBar"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-xl translate-y-[200%] opacity-0 pointer-events-none transition-all duration-500"
+  >
+    <div
+      class="glass-dark rounded-2xl shadow-2xl px-4 py-3 flex items-center justify-between gap-3"
+    >
+      <div id="compareChips" class="no-scrollbar flex gap-2 overflow-x-auto min-w-0"></div>
+      <a
+        href="#compareSection"
+        id="compareGo"
+        class="shrink-0 bg-white text-black px-4 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-colors"
+      >
+        Comparar (<span id="compareCount">0</span>)
+      </a>
+    </div>
+  </div>
+
+  <Footer />
+</Layout>
+
+<script>
+  import { tarjetas, coloresBanco, type Tarjeta } from "../../data/tarjetas-credito";
+
+  const MAX_COMPARE = 3;
+
+  const modalidadStyles: Record<string, string> = {
+    Cashback: "bg-green-50 text-green-700 border-green-100",
+    Supermercado: "bg-amber-50 text-amber-700 border-amber-100",
+    Millas: "bg-blue-50 text-blue-700 border-blue-100",
+    Premios: "bg-violet-50 text-violet-700 border-violet-100",
+  };
+
+  const escapeHtml = (s: string) =>
+    s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+
+  function formatTop(t: Tarjeta) {
+    if (!t.acumulacionTop) return null;
+    const v = t.acumulacionTop.valor.toLocaleString("es-CR");
+    return t.acumulacionTop.unidad === "%" ? `${v}%` : `${v} ${t.acumulacionTop.unidad}`;
+  }
+
+  // Para ordenar se toma 1 milla o punto por $ ≈ 1% (estimación conservadora de ~1¢ por milla).
+  // No se muestra al usuario; solo permite mezclar cashback y millas en un mismo orden.
+  function sortValue(t: Tarjeta) {
+    return t.acumulacionTop?.valor ?? -1;
+  }
+
+  function setupCardComparator() {
+    const results = document.getElementById("results");
+    if (!results) return;
+
+    const state = {
+      search: "",
+      perfil: "",
+      banco: new Set<string>(),
+      modalidad: new Set<string>(),
+      red: new Set<string>(),
+      nivel: new Set<string>(),
+      vip: false,
+      priority: false,
+      sinMeta: false,
+      sort: "acumulacion",
+      compare: [] as string[],
+    };
+
+    const el = {
+      search: document.getElementById("search") as HTMLInputElement,
+      perfil: document.getElementById("perfil") as HTMLSelectElement,
+      sort: document.getElementById("sort") as HTMLSelectElement,
+      vip: document.getElementById("fVip") as HTMLInputElement,
+      priority: document.getElementById("fPriority") as HTMLInputElement,
+      sinMeta: document.getElementById("fSinMeta") as HTMLInputElement,
+      count: document.getElementById("resultCount")!,
+      empty: document.getElementById("emptyState")!,
+      activeCount: document.getElementById("activeFiltersCount")!,
+      compareBar: document.getElementById("compareBar")!,
+      compareChips: document.getElementById("compareChips")!,
+      compareCount: document.getElementById("compareCount")!,
+      compareSection: document.getElementById("compareSection")!,
+      compareTable: document.getElementById("compareTable")!,
+    };
+
+    function matches(t: Tarjeta) {
+      if (state.search) {
+        const haystack = [t.nombre, t.banco, t.programa ?? "", t.categoria, t.modalidad, t.red ?? ""]
+          .join(" ")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "");
+        const q = state.search.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+        if (!haystack.includes(q)) return false;
+      }
+      if (state.perfil && !t.perfiles.includes(state.perfil as never)) return false;
+      if (state.banco.size && !state.banco.has(t.banco)) return false;
+      if (state.modalidad.size && !state.modalidad.has(t.modalidad)) return false;
+      if (state.red.size && (!t.red || !state.red.has(t.red))) return false;
+      if (state.nivel.size && !state.nivel.has(String(t.nivel))) return false;
+      if (state.vip && !t.salaVip) return false;
+      if (state.priority && !t.priorityPass) return false;
+      if (state.sinMeta && t.metaGasto && t.metaGasto !== "Sin meta de gasto") return false;
+      return true;
+    }
+
+    function sorted(list: Tarjeta[]) {
+      const byName = (a: Tarjeta, b: Tarjeta) => a.nombre.localeCompare(b.nombre, "es");
+      return [...list].sort((a, b) => {
+        switch (state.sort) {
+          case "nivel":
+            return a.nivel - b.nivel || byName(a, b);
+          case "banco":
+            return a.banco.localeCompare(b.banco, "es") || byName(a, b);
+          default:
+            return sortValue(b) - sortValue(a) || byName(a, b);
+        }
+      });
+    }
+
+    function badge(text: string, cls = "bg-gray-50 text-gray-500 border-gray-100") {
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-widest ${cls}">${escapeHtml(text)}</span>`;
+    }
+
+    function cardHtml(t: Tarjeta) {
+      const color = coloresBanco[t.banco] ?? "#9ca3af";
+      const top = formatTop(t);
+      const selected = state.compare.includes(t.id);
+      const full = state.compare.length >= MAX_COMPARE && !selected;
+      const perks = [
+        t.salaVip ? `<span class="perk"><i data-lucide="armchair"></i>Sala VIP</span>` : "",
+        t.priorityPass ? `<span class="perk"><i data-lucide="plane"></i>Priority Pass</span>` : "",
+        t.metaGasto ? `<span class="perk"><i data-lucide="target"></i>${escapeHtml(t.metaGasto === "Sin meta de gasto" ? "Sin meta" : "Meta " + t.metaGasto.replace(" por mes", "/mes"))}</span>` : "",
+        t.tope ? `<span class="perk"><i data-lucide="gauge"></i>Tope ${escapeHtml(t.tope.replace(" por mes", "/mes"))}</span>` : "",
+      ].join("");
+
+      return `
+        <article class="card-outline card-tarjeta flex flex-col ${selected ? "is-selected" : ""}">
+          <div class="flex items-start justify-between gap-4 mb-5">
+            <div class="min-w-0">
+              <p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${color}">${escapeHtml(t.banco)}</p>
+              <h3 class="text-lg font-bold text-gray-900 leading-tight">${escapeHtml(t.nombre)}</h3>
+            </div>
+            <div class="text-right shrink-0">
+              <p class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Hasta</p>
+              <p class="text-2xl font-bold ${top ? "text-gray-900" : "text-gray-300"}">${top ?? "—"}</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5 mb-5">
+            ${badge(t.modalidad, modalidadStyles[t.modalidad])}
+            ${t.red ? badge(t.red) : ""}
+            ${t.categoria !== "—" ? badge(t.categoria) : ""}
+            ${t.programa ? badge(t.programa, "bg-white text-gray-500 border-gray-200") : ""}
+          </div>
+
+          ${
+            t.acumulacion.length
+              ? `<ul class="space-y-1.5 mb-5">${t.acumulacion
+                  .map((a) => `<li class="text-xs text-gray-600 leading-snug flex"><span class="text-gray-300 mr-2">•</span><span>${escapeHtml(a)}</span></li>`)
+                  .join("")}</ul>`
+              : `<p class="text-xs text-gray-400 italic mb-5">Sin información pública de acumulación.</p>`
+          }
+
+          ${perks ? `<div class="flex flex-wrap gap-1.5 mb-5">${perks}</div>` : ""}
+
+          <button type="button" data-compare="${t.id}" class="compare-btn mt-auto ${selected ? "is-on" : ""}" ${full ? "disabled" : ""}>
+            <i data-lucide="${selected ? "check" : "plus"}"></i>
+            ${selected ? "En comparación" : full ? `Máximo ${MAX_COMPARE}` : "Comparar"}
+          </button>
+        </article>`;
+    }
+
+    function renderCompare() {
+      const selected = state.compare
+        .map((id) => tarjetas.find((t) => t.id === id))
+        .filter(Boolean) as Tarjeta[];
+
+      el.compareCount.textContent = String(selected.length);
+      ["translate-y-[200%]", "opacity-0", "pointer-events-none"].forEach((c) =>
+        el.compareBar.classList.toggle(c, selected.length === 0),
+      );
+      el.compareChips.innerHTML = selected
+        .map(
+          (t) =>
+            `<button type="button" data-remove="${t.id}" class="shrink-0 flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold rounded-full pl-3 pr-2 py-1.5 transition-colors whitespace-nowrap">${escapeHtml(t.nombre)}<i data-lucide="x" class="w-3 h-3"></i></button>`,
+        )
+        .join("");
+
+      el.compareSection.classList.toggle("hidden", selected.length === 0);
+      if (!selected.length) return;
+
+      const list = (items: string[]) =>
+        items.length ? `<ul class="space-y-1">${items.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>` : `<span class="text-gray-300">—</span>`;
+      const yesNo = (b: boolean) =>
+        b ? `<span class="text-green-700 font-bold">Sí</span>` : `<span class="text-gray-300">No</span>`;
+      const text = (s: string | null) => (s ? escapeHtml(s) : `<span class="text-gray-300">—</span>`);
+
+      const rows: [string, (t: Tarjeta) => string][] = [
+        ["Banco", (t) => escapeHtml(t.banco)],
+        ["Modalidad", (t) => badge(t.modalidad, modalidadStyles[t.modalidad])],
+        ["Red", (t) => text(t.red)],
+        ["Categoría", (t) => text(t.categoria === "—" ? null : t.categoria)],
+        ["Programa", (t) => text(t.programa)],
+        ["Acumulación máx.", (t) => `<span class="text-lg font-bold text-gray-900">${formatTop(t) ?? "—"}</span>`],
+        ["Cómo acumula", (t) => list(t.acumulacion)],
+        ["Meta de gasto", (t) => text(t.metaGasto)],
+        ["Tope", (t) => text(t.tope)],
+        ["Sala VIP", (t) => yesNo(t.salaVip)],
+        ["Priority Pass", (t) => yesNo(t.priorityPass)],
+        ["Otros beneficios", (t) => list(t.beneficios)],
+      ];
+
+      el.compareTable.innerHTML = `
+        <thead><tr><th></th>${selected
+          .map(
+            (t) => `<th><p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${coloresBanco[t.banco] ?? "#9ca3af"}">${escapeHtml(t.banco)}</p>
+              <p class="text-base font-bold text-gray-900 leading-tight">${escapeHtml(t.nombre)}</p>
+              <button type="button" data-remove="${t.id}" class="mt-2 text-[9px] font-bold uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors">Quitar</button></th>`,
+          )
+          .join("")}</tr></thead>
+        <tbody>${rows
+          .map(([label, fn]) => `<tr><th scope="row">${label}</th>${selected.map((t) => `<td>${fn(t)}</td>`).join("")}</tr>`)
+          .join("")}</tbody>`;
+    }
+
+    function render() {
+      const list = sorted(tarjetas.filter(matches));
+      el.count.textContent = String(list.length);
+      results!.innerHTML = list.map(cardHtml).join("");
+      el.empty.classList.toggle("hidden", list.length > 0);
+      results!.classList.toggle("hidden", list.length === 0);
+
+      const active =
+        (state.search ? 1 : 0) +
+        (state.perfil ? 1 : 0) +
+        state.banco.size +
+        state.modalidad.size +
+        state.red.size +
+        state.nivel.size +
+        [state.vip, state.priority, state.sinMeta].filter(Boolean).length;
+      el.activeCount.textContent = String(active);
+      el.activeCount.classList.toggle("hidden", active === 0);
+
+      renderCompare();
+      (window as any).lucide?.createIcons();
+    }
+
+    // Chips y segmentos multi-selección
+    document.querySelectorAll<HTMLElement>("[data-filter]").forEach((group) => {
+      const key = group.dataset.filter as "banco" | "modalidad" | "red" | "nivel";
+      group.querySelectorAll<HTMLButtonElement>("button[data-value]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const value = btn.dataset.value!;
+          const set = state[key];
+          set.has(value) ? set.delete(value) : set.add(value);
+          btn.classList.toggle("is-active", set.has(value));
+          btn.setAttribute("aria-pressed", String(set.has(value)));
+          render();
+        });
+      });
+    });
+
+    el.search.addEventListener("input", () => {
+      state.search = el.search.value.trim();
+      render();
+    });
+    el.perfil.addEventListener("change", () => {
+      state.perfil = el.perfil.value;
+      render();
+    });
+    el.sort.addEventListener("change", () => {
+      state.sort = el.sort.value;
+      render();
+    });
+    (["vip", "priority", "sinMeta"] as const).forEach((key) => {
+      el[key].addEventListener("change", () => {
+        state[key] = el[key].checked;
+        render();
+      });
+    });
+
+    function resetFilters() {
+      state.search = "";
+      state.perfil = "";
+      state.banco.clear();
+      state.modalidad.clear();
+      state.red.clear();
+      state.nivel.clear();
+      state.vip = state.priority = state.sinMeta = false;
+      el.search.value = "";
+      el.perfil.value = "";
+      [el.vip, el.priority, el.sinMeta].forEach((c) => (c.checked = false));
+      document.querySelectorAll("[data-filter] button").forEach((b) => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      render();
+    }
+    document.getElementById("resetFilters")!.addEventListener("click", resetFilters);
+    document.getElementById("emptyReset")!.addEventListener("click", resetFilters);
+
+    // Comparación
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const add = target.closest<HTMLElement>("[data-compare]");
+      const remove = target.closest<HTMLElement>("[data-remove]");
+      if (add) {
+        const id = add.dataset.compare!;
+        if (state.compare.includes(id)) state.compare = state.compare.filter((c) => c !== id);
+        else if (state.compare.length < MAX_COMPARE) state.compare.push(id);
+        render();
+      } else if (remove) {
+        state.compare = state.compare.filter((c) => c !== remove.dataset.remove);
+        render();
+      }
+    });
+    document.getElementById("compareClear")!.addEventListener("click", () => {
+      state.compare = [];
+      render();
+    });
+
+    // Filtros en móvil
+    const toggle = document.getElementById("filtersToggle")!;
+    const panel = document.getElementById("filtersPanel")!;
+    const toggleLabel = document.getElementById("filtersToggleLabel")!;
+    toggle.addEventListener("click", () => {
+      const open = panel.classList.toggle("hidden") === false;
+      toggle.setAttribute("aria-expanded", String(open));
+      toggleLabel.textContent = open ? "Ocultar" : "Mostrar";
+    });
+
+    render();
+  }
+
+  setupCardComparator();
+  document.addEventListener("astro:page-load", setupCardComparator);
+</script>
+
+<style is:global>
+  .apple-input {
+    width: 100%;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .apple-input:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05);
+  }
+
+  .card-outline {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 32px;
+    transition: border-color 0.3s ease;
+  }
+
+  .card-outline:hover {
+    border-color: #cbd5e1;
+  }
+
+  .card-tarjeta {
+    padding: 28px;
+    transition:
+      border-color 0.3s ease,
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-tarjeta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+  }
+
+  .card-tarjeta.is-selected {
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.06);
+  }
+
+  .status-dot {
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  .chip {
+    padding: 0.4rem 0.8rem;
+    border-radius: 9999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    color: #4b5563;
+    transition: all 0.2s;
+  }
+
+  .chip:hover {
+    border-color: #cbd5e1;
+    color: #111827;
+  }
+
+  .chip.is-active {
+    background: #111827;
+    border-color: #111827;
+    color: #ffffff;
+  }
+
+  .segment {
+    padding: 0.45rem 0.25rem;
+    border-radius: 0.55rem;
+    font-size: 10px;
+    font-weight: 700;
+    color: #6b7280;
+    transition: all 0.2s;
+  }
+
+  .segment:hover {
+    color: #111827;
+  }
+
+  .segment.is-active {
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+  }
+
+  .toggle-row input {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #111827;
+    cursor: pointer;
+  }
+
+  .perk {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.6rem;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    font-size: 10px;
+    font-weight: 600;
+    color: #4b5563;
+  }
+
+  .perk svg {
+    width: 12px;
+    height: 12px;
+    color: #9ca3af;
+  }
+
+  .compare-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid #e5e7eb;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4b5563;
+    transition: all 0.2s;
+  }
+
+  .compare-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .compare-btn:hover:not(:disabled) {
+    border-color: #111827;
+    color: #111827;
+  }
+
+  .compare-btn.is-on {
+    background: #111827;
+    border-color: #111827;
+    color: #ffffff;
+  }
+
+  .compare-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .glass-dark {
+    background: rgba(17, 24, 39, 0.92);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .compare-table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    color: #4b5563;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .compare-table thead th {
+    padding-top: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .compare-table tbody th {
+    width: 160px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #9ca3af;
+    white-space: nowrap;
+  }
+
+  .compare-table tbody tr:last-child th,
+  .compare-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>
