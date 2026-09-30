@@ -32,6 +32,7 @@ export interface Tarjeta {
   acumulacionTop: { valor: number; unidad: "%" | "millas/$" | "pts/$" } | null;
   acumulacion: string[];
   metaGasto: string | null;
+  tasaInteres?: string;
   tope: string | null;
   salaVip: boolean;
   priorityPass: boolean;
@@ -40,6 +41,17 @@ export interface Tarjeta {
 }
 
 export const actualizado = "Julio 2026";
+
+// Tasas de interés corriente anual publicadas por cada banco en sus folletos.
+const TASA_BCR = "32,5% anual";
+const TASA_POPULAR = "22% a 28,5% en colones · 20% a 26% en dólares (TITA)";
+
+// Logo de cada red de pago, para filtros y etiquetas del comparador.
+export const logosRed: Record<Red, string> = {
+  Visa: "/images/redes/visa.png",
+  Mastercard: "/images/redes/mastercard.png",
+  AMEX: "/images/redes/amex.png",
+};
 
 // Logo de cada banco (tomado de la guía), para tarjetas sin imagen propia.
 export const logosBanco: Record<string, string> = {
@@ -79,8 +91,10 @@ export const tarjetas: Tarjeta[] = [
     programa: "CashBack BAC",
     acumulacionTop: { valor: 4, unidad: "%" },
     acumulacion: [
-      "4% en supermercados y salud",
-      "2% en restaurantes, comida rápida y tiendas de mascotas",
+      "4% en supermercados",
+      "4% en salud",
+      "2% en restaurantes y comida rápida",
+      "2% en tiendas de mascotas",
       "No acumula en gasolineras",
     ],
     metaGasto: "Sin meta de gasto",
@@ -92,6 +106,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-economia-amex",
+    imagen: "/images/tarjetas/bac-economia-amex.png",
     banco: "BAC Credomatic",
     nombre: "EconoMía American Express",
     red: "AMEX",
@@ -101,8 +116,10 @@ export const tarjetas: Tarjeta[] = [
     programa: "CashBack BAC",
     acumulacionTop: { valor: 4, unidad: "%" },
     acumulacion: [
-      "4% en supermercados y salud",
-      "2% en restaurantes, comida rápida y tiendas de mascotas",
+      "4% en supermercados",
+      "4% en salud",
+      "2% en restaurantes y comida rápida",
+      "2% en tiendas de mascotas",
       "No acumula en gasolineras",
     ],
     metaGasto: "Sin meta de gasto",
@@ -127,7 +144,10 @@ export const tarjetas: Tarjeta[] = [
     programa: "CashBack BAC",
     acumulacionTop: { valor: 5, unidad: "%" },
     acumulacion: [
-      "5% en supermercados, farmacias, restaurantes y comida rápida (cumpliendo la meta)",
+      "5% en supermercados",
+      "5% en farmacias",
+      "5% en restaurantes y comida rápida",
+      "El 5% aplica cumpliendo la meta de gasto mensual",
     ],
     metaGasto: "₡600.000 por mes",
     tope: "69.828 puntos por mes",
@@ -148,7 +168,10 @@ export const tarjetas: Tarjeta[] = [
     programa: "CashBack BAC",
     acumulacionTop: { valor: 5, unidad: "%" },
     acumulacion: [
-      "5% en supermercados, farmacias, restaurantes y comida rápida (cumpliendo la meta)",
+      "5% en supermercados",
+      "5% en farmacias",
+      "5% en restaurantes y comida rápida",
+      "El 5% aplica cumpliendo la meta de gasto mensual",
     ],
     metaGasto: "₡600.000 por mes",
     tope: "69.828 puntos por mes",
@@ -171,7 +194,10 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Cashback",
     programa: "CashBack BAC",
     acumulacionTop: { valor: 5, unidad: "%" },
-    acumulacion: ["5% en compras por internet y suscripciones"],
+    acumulacion: [
+      "5% en compras por internet",
+      "5% en suscripciones",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: false,
@@ -200,6 +226,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-walmart-gold",
+    imagen: "/images/tarjetas/bac-walmart-gold.png",
     banco: "BAC Credomatic",
     nombre: "Walmart Cash Gold",
     red: "AMEX",
@@ -218,6 +245,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-walmart-platinum",
+    imagen: "/images/tarjetas/bac-walmart-platinum.png",
     banco: "BAC Credomatic",
     nombre: "Walmart Cash Platinum",
     red: "AMEX",
@@ -283,7 +311,9 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Millas",
     programa: "MillasPlus BAC",
     acumulacionTop: null,
-    acumulacion: ["Millas redimibles como cashback o viajes"],
+    acumulacion: [
+      "Millas redimibles como cashback o viajes",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: false,
@@ -302,7 +332,9 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Millas",
     programa: "LifeMiles",
     acumulacionTop: { valor: 2, unidad: "millas/$" },
-    acumulacion: ["2 millas LifeMiles por cada $1"],
+    acumulacion: [
+      "2 millas LifeMiles por cada $1",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: false,
@@ -312,6 +344,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-connectmiles-infinite",
+    imagen: "/images/tarjetas/bac-connectmiles-infinite.png",
     banco: "BAC Credomatic",
     nombre: "ConnectMiles Visa Infinite",
     red: "Visa",
@@ -333,15 +366,18 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-aadvantage",
+    imagen: "/images/tarjetas/bac-aadvantage.png",
     banco: "BAC Credomatic",
     nombre: "AAdvantage",
-    red: null,
-    categoria: "—",
-    nivel: 3,
+    red: "Mastercard",
+    categoria: "Black",
+    nivel: 4,
     modalidad: "Millas",
     programa: "AAdvantage",
-    acumulacionTop: null,
-    acumulacion: ["Millas AAdvantage de American Airlines"],
+    acumulacionTop: { valor: 1, unidad: "millas/$" },
+    acumulacion: [
+      "1 milla AAdvantage por cada $1",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: false,
@@ -400,7 +436,10 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Premios",
     programa: null,
     acumulacionTop: null,
-    acumulacion: ["El BCR no publica la acumulación"],
+    acumulacion: [
+      "El BCR no publica la acumulación",
+    ],
+    tasaInteres: TASA_BCR,
     metaGasto: null,
     tope: null,
     salaVip: true,
@@ -419,7 +458,10 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Premios",
     programa: null,
     acumulacionTop: null,
-    acumulacion: ["El BCR no publica la acumulación"],
+    acumulacion: [
+      "El BCR no publica la acumulación",
+    ],
+    tasaInteres: TASA_BCR,
     metaGasto: null,
     tope: null,
     salaVip: true,
@@ -439,9 +481,13 @@ export const tarjetas: Tarjeta[] = [
     categoria: "Jade",
     nivel: 4,
     modalidad: "Premios",
-    programa: null,
-    acumulacionTop: null,
-    acumulacion: ["El BCR no publica la acumulación"],
+    programa: "Programa de Lealtad BCR",
+    acumulacionTop: { valor: 1.25, unidad: "pts/$" },
+    acumulacion: [
+      "1,25 puntos por cada $1",
+      "Cada punto vale ₡6 (≈ ₡7,5 por cada $1 gastado)",
+    ],
+    tasaInteres: TASA_BCR,
     metaGasto: null,
     tope: null,
     salaVip: true,
@@ -450,6 +496,45 @@ export const tarjetas: Tarjeta[] = [
     perfiles: ["viajeros"],
   },
 
+  // BCR: tarjetas de entrada, según el folleto explicativo del BCR
+  ...(
+    [
+      ["bcr-internacional", "BCR Internacional", "Internacional", 1, ["principiantes"], null, null],
+      ["bcr-oro", "BCR Oro", "Oro", 2, [], null, "bcr-oro.webp"],
+      ["bcr-platino", "BCR Platino", "Platino", 3, [], null, "bcr-platino.webp"],
+      ["bcr-viva-salud", "BCR Viva Salud", "Platinum", 3, ["salud"], "Mastercard", "bcr-viva-salud.png"],
+      ["bcr-kolbi", "BCR Kölbi", "—", 1, [], null, null],
+    ] as const
+  ).map(
+    ([id, nombre, categoria, nivel, perfiles, red, imagen]): Tarjeta => ({
+      id,
+      ...(imagen ? { imagen: `/images/tarjetas/${imagen}` } : {}),
+      banco: "BCR",
+      nombre,
+      red,
+      categoria,
+      nivel,
+      modalidad: "Premios",
+      programa: "Programa de Lealtad BCR",
+      acumulacionTop: null,
+      acumulacion: [
+        "Puntos canjeables por cashback",
+        "El BCR no publica la tasa de acumulación",
+      ],
+      tasaInteres: TASA_BCR,
+      metaGasto: null,
+      tope: null,
+      salaVip: false,
+      priorityPass: false,
+      beneficios: [
+        ...(red ? [] : ["Disponible en Visa o Mastercard"]),
+        "Compras a 3, 6 o 9 meses sin intereses (Plan BCR 0%)",
+        "Tarjeta virtual para compras por internet",
+      ],
+      perfiles: [...perfiles],
+    }),
+  ),
+
   // BCT
   {
     id: "bct-cashback",
@@ -457,13 +542,14 @@ export const tarjetas: Tarjeta[] = [
     banco: "Banco BCT",
     nombre: "Cash Back BCT",
     red: "Visa",
-    categoria: "—",
-    nivel: 2,
+    categoria: "Clásica",
+    nivel: 1,
     modalidad: "Cashback",
     programa: null,
     acumulacionTop: { valor: 5, unidad: "%" },
     acumulacion: [
-      "5% en supermercados y farmacias",
+      "5% en supermercados",
+      "5% en farmacias",
       "3% en restaurantes y comida rápida",
       "1% en gasolineras",
     ],
@@ -476,6 +562,38 @@ export const tarjetas: Tarjeta[] = [
   },
 
   // Banco Nacional
+  {
+    id: "bn-dia-a-dia",
+    imagen: "/images/tarjetas/bn-dia-a-dia.webp",
+    banco: "Banco Nacional",
+    nombre: "BN Día a Día",
+    red: "Mastercard",
+    categoria: "Clásica",
+    nivel: 1,
+    modalidad: "Cashback",
+    programa: "Cashback BN",
+    acumulacionTop: { valor: 5, unidad: "%" },
+    acumulacion: [
+      "5% en supermercados, minisúper y pulperías",
+      "5% en farmacias, clínicas, hospitales y laboratorios",
+      "5% en gasolineras",
+      "3% en restaurantes y comidas rápidas",
+      "3% en veterinarias y tiendas de mascotas",
+      "Compras por plataformas de delivery no acumulan",
+    ],
+    metaGasto: "Sin meta de gasto",
+    tope: "₡25.000 por mes",
+    salaVip: false,
+    priorityPass: false,
+    beneficios: [
+      "Canje mínimo de ₡15.000",
+      "El cashback no vence",
+      "Sin anualidad ni membresía",
+      "Compras en el exterior sin comisión",
+      "Seguro de saldo deudor gratis",
+    ],
+    perfiles: ["principiantes", "supermercado", "salud", "gasolina", "comida"],
+  },
   {
     id: "bn-black",
     imagen: "/images/tarjetas/img-2f9b26e6-4047.png",
@@ -556,13 +674,21 @@ export const tarjetas: Tarjeta[] = [
   // Banco Popular
   ...(
     [
-      ["popular-infinite", "Popular Visa Infinite", "Infinite", 4],
-      ["popular-gamer", "Popular Gamer", "Gamer", 2],
-      ["popular-platino", "Popular Platino", "Platino", 3],
-      ["popular-oro", "Popular Oro", "Oro", 2],
+      ["popular-infinite", "Popular Visa Infinite", "Infinite", 4, []],
+      ["popular-platino", "Popular Platinum", "Platinum", 3, []],
+      ["popular-oro", "Popular Oro", "Oro", 2, []],
+      ["popular-clasica", "Popular Clásica Internacional", "Clásica", 1, []],
+      [
+        "popular-gamer",
+        "Popular Visa Gamer",
+        "Clásica",
+        1,
+        ["Protección de precio Visa", "Descuentos con socios comerciales gamer"],
+      ],
+      ["popular-activa", "Popular ACTIVA", "—", 1, ["Incluye brazalete de pago con chip"]],
     ] as const
   ).map(
-    ([id, nombre, categoria, nivel]): Tarjeta => ({
+    ([id, nombre, categoria, nivel, extras]): Tarjeta => ({
       id,
       banco: "Banco Popular",
       nombre,
@@ -576,11 +702,16 @@ export const tarjetas: Tarjeta[] = [
         "1 punto por cada $3 (cada punto vale ₡8)",
         "≈ ₡264 por cada $100 en compras",
       ],
+      tasaInteres: TASA_POPULAR,
       metaGasto: null,
       tope: null,
       salaVip: false,
       priorityPass: false,
-      beneficios: ["Canje en comercios afiliados y tiendas virtuales"],
+      beneficios: [
+        "Canje en comercios afiliados y tiendas virtuales",
+        "BP Tasa Cero: compras a cuotas sin intereses",
+        ...extras,
+      ],
       perfiles: [],
     }),
   ),
@@ -597,7 +728,9 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Millas",
     programa: "LifeMiles",
     acumulacionTop: { valor: 1, unidad: "millas/$" },
-    acumulacion: ["1 milla LifeMiles por cada $1"],
+    acumulacion: [
+      "1 milla LifeMiles por cada $1",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: true,
@@ -611,6 +744,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "davivienda-lifemiles-infinite",
+    imagen: "/images/tarjetas/davivienda-lifemiles-infinite.png",
     banco: "Davivienda (Scotiabank)",
     nombre: "LifeMiles Visa Infinite Davivienda",
     red: "Visa",
@@ -619,7 +753,9 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Millas",
     programa: "LifeMiles",
     acumulacionTop: { valor: 1.48, unidad: "millas/$" },
-    acumulacion: ["1,48 millas LifeMiles por cada $1"],
+    acumulacion: [
+      "1,48 millas LifeMiles por cada $1",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: false,
@@ -641,10 +777,14 @@ export const tarjetas: Tarjeta[] = [
     programa: "Millas Promerica (redimibles en cashback)",
     acumulacionTop: { valor: 4, unidad: "millas/$" },
     acumulacion: [
-      "Plan Viajeros: 4 millas/$ en hoteles, aerolíneas y agencias",
+      "Plan Viajeros: 4 millas/$ en hoteles",
+      "Plan Viajeros: 4 millas/$ en aerolíneas",
+      "Plan Viajeros: 4 millas/$ en agencias de viajes",
       "Plan Foodie: 4 millas/$ en restaurantes",
       "Plan Shoppers: 4 millas/$ en tiendas por departamento",
-      "2 millas/$ en súper, farmacias y gasolineras en los 3 planes",
+      "2 millas/$ en supermercados (los 3 planes)",
+      "2 millas/$ en farmacias (los 3 planes)",
+      "2 millas/$ en gasolineras (los 3 planes)",
     ],
     metaGasto: null,
     tope: null,
@@ -690,7 +830,9 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Millas",
     programa: "Millas Promerica",
     acumulacionTop: { valor: 2, unidad: "millas/$" },
-    acumulacion: ["2 millas por cada $1"],
+    acumulacion: [
+      "2 millas por cada $1",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: true,
@@ -705,6 +847,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "promerica-premia-auto",
+    imagen: "/images/tarjetas/promerica-premia-auto.png",
     banco: "Promerica",
     nombre: "Premia Auto",
     red: null,
@@ -713,7 +856,9 @@ export const tarjetas: Tarjeta[] = [
     modalidad: "Premios",
     programa: "Premia",
     acumulacionTop: { valor: 3, unidad: "%" },
-    acumulacion: ["3 puntos por cada ₡100 en gasolineras"],
+    acumulacion: [
+      "3 puntos por cada ₡100 en gasolineras",
+    ],
     metaGasto: null,
     tope: null,
     salaVip: false,
@@ -721,6 +866,55 @@ export const tarjetas: Tarjeta[] = [
     beneficios: [],
     perfiles: ["gasolina"],
   },
+
+  // Promerica: Premia Travel, según el kit de bienvenida
+  ...(
+    [
+      ["promerica-premia-travel-clasica", "Premia Travel Clásica", "Clásica", 1, "5.000", "clasica"],
+      ["promerica-premia-travel-gold", "Premia Travel Gold", "Gold", 2, "10.000", "gold"],
+      ["promerica-premia-travel-platinum", "Premia Travel Platinum", "Platinum", 3, "15.000", "platinum"],
+    ] as const
+  ).map(
+    ([id, nombre, categoria, nivel, topeMillas, img]): Tarjeta => ({
+      id,
+      imagen: `/images/tarjetas/promerica-premia-travel-${img}.png`,
+      banco: "Promerica",
+      nombre,
+      red: null,
+      categoria,
+      nivel,
+      modalidad: "Millas",
+      programa: "Premia Travel",
+      acumulacionTop: { valor: 3, unidad: "millas/$" },
+      acumulacion: [
+        "3 millas/$ en aerolíneas",
+        "3 millas/$ en hoteles",
+        "3 millas/$ en renta de vehículos",
+        "3 millas/$ en agencias de viajes",
+        "3 millas/$ en cruceros",
+        "2 millas/$ en compras en el exterior",
+        "1 milla/$ en supermercados",
+        "1 milla/$ en restaurantes",
+        "1 milla/$ en gasolineras",
+        "1 milla/$ en farmacias",
+      ],
+      metaGasto: null,
+      tope: `${topeMillas} millas por corte`,
+      salaVip: categoria === "Platinum",
+      priorityPass: false,
+      beneficios: [
+        "Disponible en Visa o Mastercard",
+        "4 meses sin intereses en tiquetes, hoteles, rent a car, cruceros y compras en el exterior",
+        "6 meses sin intereses en la primera compra",
+        "Las millas vencen a los 24 meses",
+        "Se pierden las millas con atraso en el pago o 3 meses sin usar la tarjeta",
+        ...(categoria === "Platinum"
+          ? ["VIP Lounge en los aeropuertos Juan Santamaría y Daniel Oduber"]
+          : []),
+      ],
+      perfiles: ["viajeros"],
+    }),
+  ),
 
   // Wink
   {

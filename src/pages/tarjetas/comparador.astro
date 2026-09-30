@@ -17,8 +17,9 @@ import {
   Scale,
   X,
   Percent,
+  Target,
 } from "@lucide/astro";
-import { tarjetas, actualizado, mercadoMeic, coloresBanco } from "../../data/tarjetas-credito";
+import { tarjetas, actualizado, mercadoMeic, logosBanco, logosRed } from "../../data/tarjetas-credito";
 
 const bancos = [...new Set(tarjetas.map((t) => t.banco))];
 const modalidades = ["Cashback", "Supermercado", "Millas", "Premios"];
@@ -139,7 +140,7 @@ const perfiles = [
                 <div class="flex flex-wrap gap-2" data-filter="banco">
                   {bancos.map((b) => (
                     <button type="button" class="chip flex items-center gap-1.5" data-value={b}>
-                      <span class="w-2 h-2 rounded-full shrink-0" style={`background-color: ${coloresBanco[b]}`}></span>
+                      <img src={logosBanco[b]} alt="" class="bank-logo" />
                       {b}
                     </button>
                   ))}
@@ -164,7 +165,12 @@ const perfiles = [
                   <CreditCard class="w-3 h-3 mr-1.5" /> Red
                 </legend>
                 <div class="flex flex-wrap gap-2" data-filter="red">
-                  {redes.map((r) => <button type="button" class="chip" data-value={r}>{r}</button>)}
+                  {redes.map((r) => (
+                    <button type="button" class="chip flex items-center gap-1.5" data-value={r}>
+                      <img src={logosRed[r as keyof typeof logosRed]} alt="" class="red-logo" />
+                      {r}
+                    </button>
+                  ))}
                 </div>
               </fieldset>
 
@@ -199,11 +205,19 @@ const perfiles = [
                     <input type="checkbox" id="fPriority" />
                     <span>Priority Pass</span>
                   </label>
-                  <label class="toggle-row">
-                    <input type="checkbox" id="fSinMeta" />
-                    <span>Sin meta de gasto mensual</span>
-                  </label>
                 </div>
+              </fieldset>
+
+              <fieldset>
+                <legend
+                  class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3"
+                >
+                  <Target class="w-3 h-3 mr-1.5" /> Mínimo de gasto
+                </legend>
+                <label class="switch-row">
+                  <span>Solo tarjetas sin mínimo de gasto</span>
+                  <input type="checkbox" id="fSinMeta" role="switch" class="switch" />
+                </label>
               </fieldset>
             </div>
           </div>
@@ -379,7 +393,7 @@ const perfiles = [
 </Layout>
 
 <script>
-  import { tarjetas, coloresBanco, logosBanco, type Tarjeta } from "../../data/tarjetas-credito";
+  import { tarjetas, coloresBanco, logosBanco, logosRed, type Tarjeta } from "../../data/tarjetas-credito";
 
   const MAX_COMPARE = 3;
 
@@ -479,6 +493,16 @@ const perfiles = [
       return `<span class="inline-flex items-center px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-widest ${cls}">${escapeHtml(text)}</span>`;
     }
 
+    function bankLogo(banco: string) {
+      const logo = logosBanco[banco];
+      return logo ? `<img src="${logo}" alt="" class="bank-logo" />` : "";
+    }
+
+    function redBadge(red: Tarjeta["red"]) {
+      if (!red) return "";
+      return `<span class="red-badge"><img src="${logosRed[red]}" alt="" class="red-logo" />${escapeHtml(red)}</span>`;
+    }
+
     function cardImage(t: Tarjeta, cls: string) {
       if (t.imagen) {
         return `<div class="${cls}"><img src="${t.imagen}" alt="${escapeHtml(t.nombre)}" loading="lazy" /></div>`;
@@ -497,6 +521,7 @@ const perfiles = [
         t.priorityPass ? `<span class="perk"><i data-lucide="plane"></i>Priority Pass</span>` : "",
         t.metaGasto ? `<span class="perk"><i data-lucide="target"></i>${escapeHtml(t.metaGasto === "Sin meta de gasto" ? "Sin meta" : "Meta " + t.metaGasto.replace(" por mes", "/mes"))}</span>` : "",
         t.tope ? `<span class="perk"><i data-lucide="gauge"></i>Tope ${escapeHtml(t.tope.replace(" por mes", "/mes"))}</span>` : "",
+        t.tasaInteres ? `<span class="perk"><i data-lucide="percent"></i>Tasa ${escapeHtml(t.tasaInteres.split(" ·")[0].replace(" en colones", " ₡"))}</span>` : "",
       ].join("");
 
       return `
@@ -504,7 +529,7 @@ const perfiles = [
           ${cardImage(t, "card-visual")}
           <div class="flex items-start justify-between gap-4 mb-5">
             <div class="min-w-0">
-              <p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${color}">${escapeHtml(t.banco)}</p>
+              <p class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${color}">${bankLogo(t.banco)}${escapeHtml(t.banco)}</p>
               <h3 class="text-lg font-bold text-gray-900 leading-tight">${escapeHtml(t.nombre)}</h3>
             </div>
             <div class="text-right shrink-0">
@@ -515,9 +540,8 @@ const perfiles = [
 
           <div class="flex flex-wrap gap-1.5 mb-5">
             ${badge(t.modalidad, modalidadStyles[t.modalidad])}
-            ${t.red ? badge(t.red) : ""}
+            ${redBadge(t.red)}
             ${t.categoria !== "—" ? badge(t.categoria) : ""}
-            ${t.programa ? badge(t.programa, "bg-white text-gray-500 border-gray-200") : ""}
           </div>
 
           ${
@@ -565,13 +589,14 @@ const perfiles = [
       const rows: [string, (t: Tarjeta) => string][] = [
         ["Banco", (t) => escapeHtml(t.banco)],
         ["Modalidad", (t) => badge(t.modalidad, modalidadStyles[t.modalidad])],
-        ["Red", (t) => text(t.red)],
+        ["Red", (t) => (t.red ? redBadge(t.red) : text(null))],
         ["Categoría", (t) => text(t.categoria === "—" ? null : t.categoria)],
         ["Programa", (t) => text(t.programa)],
         ["Acumulación máx.", (t) => `<span class="text-lg font-bold text-gray-900">${formatTop(t) ?? "—"}</span>`],
         ["Cómo acumula", (t) => list(t.acumulacion)],
         ["Meta de gasto", (t) => text(t.metaGasto)],
         ["Tope", (t) => text(t.tope)],
+        ["Tasa de interés", (t) => text(t.tasaInteres ?? null)],
         ["Sala VIP", (t) => yesNo(t.salaVip)],
         ["Priority Pass", (t) => yesNo(t.priorityPass)],
         ["Otros beneficios", (t) => list(t.beneficios)],
@@ -580,7 +605,7 @@ const perfiles = [
       el.compareTable.innerHTML = `
         <thead><tr><th></th>${selected
           .map(
-            (t) => `<th>${cardImage(t, "compare-visual")}<p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${coloresBanco[t.banco] ?? "#9ca3af"}">${escapeHtml(t.banco)}</p>
+            (t) => `<th>${cardImage(t, "compare-visual")}<p class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest mb-1" style="color: ${coloresBanco[t.banco] ?? "#9ca3af"}">${bankLogo(t.banco)}${escapeHtml(t.banco)}</p>
               <p class="text-base font-bold text-gray-900 leading-tight">${escapeHtml(t.nombre)}</p>
               <button type="button" data-remove="${t.id}" class="mt-2 text-[9px] font-bold uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors">Quitar</button></th>`,
           )
@@ -849,6 +874,85 @@ const perfiles = [
     background: #ffffff;
     color: #111827;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  .bank-logo {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .switch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+  }
+
+  .switch {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    background: #e5e7eb;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: calc(1.25rem - 4px);
+    height: calc(1.25rem - 4px);
+    border-radius: 9999px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .switch:checked {
+    background: #111827;
+  }
+
+  .switch:checked::after {
+    transform: translateX(1rem);
+  }
+
+  .switch:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+  }
+
+  .red-logo {
+    height: 12px;
+    width: auto;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .red-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.125rem 0.5rem 0.125rem 0.3rem;
+    border-radius: 0.375rem;
+    border: 1px solid #f3f4f6;
+    background: #f9fafb;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b7280;
   }
 
   .toggle-row {
