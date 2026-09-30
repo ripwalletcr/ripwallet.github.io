@@ -40,7 +40,7 @@ export interface Tarjeta {
   perfiles: Perfil[];
 }
 
-export const actualizado = "Julio 2026";
+export const actualizado = "Setiembre 2026";
 
 // Tasas de interés corriente anual publicadas por cada banco en sus folletos.
 const TASA_BCR = "32,5% anual";
