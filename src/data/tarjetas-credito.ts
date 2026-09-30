@@ -60,7 +60,8 @@ export const logosBanco: Record<string, string> = {
   "Banco BCT": "/images/tarjetas/icono-bct-icon.webp",
   "Banco Nacional": "/images/tarjetas/icono-bn-icon.webp",
   "Banco Popular": "/images/tarjetas/icono-popular-icon.webp",
-  "Davivienda (Scotiabank)": "/images/tarjetas/icono-davibank-icono.webp",
+  "Davibank (Scotiabank)": "/images/tarjetas/icono-davibank-icono.webp",
+  Davivienda: "/images/tarjetas/icono-davivienda.webp",
   Promerica: "/images/tarjetas/icono-promerica.webp",
   Wink: "/images/tarjetas/icono-wink-icon.webp",
 };
@@ -72,7 +73,8 @@ export const coloresBanco: Record<string, string> = {
   "Banco BCT": "#003B71",
   "Banco Nacional": "#00539F",
   "Banco Popular": "#F58220",
-  "Davivienda (Scotiabank)": "#ED1C24",
+  "Davibank (Scotiabank)": "#ED1C24",
+  Davivienda: "#E30613",
   Promerica: "#00A651",
   Wink: "#7B2CBF",
 };
@@ -716,12 +718,12 @@ export const tarjetas: Tarjeta[] = [
     }),
   ),
 
-  // Davivienda / Scotiabank
+  // Davibank (Scotiabank) y Davivienda
   {
     id: "scotia-lifemiles-infinite",
     imagen: "/images/tarjetas/img-c16b26e6-646b.png",
-    banco: "Davivienda (Scotiabank)",
-    nombre: "LifeMiles Visa Infinite (ex Scotiabank)",
+    banco: "Davibank (Scotiabank)",
+    nombre: "LifeMiles Visa Infinite",
     red: "Visa",
     categoria: "Infinite",
     nivel: 4,
@@ -745,8 +747,8 @@ export const tarjetas: Tarjeta[] = [
   {
     id: "davivienda-lifemiles-infinite",
     imagen: "/images/tarjetas/davivienda-lifemiles-infinite.png",
-    banco: "Davivienda (Scotiabank)",
-    nombre: "LifeMiles Visa Infinite Davivienda",
+    banco: "Davivienda",
+    nombre: "LifeMiles Visa Infinite",
     red: "Visa",
     categoria: "Infinite",
     nivel: 4,

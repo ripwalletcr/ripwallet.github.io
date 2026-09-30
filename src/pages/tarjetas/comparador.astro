@@ -46,6 +46,7 @@ const perfiles = [
 <Layout
   title="Comparador de Tarjetas de Crédito | RIP Wallet"
   description="Compara las tarjetas de crédito de Costa Rica por banco, modalidad, red, categoría y beneficios."
+  image="/images/tarjetas/og-tarjetas.jpg"
 >
   <Navbar currentPath="/tarjetas/comparador" />
 
@@ -410,7 +411,13 @@ const perfiles = [
   function formatTop(t: Tarjeta) {
     if (!t.acumulacionTop) return null;
     const v = t.acumulacionTop.valor.toLocaleString("es-CR");
-    return t.acumulacionTop.unidad === "%" ? `${v}%` : `${v} ${t.acumulacionTop.unidad}`;
+    if (t.acumulacionTop.unidad === "%") return `${v}%`;
+    // Singular con 1: "1 milla/$", "1 pt/$"
+    const unidad =
+      t.acumulacionTop.valor === 1
+        ? t.acumulacionTop.unidad.replace("millas", "milla").replace("pts", "pt")
+        : t.acumulacionTop.unidad;
+    return `${v} ${unidad}`;
   }
 
   // Para ordenar se toma 1 milla o punto por $ ≈ 1% (estimación conservadora de ~1¢ por milla).
