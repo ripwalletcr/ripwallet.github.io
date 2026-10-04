@@ -23,13 +23,16 @@ export interface Tarjeta {
   id: string;
   banco: string;
   nombre: string;
-  red: Red | null;
+  /** Una red, varias (si la tarjeta se emite en más de una) o null si no se conoce. */
+  red: Red | Red[] | null;
   imagen?: string;
+  /** Enlace a la video review de RIP Wallet. */
+  videoReview?: string;
   categoria: string;
   nivel: Nivel;
   modalidad: Modalidad;
   programa: string | null;
-  acumulacionTop: { valor: number; unidad: "%" | "millas/$" | "pts/$" } | null;
+  acumulacionTop: { valor: number; unidad: "%" | "millas/$" | "pts/$" | "pts/₡100" } | null;
   acumulacion: string[];
   metaGasto: string | null;
   tasaInteres?: string;
@@ -40,7 +43,11 @@ export interface Tarjeta {
   perfiles: Perfil[];
 }
 
-export const actualizado = "Setiembre 2026";
+/** Redes de pago de una tarjeta como lista. */
+export const redesDe = (t: Pick<Tarjeta, "red">): Red[] =>
+  t.red == null ? [] : Array.isArray(t.red) ? t.red : [t.red];
+
+export const actualizado = "Octubre 3, 2026";
 
 // Tasas de interés corriente anual publicadas por cada banco en sus folletos.
 const TASA_BCR = "32,5% anual";
@@ -84,36 +91,12 @@ export const coloresBanco: Record<string, string> = {
 export const tarjetas: Tarjeta[] = [
   // BAC Credomatic
   {
-    id: "bac-economia-visa",
+    id: "bac-economia",
+    videoReview: "https://www.instagram.com/reel/DLCzLL_N114/",
     imagen: "/images/tarjetas/img-bf0b26e6-7700.png",
     banco: "BAC Credomatic",
-    nombre: "EconoMía Visa",
-    red: "Visa",
-    categoria: "Clásica",
-    nivel: 1,
-    modalidad: "Cashback",
-    programa: "CashBack BAC",
-    acumulacionTop: { valor: 4, unidad: "%" },
-    acumulacion: [
-      "4% en supermercados",
-      "4% en salud",
-      "2% en restaurantes y comida rápida",
-      "2% en tiendas de mascotas",
-      "No acumula en gasolineras",
-    ],
-    metaGasto: "Sin meta de gasto",
-    tope: "₡22.000 por mes",
-    salaVip: false,
-    priorityPass: false,
-    beneficios: ["Canje mínimo de ₡15.000", "Puntos vencen a los 2 años"],
-    perfiles: ["principiantes", "supermercado", "comida", "salud"],
-  },
-  {
-    id: "bac-economia-amex",
-    imagen: "/images/tarjetas/bac-economia-amex.png",
-    banco: "BAC Credomatic",
-    nombre: "EconoMía American Express",
-    red: "AMEX",
+    nombre: "EconoMía",
+    red: ["Visa", "AMEX"],
     categoria: "Clásica",
     nivel: 1,
     modalidad: "Cashback",
@@ -133,12 +116,13 @@ export const tarjetas: Tarjeta[] = [
     beneficios: [
       "Canje mínimo de ₡15.000",
       "Puntos vencen a los 2 años",
-      "Protección de compras y garantía extendida AMEX",
+      "En AMEX: protección de compras y garantía extendida",
     ],
     perfiles: ["principiantes", "supermercado", "comida", "salud"],
   },
   {
     id: "bac-cashback-premium-amex",
+    videoReview: "https://www.instagram.com/reel/DRUfKhnDWQq/",
     banco: "BAC Credomatic",
     nombre: "CashBack Premium American Express",
     red: "AMEX",
@@ -162,6 +146,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-cashback-premium-mc",
+    videoReview: "https://www.instagram.com/reel/DRUfKhnDWQq/",
     imagen: "/images/tarjetas/img-a0db26e6-dd45.png",
     banco: "BAC Credomatic",
     nombre: "CashBack Premium Mastercard Black",
@@ -189,6 +174,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-amex-blue",
+    videoReview: "https://www.instagram.com/p/DP3yik9DZVq/",
     imagen: "/images/tarjetas/img-f20b26e6-cc40.png",
     banco: "BAC Credomatic",
     nombre: "Cashback AMEX Blue",
@@ -586,6 +572,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "bac-amex-platinum",
+    videoReview: "https://www.instagram.com/reel/DKZmdxjOxG6/",
     imagen: "/images/tarjetas/img-08fb26e6-5132.jpg",
     banco: "BAC Credomatic",
     nombre: "AMEX Platinum",
@@ -698,11 +685,11 @@ export const tarjetas: Tarjeta[] = [
   // BCR: tarjetas de entrada, según el folleto explicativo del BCR
   ...(
     [
-      ["bcr-internacional", "BCR Internacional", "Internacional", 1, ["principiantes"], null, null],
-      ["bcr-oro", "BCR Oro", "Oro", 2, [], null, "bcr-oro.webp"],
-      ["bcr-platino", "BCR Platino", "Platino", 3, [], null, "bcr-platino.webp"],
+      ["bcr-internacional", "BCR Internacional", "Internacional", 1, ["principiantes"], ["Visa", "Mastercard"], null],
+      ["bcr-oro", "BCR Oro", "Oro", 2, [], ["Visa", "Mastercard"], "bcr-oro.webp"],
+      ["bcr-platino", "BCR Platino", "Platino", 3, [], ["Visa", "Mastercard"], "bcr-platino.webp"],
       ["bcr-viva-salud", "BCR Viva Salud", "Platinum", 3, ["salud"], "Mastercard", "bcr-viva-salud.png"],
-      ["bcr-kolbi", "BCR Kölbi", "—", 1, [], null, null],
+      ["bcr-kolbi", "BCR Kölbi", "—", 1, [], ["Visa", "Mastercard"], null],
     ] as const
   ).map(
     ([id, nombre, categoria, nivel, perfiles, red, imagen]): Tarjeta => ({
@@ -710,7 +697,7 @@ export const tarjetas: Tarjeta[] = [
       ...(imagen ? { imagen: `/images/tarjetas/${imagen}` } : {}),
       banco: "BCR",
       nombre,
-      red,
+      red: red === null || typeof red === "string" ? red : [...red],
       categoria,
       nivel,
       modalidad: "Premios",
@@ -726,7 +713,6 @@ export const tarjetas: Tarjeta[] = [
       salaVip: false,
       priorityPass: false,
       beneficios: [
-        ...(red ? [] : ["Disponible en Visa o Mastercard"]),
         "Compras a 3, 6 o 9 meses sin intereses (Plan BCR 0%)",
         "Tarjeta virtual para compras por internet",
       ],
@@ -763,6 +749,7 @@ export const tarjetas: Tarjeta[] = [
   // Banco Nacional
   {
     id: "bn-dia-a-dia",
+    videoReview: "https://www.instagram.com/reel/Dd1iaHJM2c6/",
     imagen: "/images/tarjetas/bn-dia-a-dia.webp",
     banco: "Banco Nacional",
     nombre: "BN Día a Día",
@@ -1020,6 +1007,7 @@ export const tarjetas: Tarjeta[] = [
   },
   {
     id: "promerica-mc-black",
+    videoReview: "https://www.instagram.com/p/DU3FKWhjcnl/",
     imagen: "/images/tarjetas/img-3a1b26e6-845b.png",
     banco: "Promerica",
     nombre: "Promerica Mastercard Black",
@@ -1044,27 +1032,83 @@ export const tarjetas: Tarjeta[] = [
     ],
     perfiles: ["viajeros"],
   },
-  {
-    id: "promerica-premia-auto",
-    imagen: "/images/tarjetas/promerica-premia-auto.png",
-    banco: "Promerica",
-    nombre: "Premia Auto",
-    red: null,
-    categoria: "—",
-    nivel: 2,
-    modalidad: "Premios",
-    programa: "Premia",
-    acumulacionTop: { valor: 3, unidad: "%" },
-    acumulacion: [
-      "3 puntos por cada ₡100 en gasolineras",
-    ],
-    metaGasto: null,
-    tope: null,
-    salaVip: false,
-    priorityPass: false,
-    beneficios: [],
-    perfiles: ["gasolina"],
-  },
+  // Promerica: Premia Super y Premia Auto (Puntos Cash), según su página y reglamentos
+  ...(
+    [
+      ["promerica-premia-super-standard", "Premia Super Standard", "Standard", 1, "10.000", null],
+      ["promerica-premia-super-gold", "Premia Super Gold", "Gold", 2, "15.000", "promerica-premia-super-gold.webp"],
+      ["promerica-premia-super-platinum", "Premia Super Platinum", "Platinum", 3, "20.000", "promerica-premia-super-platinum.webp"],
+    ] as const
+  ).map(
+    ([id, nombre, categoria, nivel, tope, img]): Tarjeta => ({
+      id,
+      ...(img ? { imagen: `/images/tarjetas/${img}` } : {}),
+      banco: "Promerica",
+      nombre,
+      red: ["Visa", "Mastercard"],
+      categoria,
+      nivel,
+      modalidad: "Cashback",
+      programa: "Puntos Cash",
+      acumulacionTop: { valor: 3, unidad: "pts/₡100" },
+      acumulacion: [
+        "3 Puntos Cash por cada ₡100 en supermercados",
+        "1 Punto Cash por cada ₡100 en restaurantes",
+        "1 Punto Cash por cada ₡100 en gasolineras",
+        "1 Punto Cash por cada ₡100 en farmacias",
+      ],
+      metaGasto: null,
+      tope: `${tope} Puntos Cash por corte`,
+      salaVip: categoria === "Platinum",
+      priorityPass: false,
+      beneficios: [
+        "Puntos aplicables a la deuda de la tarjeta o en efectivo (7% de comisión)",
+        "25% adicional al trasladar los puntos a Line Up",
+        "6 meses 0% de interés en mantenimiento y mejoras del hogar",
+        "Los puntos vencen a los 24 meses",
+        ...(categoria === "Platinum" ? ["VIP Lounge del aeropuerto Juan Santamaría"] : []),
+      ],
+      perfiles: ["supermercado"],
+    }),
+  ),
+  ...(
+    [
+      ["promerica-premia-auto-standard", "Premia Auto Standard", "Standard", 1, "7.500", "promerica-premia-auto.png"],
+      ["promerica-premia-auto-gold", "Premia Auto Gold", "Gold", 2, "10.000", "promerica-premia-auto-gold.webp"],
+      ["promerica-premia-auto-platinum", "Premia Auto Platinum", "Platinum", 3, "15.000", "promerica-premia-auto-platinum.webp"],
+    ] as const
+  ).map(
+    ([id, nombre, categoria, nivel, tope, img]): Tarjeta => ({
+      id,
+      ...(img ? { imagen: `/images/tarjetas/${img}` } : {}),
+      banco: "Promerica",
+      nombre,
+      red: ["Visa", "Mastercard"],
+      categoria,
+      nivel,
+      modalidad: "Cashback",
+      programa: "Puntos Cash",
+      acumulacionTop: { valor: 3, unidad: "pts/₡100" },
+      acumulacion: [
+        "3 Puntos Cash por cada ₡100 en gasolineras",
+        "1 Punto Cash por cada ₡100 en supermercados",
+        "1 Punto Cash por cada ₡100 en restaurantes",
+        "1 Punto Cash por cada ₡100 en farmacias",
+      ],
+      metaGasto: null,
+      tope: `${tope} Puntos Cash por corte`,
+      salaVip: categoria === "Platinum",
+      priorityPass: false,
+      beneficios: [
+        "Puntos aplicables a la deuda de la tarjeta o en efectivo (7% de comisión)",
+        "25% adicional al trasladar los puntos a Line Up",
+        "4 meses 0% de interés en mantenimiento del vehículo",
+        "Los puntos vencen a los 24 meses",
+        ...(categoria === "Platinum" ? ["VIP Lounge del aeropuerto Juan Santamaría"] : []),
+      ],
+      perfiles: ["gasolina"],
+    }),
+  ),
 
   // Promerica: Premia Travel, según el kit de bienvenida
   ...(
@@ -1079,7 +1123,7 @@ export const tarjetas: Tarjeta[] = [
       imagen: `/images/tarjetas/promerica-premia-travel-${img}.png`,
       banco: "Promerica",
       nombre,
-      red: null,
+      red: ["Visa", "Mastercard"],
       categoria,
       nivel,
       modalidad: "Millas",
@@ -1102,7 +1146,6 @@ export const tarjetas: Tarjeta[] = [
       salaVip: categoria === "Platinum",
       priorityPass: false,
       beneficios: [
-        "Disponible en Visa o Mastercard",
         "4 meses sin intereses en tiquetes, hoteles, rent a car, cruceros y compras en el exterior",
         "6 meses sin intereses en la primera compra",
         "Las millas vencen a los 24 meses",
@@ -1114,6 +1157,226 @@ export const tarjetas: Tarjeta[] = [
       perfiles: ["viajeros"],
     }),
   ),
+
+  // Davivienda: Davipuntos (Cuenta Maestra), según los folletos de Davivienda
+  {
+    id: "davivienda-davipuntos-infinite",
+    banco: "Davivienda",
+    nombre: "Davipuntos Infinite",
+    red: "Visa",
+    categoria: "Infinite",
+    nivel: 4,
+    modalidad: "Premios",
+    programa: "Davipuntos",
+    acumulacionTop: { valor: 4, unidad: "pts/$" },
+    acumulacion: [
+      "4 Davipuntos por $1 en restaurantes",
+      "4 Davipuntos por $1 en hoteles",
+      "4 Davipuntos por $1 en salud",
+      "2 Davipuntos por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: true,
+    beneficios: [
+      "VIP Lounge del Juan Santamaría para el titular y 2 acompañantes",
+      "5 accesos Priority Pass y 5 Visa Airport Companion al año",
+      "Salas VIP gratis solo con consumo de $600 al mes en los 3 meses previos (si no, $32 por ingreso)",
+      "Ligada a una Cuenta Maestra (saldo mínimo de $50)",
+      "Sin anualidad ni costo mensual",
+    ],
+    perfiles: ["viajeros", "comida", "salud"],
+  },
+  {
+    id: "davivienda-davipuntos-black",
+    banco: "Davivienda",
+    nombre: "Davipuntos Black",
+    red: "Mastercard",
+    categoria: "Black",
+    nivel: 4,
+    modalidad: "Premios",
+    programa: "Davipuntos",
+    acumulacionTop: { valor: 4, unidad: "pts/$" },
+    acumulacion: [
+      "4 Davipuntos por $1 en restaurantes",
+      "4 Davipuntos por $1 en hoteles",
+      "4 Davipuntos por $1 en salud",
+      "2 Davipuntos por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: false,
+    beneficios: [
+      "VIP Lounge del Juan Santamaría para el titular",
+      "10 accesos Mastercard Airport Experiences al año",
+      "Fast Track en el aeropuerto Juan Santamaría",
+      "Salas VIP gratis solo con consumo de $600 al mes en los 3 meses previos (si no, $32 por ingreso)",
+      "Ligada a una Cuenta Maestra (saldo mínimo de $50)",
+      "Sin anualidad ni costo mensual",
+    ],
+    perfiles: ["viajeros", "comida", "salud"],
+  },
+  {
+    id: "davivienda-davipuntos-platino",
+    banco: "Davivienda",
+    nombre: "Davipuntos Platino",
+    red: ["Visa", "Mastercard"],
+    categoria: "Platino",
+    nivel: 3,
+    modalidad: "Premios",
+    programa: "Davipuntos",
+    acumulacionTop: { valor: 3, unidad: "pts/$" },
+    acumulacion: [
+      "3 Davipuntos por $1 en restaurantes",
+      "3 Davipuntos por $1 en hoteles",
+      "3 Davipuntos por $1 en salud",
+      "1,5 Davipuntos por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: false,
+    beneficios: [
+      "VIP Lounge del Juan Santamaría para el titular",
+      "Sala VIP gratis solo con consumo de $600 al mes en los 3 meses previos (si no, $32 por ingreso)",
+      "Ligada a una Cuenta Maestra (saldo mínimo de $50)",
+      "Sin anualidad ni costo mensual",
+    ],
+    perfiles: ["comida", "salud"],
+  },
+  {
+    id: "davivienda-davipuntos-dorada",
+    banco: "Davivienda",
+    nombre: "Davipuntos Dorada",
+    red: ["Visa", "Mastercard"],
+    categoria: "Dorada",
+    nivel: 2,
+    modalidad: "Premios",
+    programa: "Davipuntos",
+    acumulacionTop: { valor: 2.5, unidad: "pts/$" },
+    acumulacion: [
+      "2,5 Davipuntos por $1 en supermercados",
+      "2,5 Davipuntos por $1 en restaurantes",
+      "2,5 Davipuntos por $1 en tiendas por departamento",
+      "1,25 Davipuntos por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: false,
+    priorityPass: false,
+    beneficios: [
+      "Ligada a una Cuenta Maestra (saldo mínimo de $50)",
+      "Sin anualidad ni costo mensual",
+    ],
+    perfiles: ["supermercado", "comida"],
+  },
+  {
+    id: "davivienda-unimart-dorada",
+    imagen: "/images/tarjetas/davivienda-unimart-dorada.webp",
+    banco: "Davivienda",
+    nombre: "Unimart Dorada",
+    red: "Visa",
+    categoria: "Dorada",
+    nivel: 2,
+    modalidad: "Premios",
+    programa: "Davipuntos",
+    acumulacionTop: { valor: 2.5, unidad: "pts/$" },
+    acumulacion: [
+      "2,5 Davipuntos por $1 en supermercados",
+      "2,5 Davipuntos por $1 en restaurantes",
+      "2,5 Davipuntos por $1 en tiendas por departamento",
+      "1,25 Davipuntos por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: false,
+    priorityPass: false,
+    beneficios: [
+      "Membresía Unimart GO gratis (envío sin mínimo de compra)",
+      "Compras a cuotas de 3 a 24 meses (A Paguitos)",
+      "Ligada a una Cuenta Maestra (saldo mínimo de $50)",
+      "Sin anualidad ni costo mensual",
+    ],
+    perfiles: ["internet", "supermercado"],
+  },
+
+  // Davibank (Scotiabank): +Premios, según las páginas de Davibank
+  {
+    id: "davibank-visa-clasica",
+    banco: "Davibank (Scotiabank)",
+    nombre: "+Premios Visa Clásica",
+    red: "Visa",
+    categoria: "Clásica",
+    nivel: 1,
+    modalidad: "Premios",
+    programa: "+Premios",
+    acumulacionTop: { valor: 1, unidad: "pts/$" },
+    acumulacion: ["1 punto +Premios por $1 en todas las compras"],
+    metaGasto: null,
+    tope: null,
+    salaVip: false,
+    priorityPass: false,
+    beneficios: ["Canje por productos, servicios y viajes en el catálogo +Premios"],
+    perfiles: ["principiantes"],
+  },
+  {
+    id: "davibank-visa-signature",
+    banco: "Davibank (Scotiabank)",
+    nombre: "+Premios Visa Signature",
+    red: "Visa",
+    categoria: "Signature",
+    nivel: 4,
+    modalidad: "Premios",
+    programa: "+Premios",
+    acumulacionTop: { valor: 3, unidad: "pts/$" },
+    acumulacion: [
+      "3 puntos por $1 en aerolíneas",
+      "3 puntos por $1 en renta de autos",
+      "3 puntos por $1 en hoteles",
+      "2 puntos por $1 en restaurantes",
+      "1 punto por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: false,
+    beneficios: [
+      "Bono de hasta 10.000 puntos: 2.000 con la primera compra y 8.000 más al gastar $3.600 en 90 días",
+      "Sala VIP del Juan Santamaría",
+      "Salas VIP en el mundo con Visa Airport Companion",
+    ],
+    perfiles: ["viajeros", "comida"],
+  },
+  {
+    id: "davibank-mc-black",
+    banco: "Davibank (Scotiabank)",
+    nombre: "+Premios Mastercard Black",
+    red: "Mastercard",
+    categoria: "Black",
+    nivel: 4,
+    modalidad: "Premios",
+    programa: "+Premios",
+    acumulacionTop: { valor: 3, unidad: "pts/$" },
+    acumulacion: [
+      "3 puntos por $1 en aerolíneas",
+      "3 puntos por $1 en renta de autos",
+      "3 puntos por $1 en hoteles",
+      "2 puntos por $1 en restaurantes",
+      "1 punto por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: false,
+    beneficios: [
+      "Bono de hasta 15.000 puntos: 2.000 con la primera compra y 13.000 más al gastar $5.000 en 90 días",
+      "Black Lounge del Juan Santamaría ilimitado y fila rápida de seguridad",
+      "7 accesos al año a salas VIP LoungeKey",
+    ],
+    perfiles: ["viajeros", "comida"],
+  },
 
   // LAFISE (según las páginas de LAFISE Costa Rica, setiembre 2026)
   ...(
@@ -1159,6 +1422,37 @@ export const tarjetas: Tarjeta[] = [
       };
     },
   ),
+
+  {
+    id: "lafise-mc-black",
+    imagen: "/images/tarjetas/lafise-mc-black.webp",
+    banco: "LAFISE",
+    nombre: "LAFISE Mastercard Black",
+    red: "Mastercard",
+    categoria: "Black",
+    nivel: 4,
+    modalidad: "Millas",
+    programa: "Millas LAFISE",
+    acumulacionTop: { valor: 3, unidad: "millas/$" },
+    acumulacion: [
+      "3 millas por $1 en hoteles",
+      "3 millas por $1 en aerolíneas",
+      "2 millas por $1 en restaurantes",
+      "2 millas por $1 en supermercados",
+      "1 milla por $1 en el resto de compras",
+    ],
+    metaGasto: null,
+    tope: null,
+    salaVip: true,
+    priorityPass: false,
+    beneficios: [
+      "Más de 1.100 salas VIP con Mastercard Airport Experiences",
+      "Hasta 5 compras por corte a Línea 0% de interés",
+      "Sin anualidad",
+      "Preventas en eventos patrocinados por LAFISE",
+    ],
+    perfiles: ["viajeros", "supermercado", "comida"],
+  },
 
   // Wink
   {

@@ -185,7 +185,7 @@ const perfiles = [
                   {niveles.map((n) => <button type="button" class="segment" data-value={n.value}>{n.label}</button>)}
                 </div>
                 <p class="text-[9px] text-gray-400 mt-2 leading-snug">
-                  Básica incluye Clásica e Internacional, Gold incluye Oro y
+                  Básica incluye Clásica, Standard e Internacional, Gold incluye Oro y
                   Dorada, y Black incluye Signature, Infinite y Metal. El límite exacto lo
                   define el banco según tu ingreso.
                 </p>
@@ -362,7 +362,9 @@ const perfiles = [
       </p>
       <div class="flex justify-center">
         <a
-          href="/asesorias"
+          href="https://link.ripwallet.co/asesoria"
+          target="_blank"
+          rel="noopener"
           class="bg-white text-black px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors inline-block"
         >
           Agendar asesoría
@@ -394,7 +396,7 @@ const perfiles = [
 </Layout>
 
 <script>
-  import { tarjetas, coloresBanco, logosBanco, logosRed, type Tarjeta } from "../../data/tarjetas-credito";
+  import { tarjetas, coloresBanco, logosBanco, logosRed, redesDe, type Red, type Tarjeta } from "../../data/tarjetas-credito";
 
   const MAX_COMPARE = 3;
 
@@ -463,7 +465,7 @@ const perfiles = [
 
     function matches(t: Tarjeta) {
       if (state.search) {
-        const haystack = [t.nombre, t.banco, t.programa ?? "", t.categoria, t.modalidad, t.red ?? ""]
+        const haystack = [t.nombre, t.banco, t.programa ?? "", t.categoria, t.modalidad, ...redesDe(t)]
           .join(" ")
           .toLowerCase()
           .normalize("NFD")
@@ -474,7 +476,7 @@ const perfiles = [
       if (state.perfil && !t.perfiles.includes(state.perfil as never)) return false;
       if (state.banco.size && !state.banco.has(t.banco)) return false;
       if (state.modalidad.size && !state.modalidad.has(t.modalidad)) return false;
-      if (state.red.size && (!t.red || !state.red.has(t.red))) return false;
+      if (state.red.size && !redesDe(t).some((r) => state.red.has(r))) return false;
       if (state.nivel.size && !state.nivel.has(String(t.nivel))) return false;
       if (state.vip && !t.salaVip) return false;
       if (state.priority && !t.priorityPass) return false;
@@ -505,8 +507,7 @@ const perfiles = [
       return logo ? `<img src="${logo}" alt="" class="bank-logo" />` : "";
     }
 
-    function redBadge(red: Tarjeta["red"]) {
-      if (!red) return "";
+    function redBadge(red: Red) {
       return `<span class="red-badge"><img src="${logosRed[red]}" alt="" class="red-logo" />${escapeHtml(red)}</span>`;
     }
 
@@ -524,6 +525,7 @@ const perfiles = [
       const selected = state.compare.includes(t.id);
       const full = state.compare.length >= MAX_COMPARE && !selected;
       const perks = [
+        t.videoReview ? `<a class="perk perk-video" href="${escapeHtml(t.videoReview)}" target="_blank" rel="noopener"><i data-lucide="play"></i>Video review</a>` : "",
         t.salaVip ? `<span class="perk"><i data-lucide="armchair"></i>Sala VIP</span>` : "",
         t.priorityPass ? `<span class="perk"><i data-lucide="plane"></i>Priority Pass</span>` : "",
         t.metaGasto ? `<span class="perk"><i data-lucide="target"></i>${escapeHtml(t.metaGasto === "Sin meta de gasto" ? "Sin meta" : "Meta " + t.metaGasto.replace(" por mes", "/mes"))}</span>` : "",
@@ -547,7 +549,7 @@ const perfiles = [
 
           <div class="flex flex-wrap gap-1.5 mb-5">
             ${badge(t.modalidad, modalidadStyles[t.modalidad])}
-            ${redBadge(t.red)}
+            ${redesDe(t).map(redBadge).join("")}
             ${t.categoria !== "—" ? badge(t.categoria) : ""}
           </div>
 
@@ -596,7 +598,7 @@ const perfiles = [
       const rows: [string, (t: Tarjeta) => string][] = [
         ["Banco", (t) => escapeHtml(t.banco)],
         ["Modalidad", (t) => badge(t.modalidad, modalidadStyles[t.modalidad])],
-        ["Red", (t) => (t.red ? redBadge(t.red) : text(null))],
+        ["Red", (t) => (redesDe(t).length ? `<div class="flex flex-wrap gap-1">${redesDe(t).map(redBadge).join("")}</div>` : text(null))],
         ["Categoría", (t) => text(t.categoria === "—" ? null : t.categoria)],
         ["Programa", (t) => text(t.programa)],
         ["Acumulación máx.", (t) => `<span class="text-lg font-bold text-gray-900">${formatTop(t) ?? "—"}</span>`],
@@ -990,6 +992,23 @@ const perfiles = [
     font-size: 10px;
     font-weight: 600;
     color: #4b5563;
+  }
+
+  .perk-video {
+    background: #fef2f2;
+    border-color: #fee2e2;
+    color: #b91c1c;
+    transition: all 0.2s;
+  }
+
+  .perk-video:hover {
+    background: #fee2e2;
+    border-color: #fecaca;
+  }
+
+  .perk-video svg {
+    color: #dc2626 !important;
+    fill: currentColor;
   }
 
   .perk svg {
