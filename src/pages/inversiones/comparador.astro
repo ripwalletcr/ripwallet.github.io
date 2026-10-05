@@ -1,0 +1,1317 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import {
+  User,
+  Target,
+  PiggyBank,
+  Hourglass,
+  ArrowUpDown,
+  ShieldCheck,
+  Copy,
+  Info,
+  LineChart,
+  FileDown,
+} from "@lucide/astro";
+import { actualizado, opciones, grupos } from "../../data/inversiones";
+
+const EDAD_RETIRO = 65;
+---
+
+<Layout
+  title="Comparador de Inversiones | RIP Wallet"
+  description="Herramienta interna: calcula la meta de jubilación de una persona y compara brokers, fondos y planes de ahorro."
+>
+  <meta slot="head" name="robots" content="noindex" />
+  <Navbar currentPath="/inversiones/comparador" />
+
+  <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+    <header class="text-center mb-16 animate-reveal">
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+        Comparador de Inversiones
+      </h1>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto font-medium">
+        Calcula la meta de jubilación de cada persona y compara las opciones
+        según su perfil de inversionista.
+      </p>
+      <p class="text-xs text-gray-400 mt-4 flex items-center justify-center gap-2">
+        <ShieldCheck class="w-3.5 h-3.5 shrink-0" />
+        Herramienta interna. Los datos se calculan en este navegador y no se guardan.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+      <!-- Datos de la persona -->
+      <section class="lg:col-span-5 card-outline animate-reveal">
+        <h2 class="section-title"><User class="w-3.5 h-3.5 mr-2" /> Datos de la persona</h2>
+        <div class="space-y-5">
+          <div>
+            <label for="nombre" class="field-label">Nombre</label>
+            <input id="nombre" type="text" class="apple-input" placeholder="Ana Rodríguez" autocomplete="off" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="edad" class="field-label">Edad</label>
+              <input id="edad" type="number" min="18" max="100" inputmode="numeric" class="apple-input" placeholder="30" />
+            </div>
+            <div>
+              <label class="field-label">Moneda del salario</label>
+              <div class="grid grid-cols-2 gap-1 p-1 bg-gray-50 border border-gray-100 rounded-xl" id="moneda">
+                <button type="button" class="segment is-active" data-value="CRC">₡ Colones</button>
+                <button type="button" class="segment" data-value="USD">$ Dólares</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label for="salario" class="field-label">Salario mensual</label>
+            <div class="relative">
+              <span id="simbolo" class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400 pointer-events-none">₡</span>
+              <input id="salario" type="text" inputmode="decimal" class="apple-input pl-9!" placeholder="1.000.000" autocomplete="off" />
+            </div>
+          </div>
+          <div id="tipoCambioRow">
+            <label for="tipoCambio" class="field-label">Tipo de cambio (₡ por $)</label>
+            <input id="tipoCambio" type="number" min="1" step="1" inputmode="numeric" class="apple-input" value="505" />
+            <p class="hint">Se usa para comparar el aporte con los mínimos en dólares de cada opción.</p>
+          </div>
+          <div>
+            <label class="field-label">Perfil de inversionista</label>
+            <div class="grid grid-cols-3 gap-1 p-1 bg-gray-50 border border-gray-100 rounded-xl" id="perfil">
+              <button type="button" class="segment is-active" data-value="">Sin definir</button>
+              <button type="button" class="segment" data-value="activo">Activo</button>
+              <button type="button" class="segment" data-value="pasivo">Pasivo</button>
+            </div>
+            <p class="hint">
+              Activo: escoge y compra sus propios ETFs en un broker. Pasivo: prefiere que
+              un fondo invierta por él o ella. Sin definir muestra todas las herramientas.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resultados -->
+      <section class="lg:col-span-7 flex flex-col gap-4 animate-reveal">
+        <div class="metric-card bg-gray-950! text-white border-gray-950!">
+          <p class="metric-label text-gray-400!"><Target class="w-3.5 h-3.5 mr-2" /> Meta de jubilación</p>
+          <p id="metaJubilacion" class="text-4xl md:text-5xl font-bold tracking-tight">—</p>
+          <p id="metaJubilacionAlt" class="text-sm text-gray-400 mt-1"></p>
+          <p class="text-xs text-gray-500 mt-4">Salario anual × 25. Es el monto que permite retirar ~4% al año sin agotar el capital.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="metric-card">
+            <p class="metric-label"><PiggyBank class="w-3.5 h-3.5 mr-2" /> Inversión mensual ideal</p>
+            <p id="aporteMensual" class="text-3xl font-bold tracking-tight text-gray-900">—</p>
+            <p id="aporteMensualAlt" class="text-sm text-gray-400 mt-1"></p>
+            <p class="text-xs text-gray-400 mt-4">15% del salario mensual.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label"><Hourglass class="w-3.5 h-3.5 mr-2" /> Tiempo para invertir</p>
+            <p id="anios" class="text-3xl font-bold tracking-tight text-gray-900">—</p>
+            <p id="aniosAlt" class="text-sm text-gray-400 mt-1"></p>
+            <p class="text-xs text-gray-400 mt-4">Hasta los {EDAD_RETIRO} años.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto">
+          <button id="copiar" type="button" class="compare-btn">
+            <Copy class="w-3.5 h-3.5" /> <span id="copiarLabel">Copiar resumen</span>
+          </button>
+          <button id="descargarPdf" type="button" class="compare-btn is-dark">
+            <FileDown class="w-3.5 h-3.5" /> Descargar PDF
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Opciones -->
+    <section>
+      <div class="flex justify-end mb-2 px-2">
+        <label class="flex items-center gap-2 shrink-0">
+          <ArrowUpDown class="w-3.5 h-3.5 text-gray-400" />
+          <span class="sr-only">Ordenar por</span>
+          <select id="orden" class="apple-input py-2! text-xs! w-auto!">
+            <option value="">Orden sugerido</option>
+            <option value="respaldo">Mejor respaldo</option>
+            <option value="flexibilidad">Más flexible</option>
+            <option value="comisiones">Menores comisiones</option>
+          </select>
+        </label>
+      </div>
+      <div id="opciones" class="space-y-16"></div>
+    </section>
+
+    <!-- Proyección -->
+    <section class="mt-20">
+      <div class="mb-6 px-2">
+        <h2 class="text-3xl font-bold tracking-tight flex items-center">
+          <LineChart class="w-6 h-6 mr-3 text-gray-400" /> Proyección
+        </h2>
+        <p class="text-sm text-gray-500 mt-1">
+          Compara cuánto tendría la persona en dos herramientas después de descontar las comisiones de cada una.
+        </p>
+      </div>
+
+      <div class="card-outline mb-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div>
+            <label for="pInicial" class="field-label">Monto inicial ($)</label>
+            <input id="pInicial" type="number" min="0" step="any" inputmode="decimal" class="apple-input" placeholder="0" />
+          </div>
+          <div>
+            <label for="pAporte" class="field-label">Aporte mensual ($)</label>
+            <input id="pAporte" type="number" min="0" step="any" inputmode="decimal" class="apple-input" />
+          </div>
+          <div>
+            <label for="pAnios" class="field-label">Años</label>
+            <input id="pAnios" type="number" min="1" max="60" inputmode="numeric" class="apple-input" />
+          </div>
+          <div>
+            <label for="pFrecuencia" class="field-label">Frecuencia de aportes</label>
+            <select id="pFrecuencia" class="apple-input">
+              <option value="1">Mensual</option>
+              <option value="3">Trimestral</option>
+              <option value="6">Semestral</option>
+              <option value="12">Anual</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint">
+          Si se dejan vacíos, el aporte es la inversión mensual ideal y los años son los que faltan para los
+          {EDAD_RETIRO}. Agrupar aportes reduce el peso de los costos por transferencia.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        {
+          (["a", "b"] as const).map((lado, i) => (
+            <div class="card-outline flex flex-col">
+              <div class="flex items-center gap-2 mb-4">
+                <span class="serie-dot" style={`background: ${lado === "a" ? "#2a78d6" : "#eb6834"}`} />
+                <label for={`p-${lado}-opcion`} class="field-label mb-0!">Herramienta {lado.toUpperCase()}</label>
+              </div>
+              <select id={`p-${lado}-opcion`} class="apple-input text-base! font-semibold! mb-5">
+                {(["activo", "pasivo", "otras"] as const).map((g) => (
+                  <optgroup label={grupos[g].titulo}>
+                    {opciones
+                      .filter((o) => o.grupo === g)
+                      .map((o) => (
+                        <option value={o.id} selected={o.id === (i === 0 ? "ibkr" : "bn-etf500")}>
+                          {o.nombre}
+                        </option>
+                      ))}
+                  </optgroup>
+                ))}
+              </select>
+              <div class="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label for={`p-${lado}-rendimiento`} class="field-label">Rendimiento esperado (% anual)</label>
+                  <input id={`p-${lado}-rendimiento`} type="number" step="0.1" class="apple-input" />
+                </div>
+                <div>
+                  <label for={`p-${lado}-administracion`} id={`p-${lado}-adminLabel`} class="field-label">Administración (% anual sobre el neto)</label>
+                  <input id={`p-${lado}-administracion`} type="number" step="0.01" min="0" class="apple-input" />
+                </div>
+                <div>
+                  <label for={`p-${lado}-transferencia`} class="field-label">Transferencia ($ por aporte)</label>
+                  <input id={`p-${lado}-transferencia`} type="number" step="0.5" min="0" class="apple-input" />
+                </div>
+                <div>
+                  <label for={`p-${lado}-plataforma`} class="field-label">Plataforma ($ por aporte)</label>
+                  <input id={`p-${lado}-plataforma`} type="number" step="0.5" min="0" class="apple-input" />
+                </div>
+              </div>
+              <ul id={`p-${lado}-nota`} class="nota-lista mb-5"></ul>
+              <div id={`p-${lado}-res`} class="mt-auto pt-5 border-t border-gray-100"></div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="card-outline">
+        <p id="pResumen" class="text-lg text-gray-700 mb-6 leading-snug"></p>
+        <div class="relative h-72 md:h-80">
+          <canvas id="pChart" aria-label="Valor de la inversión por año en cada herramienta" role="img"></canvas>
+        </div>
+        <details class="mt-6">
+          <summary class="text-[10px] font-bold uppercase tracking-widest text-gray-400 cursor-pointer hover:text-black">Ver tabla</summary>
+          <div class="overflow-x-auto mt-4">
+            <table id="pTabla" class="proj-table"></table>
+          </div>
+        </details>
+        <p class="text-[10px] text-gray-400 mt-6 leading-relaxed">
+          El rendimiento es un supuesto antes de comisiones, no una promesa: los mercados suben y bajan. Para comparar
+          solo el efecto de las comisiones, usa el mismo rendimiento en las dos herramientas. Montos en dólares.
+        </p>
+      </div>
+    </section>
+
+    <div class="mt-12 p-8 bg-blue-50/40 rounded-3xl border border-blue-100 flex items-start">
+      <Info class="w-5 h-5 text-blue-600 mr-4 mt-1 shrink-0" />
+      <div class="text-xs text-blue-800/70 leading-relaxed space-y-2">
+        <p>
+          <strong class="text-blue-900">Cómo leer las calificaciones.</strong> Respaldo:
+          calidad del regulador, dinero separado de la empresa, custodio independiente y
+          fondo de garantía; el custodio independiente pesa más. Flexibilidad: qué tan fácil es aportar,
+          retirar y escoger inversiones. Comisiones: costo total, donde "Bajas" es lo mejor.
+        </p>
+        <p>
+          La marca <strong class="text-blue-900">"Alcanza con su aporte"</strong> compara la
+          inversión mensual ideal con el monto mínimo para empezar en cada opción.
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-6 px-8 text-[10px] text-gray-400 leading-relaxed text-center italic">
+      * Información actualizada a {actualizado} con base en prospectos y sitios oficiales de
+      cada entidad. Las comisiones cambian: confirma siempre con la entidad antes de
+      recomendar. Esta herramienta no sustituye una asesoría personalizada.
+    </p>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import Chart from "chart.js/auto";
+  import { actualizado, opciones, grupos, type Grupo, type Nivel, type OpcionInversion } from "../../data/inversiones";
+
+  const EDAD_RETIRO = 65;
+  const nivelOrden: Record<Nivel, number> = { alto: 3, medio: 2, bajo: 1 };
+  const etiquetas = {
+    respaldo: { alto: "Sólido", medio: "Medio", bajo: "Débil" },
+    flexibilidad: { alto: "Alta", medio: "Media", bajo: "Baja" },
+    comisiones: { alto: "Altas", medio: "Medias", bajo: "Bajas" },
+  };
+  // En comisiones, un nivel bajo es bueno: se invierte el color.
+  const tono = (nivel: Nivel, invertido = false) => {
+    const bueno = invertido ? nivel === "bajo" : nivel === "alto";
+    const malo = invertido ? nivel === "alto" : nivel === "bajo";
+    return bueno ? "tone-good" : malo ? "tone-bad" : "tone-mid";
+  };
+
+  const escapeHtml = (s: string) =>
+    s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+
+  function setupInvestmentComparator() {
+    const root = document.getElementById("opciones");
+    if (!root) return;
+
+    const state = { moneda: "CRC" as "CRC" | "USD", perfil: "" as Grupo | "", orden: "" };
+
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const el = {
+      nombre: $<HTMLInputElement>("nombre"),
+      edad: $<HTMLInputElement>("edad"),
+      salario: $<HTMLInputElement>("salario"),
+      tipoCambio: $<HTMLInputElement>("tipoCambio"),
+      tipoCambioRow: $("tipoCambioRow"),
+      simbolo: $("simbolo"),
+      orden: $<HTMLSelectElement>("orden"),
+      meta: $("metaJubilacion"),
+      metaAlt: $("metaJubilacionAlt"),
+      aporte: $("aporteMensual"),
+      aporteAlt: $("aporteMensualAlt"),
+      anios: $("anios"),
+      aniosAlt: $("aniosAlt"),
+      copiar: $("copiar"),
+      copiarLabel: $("copiarLabel"),
+    };
+
+    const fmt = (n: number, moneda: "CRC" | "USD") =>
+      (moneda === "CRC" ? "₡" : "$") + Math.round(n).toLocaleString("es-CR");
+
+    function datos() {
+      const salario = Number(el.salario.value.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
+      const edad = Number(el.edad.value) || 0;
+      const tc = Number(el.tipoCambio.value) || 0;
+      const meta = salario * 12 * 25;
+      const aporte = salario * 0.15;
+      const aUsd = (n: number) => (state.moneda === "USD" ? n : tc ? n / tc : 0);
+      return { salario, edad, tc, meta, aporte, aporteUsd: aUsd(aporte), metaUsd: aUsd(meta) };
+    }
+
+    function rubro(titulo: string, icono: string, nivelTexto: string, cls: string, cuerpo: string) {
+      return `
+        <div class="rubro">
+          <div class="flex items-center justify-between mb-2">
+            <p class="rubro-title"><i data-lucide="${icono}"></i>${titulo}</p>
+            <span class="tone ${cls}">${nivelTexto}</span>
+          </div>
+          ${cuerpo}
+        </div>`;
+    }
+
+    const lista = (items: string[]) =>
+      `<ul class="space-y-1">${items.map((i) => `<li class="text-xs text-gray-600 leading-snug flex"><span class="text-gray-300 mr-2">•</span><span>${escapeHtml(i)}</span></li>`).join("")}</ul>`;
+
+    const fila = (label: string, valor: string | null) =>
+      `<div class="text-xs leading-snug"><span class="block text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">${label}</span><span class="${valor ? "text-gray-600" : "text-gray-300 italic"}">${escapeHtml(valor ?? "Por confirmar")}</span></div>`;
+
+    function alcance(o: OpcionInversion, aporteUsd: number, tc: number) {
+      if (!aporteUsd) return "";
+      if (o.minimo == null) return `<span class="fit fit-unknown"><i data-lucide="help-circle"></i>Mínimo por confirmar</span>`;
+      const minimoUsd = o.monedaMinimo === "CRC" ? (tc ? o.minimo / tc : Infinity) : o.minimo;
+      return aporteUsd >= minimoUsd
+        ? `<span class="fit fit-ok"><i data-lucide="check"></i>Alcanza con su aporte</span>`
+        : `<span class="fit fit-no"><i data-lucide="x"></i>Su aporte no llega al mínimo</span>`;
+    }
+
+    const pct = (n: number) => `${n.toLocaleString("es-CR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+
+    /** Promedio histórico en una línea, para la tarjeta. */
+    function historicoResumen(o: OpcionInversion) {
+      const h = o.historico;
+      if (!h) return "";
+      const cuerpo =
+        typeof h === "string"
+          ? `<p class="text-xs text-gray-400 italic leading-snug">${escapeHtml(h)}</p>`
+          : `<p class="text-xl font-bold text-gray-900 leading-none">${pct(h.promedio)}</p><p class="text-[10px] text-gray-500 mt-1">Promedio anual neto, 2022 a ago 2026</p>`;
+      return `<div class="rubro"><p class="rubro-title mb-2"><i data-lucide="history"></i>Rendimiento histórico</p>${cuerpo}</div>`;
+    }
+
+    /** Detalle desplegable: listas completas de cada rubro y los rendimientos por año. */
+    function detalleHtml(o: OpcionInversion) {
+      const bloque = (titulo: string, cuerpo: string) =>
+        `<div><p class="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-2">${titulo}</p>${cuerpo}</div>`;
+      const h = o.historico;
+      const historico =
+        h && typeof h !== "string"
+          ? bloque(
+              "Rendimiento por año",
+              `<div class="divide-y divide-gray-100">${h.periodos
+                .map(([p, v]) => `<div class="flex justify-between py-1 text-xs"><span class="text-gray-500">${escapeHtml(p)}</span><span class="font-semibold ${v < 0 ? "text-red-700" : "text-gray-700"}">${pct(v)}</span></div>`)
+                .join("")}</div>${h.nota ? `<p class="text-[10px] text-gray-400 mt-1.5">${escapeHtml(h.nota)}</p>` : ""}`,
+            )
+          : "";
+      return `
+        <details class="detalle">
+          <summary><i data-lucide="chevron-down"></i>Ver detalle</summary>
+          <div class="grid grid-cols-1 gap-6 pt-5 ${historico ? "sm:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-3"}">
+            ${bloque("Respaldo", lista(o.respaldo.detalles))}
+            ${bloque("Flexibilidad", lista(o.flexibilidad.detalles))}
+            ${bloque("Comisiones", `<div class="space-y-2.5">${fila("Transferencia", o.comisiones.transferencia)}${fila("Plataforma", o.comisiones.plataforma)}${fila("Administración", o.comisiones.administracion)}</div>`)}
+            ${historico}
+          </div>
+        </details>`;
+    }
+
+    function cardHtml(o: OpcionInversion, aporteUsd: number, tc: number) {
+      const minimo =
+        o.minimo == null
+          ? "Por confirmar"
+          : o.minimo === 0
+            ? "Sin mínimo"
+            : `${fmt(o.minimo, o.monedaMinimo ?? "USD")}${o.minimoMensual ? " al mes" : ""}`;
+      const resumen = (texto: string) => `<p class="text-sm font-semibold text-gray-900 leading-snug">${escapeHtml(texto)}</p>`;
+      return `
+        <article class="card-outline card-opcion grid grid-cols-1 lg:grid-cols-[230px_1fr] gap-x-6 gap-y-5">
+          <div class="flex flex-col">
+            <div class="flex items-center gap-3 mb-4">
+              <img src="${o.logo}" alt="" class="opcion-logo" loading="lazy" />
+              <div class="min-w-0">
+                <h3 class="text-lg font-bold text-gray-900 leading-tight">${escapeHtml(o.nombre)}</h3>
+                <p class="text-xs text-gray-500">${escapeHtml(o.tipo)}</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 mb-3">
+              <span class="perk"><i data-lucide="wallet"></i>Mínimo: ${minimo}</span>
+              ${alcance(o, aporteUsd, tc)}
+            </div>
+            <p class="text-xs text-gray-500 leading-snug"><strong class="text-gray-900">Ideal para:</strong> ${escapeHtml(o.idealPara)}</p>
+          </div>
+          <div class="grid grid-cols-1 gap-3 ${o.historico ? "sm:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-3"}">
+            ${rubro("Respaldo", "shield-check", etiquetas.respaldo[o.respaldo.nivel], tono(o.respaldo.nivel),
+              resumen(o.respaldo.resumen) + (o.custodia ? `<p class="text-[11px] text-gray-500 mt-1.5 leading-snug"><span class="font-semibold text-gray-700">Custodia:</span> ${escapeHtml(o.custodia)}</p>` : ""))}
+            ${rubro("Flexibilidad", "move", etiquetas.flexibilidad[o.flexibilidad.nivel], tono(o.flexibilidad.nivel), resumen(o.flexibilidad.resumen))}
+            ${rubro("Comisiones", "receipt", etiquetas.comisiones[o.comisiones.nivel], tono(o.comisiones.nivel, true), resumen(o.comisiones.resumen))}
+            ${historicoResumen(o)}
+          </div>
+          <div class="lg:col-span-2 relative border-t border-gray-100 pt-4">
+            ${detalleHtml(o)}
+            <a href="${o.url}" target="_blank" rel="noopener" class="link-oficial"><i data-lucide="external-link"></i>Sitio oficial</a>
+          </div>
+        </article>`;
+    }
+
+    function ordenar(list: OpcionInversion[]) {
+      if (!state.orden) return list;
+      const valor = (o: OpcionInversion) =>
+        state.orden === "respaldo"
+          ? nivelOrden[o.respaldo.nivel]
+          : state.orden === "flexibilidad"
+            ? nivelOrden[o.flexibilidad.nivel]
+            : 4 - nivelOrden[o.comisiones.nivel];
+      return [...list].sort((a, b) => valor(b) - valor(a));
+    }
+
+    /** Sin perfil se muestran todas las categorías; con perfil, la suya y las otras opciones. */
+    const gruposVisibles = (): Grupo[] => (state.perfil ? [state.perfil, "otras"] : ["activo", "pasivo", "otras"]);
+    const perfilTexto = () =>
+      state.perfil === "activo" ? "Activo (brokers)" : state.perfil === "pasivo" ? "Pasivo (fondos de inversión)" : "Sin definir";
+
+    function render() {
+      const d = datos();
+      const alt = state.moneda === "CRC" ? "USD" : "CRC";
+      const conAlt = (n: number) => (d.tc ? (alt === "USD" ? n / d.tc : n * d.tc) : 0);
+
+      el.meta.textContent = d.salario ? fmt(d.meta, state.moneda) : "—";
+      el.aporte.textContent = d.salario ? fmt(d.aporte, state.moneda) : "—";
+      el.metaAlt.textContent = d.salario && d.tc ? `≈ ${fmt(conAlt(d.meta), alt)}` : "";
+      el.aporteAlt.textContent = d.salario && d.tc ? `≈ ${fmt(conAlt(d.aporte), alt)} al mes` : "";
+
+      const anios = d.edad ? EDAD_RETIRO - d.edad : null;
+      el.anios.textContent = anios == null ? "—" : anios > 0 ? `${anios} años` : "Ya llegó";
+      el.aniosAlt.textContent =
+        anios && anios > 0 && d.salario ? `${(anios * 12).toLocaleString("es-CR")} aportes mensuales` : "";
+
+      root!.innerHTML = gruposVisibles()
+        .map(
+          (g) => `
+            <div>
+              <div class="mb-6 px-2">
+                <h2 class="text-3xl font-bold tracking-tight">${grupos[g].titulo}</h2>
+                <p class="text-sm text-gray-500 mt-1">${grupos[g].descripcion}</p>
+              </div>
+              <div class="space-y-4">${ordenar(opciones.filter((o) => o.grupo === g)).map((o) => cardHtml(o, d.aporteUsd, d.tc)).join("")}</div>
+            </div>`,
+        )
+        .join("");
+      (window as any).lucide?.createIcons();
+      renderProyeccion();
+    }
+
+    // Proyección: compara el resultado de dos herramientas descontando sus comisiones.
+    const proy = {
+      inicial: $<HTMLInputElement>("pInicial"),
+      aporte: $<HTMLInputElement>("pAporte"),
+      anios: $<HTMLInputElement>("pAnios"),
+      frecuencia: $<HTMLSelectElement>("pFrecuencia"),
+      resumen: $("pResumen"),
+      canvas: $<HTMLCanvasElement>("pChart"),
+      tabla: $("pTabla"),
+    };
+    const lados = ["a", "b"] as const;
+    type Lado = (typeof lados)[number];
+    const campos = ["rendimiento", "transferencia", "plataforma", "administracion"] as const;
+    const COLORES: Record<Lado, string> = { a: "#2a78d6", b: "#eb6834" };
+    let chart: Chart | null = null;
+
+    /** Plazo de la proyección: lo escrito o, si está vacío, los años hasta el retiro. */
+    function aniosProyeccion() {
+      const edad = Number(el.edad.value) || 0;
+      proy.anios.placeholder = edad && edad < EDAD_RETIRO ? String(EDAD_RETIRO - edad) : "20";
+      return Math.min(Math.max(Number(proy.anios.value || proy.anios.placeholder) || 0, 1), 60);
+    }
+
+    const opcionDe = (lado: Lado) => opciones.find((o) => o.id === $<HTMLSelectElement>(`p-${lado}-opcion`).value)!;
+
+    /** Comisión de administración según el plazo (planes con tabla por plazo). */
+    function administracionPara(o: OpcionInversion, anios: number) {
+      const tramos = o.proyeccion.administracionPorPlazo;
+      if (!tramos) return null;
+      const plazo = Math.min(Math.max(anios, tramos[0][0]), 20);
+      return [...tramos].reverse().find(([y]) => y <= plazo)![1];
+    }
+
+    function cargarSupuestos(lado: Lado) {
+      const o = opcionDe(lado);
+      const p = o.proyeccion;
+      const anios = aniosProyeccion();
+      const valores = { ...p, administracion: administracionPara(o, anios) ?? p.administracion };
+      campos.forEach((c) => ($<HTMLInputElement>(`p-${lado}-${c}`).value = String(valores[c])));
+      $(`p-${lado}-adminLabel`).textContent = p.base === "aportes" ? "Administración (% anual solo sobre aportes)" : "Administración (% anual sobre el neto)";
+      const extras = [
+        o.grupo === "pasivo" ? "La administración se cobra sobre el activo neto: aportes + rendimientos" : "",
+        p.costoInicial ? `Apertura de $${p.costoInicial}` : "",
+        p.costoAnual ? `Cargo fijo de $${p.costoAnual} al año` : "",
+        p.aniosAdministracion ? `La administración se cobra los primeros ${p.aniosAdministracion} años` : "",
+        p.administracionPorPlazo && anios > 20 ? "El plan tiene un plazo máximo de 20 años" : "",
+        p.administracionPorPlazo && anios < 5 ? "El plan tiene un plazo mínimo de 5 años" : "",
+        p.nota ?? "",
+      ].filter(Boolean);
+      $(`p-${lado}-nota`).innerHTML = extras.map((e) => `<li>${escapeHtml(e)}</li>`).join("");
+    }
+
+    function simular(lado: Lado, inicial: number, aporte: number, anios: number, cada: number) {
+      const p = opcionDe(lado).proyeccion;
+      const num = (c: string) => Number($<HTMLInputElement>(`p-${lado}-${c}`).value) || 0;
+      const r = Math.pow(1 + num("rendimiento") / 100, 1 / 12) - 1;
+      const adm = num("administracion") / 100 / 12;
+      const porAporte = num("transferencia") + num("plataforma");
+      const meses = Math.round(anios * 12);
+
+      let saldo = 0;
+      let aportado = 0;
+      let comisiones = 0;
+      const porAnio = [0];
+      for (let m = 0; m < meses; m++) {
+        const deposito = (m === 0 ? inicial : 0) + (m % cada === 0 ? aporte * cada : 0);
+        if (deposito > 0) {
+          const costo = porAporte + (m === 0 ? (p.costoInicial ?? 0) : 0);
+          saldo += deposito - costo;
+          aportado += deposito;
+          comisiones += costo;
+        }
+        saldo *= 1 + r;
+        if (!p.aniosAdministracion || m < p.aniosAdministracion * 12) {
+          const costo = adm * (p.base === "aportes" ? aportado : saldo);
+          saldo -= costo;
+          comisiones += costo;
+        }
+        if ((m + 1) % 12 === 0 && p.costoAnual) {
+          saldo -= p.costoAnual;
+          comisiones += p.costoAnual;
+        }
+        saldo = Math.max(saldo, 0);
+        if ((m + 1) % 12 === 0) porAnio.push(saldo);
+      }
+      return { saldo, aportado, comisiones, porAnio };
+    }
+
+    let ultima: {
+      res: Record<Lado, ReturnType<typeof simular>>;
+      inicial: number;
+      aporte: number;
+      anios: number;
+      cada: number;
+      aportadoPorAnio: number[];
+      resumen: string;
+    } | null = null;
+
+    function renderProyeccion() {
+      const d = datos();
+      const usd = (n: number) => fmt(n, "USD");
+      proy.aporte.placeholder = d.aporteUsd ? String(Math.round(d.aporteUsd)) : "300";
+      const inicial = Number(proy.inicial.value) || 0;
+      const aporte = Number(proy.aporte.value || proy.aporte.placeholder) || 0;
+      const anios = aniosProyeccion();
+      const cada = Number(proy.frecuencia.value);
+
+      const res = { a: simular("a", inicial, aporte, anios, cada), b: simular("b", inicial, aporte, anios, cada) };
+      const meta = d.metaUsd;
+
+      lados.forEach((lado) => {
+        const x = res[lado];
+        const stat = (label: string, valor: string, cls = "text-gray-900") =>
+          `<div><p class="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">${label}</p><p class="text-base font-bold ${cls}">${valor}</p></div>`;
+        $(`p-${lado}-res`).innerHTML = `
+          <p class="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">Valor final en ${anios} años</p>
+          <p class="text-3xl font-bold tracking-tight text-gray-900 mb-5">${usd(x.saldo)}</p>
+          <div class="grid grid-cols-2 gap-4">
+            ${stat("Total aportado", usd(x.aportado))}
+            ${stat("Comisiones pagadas", usd(x.comisiones), "text-red-700")}
+            ${stat("Ganancia neta", usd(x.saldo - x.aportado))}
+            ${stat("Meta de jubilación", meta ? `${Math.round((x.saldo / meta) * 100)}%` : "—")}
+          </div>`;
+      });
+
+      const [nA, nB] = [opcionDe("a").nombre, opcionDe("b").nombre];
+      const dif = res.a.saldo - res.b.saldo;
+      proy.resumen.innerHTML =
+        Math.abs(dif) < 1
+          ? `Con estos supuestos, <strong>${escapeHtml(nA)}</strong> y <strong>${escapeHtml(nB)}</strong> llegan al mismo resultado.`
+          : `Con <strong>${escapeHtml(dif > 0 ? nA : nB)}</strong> tendría <strong>${usd(Math.abs(dif))} más</strong> que con ${escapeHtml(dif > 0 ? nB : nA)} después de ${anios} años.`;
+
+      // Gráfico: saldo de cada herramienta por año y el total aportado como referencia.
+      const etiquetas = res.a.porAnio.map((_, i) => `Año ${i}`);
+      const aportadoPorAnio = etiquetas.map((_, i) => inicial + aporte * 12 * i);
+      ultima = { res, inicial, aporte, anios, cada, aportadoPorAnio, resumen: proy.resumen.textContent ?? "" };
+      const datasets = [
+        { label: nA, data: res.a.porAnio, borderColor: COLORES.a, backgroundColor: COLORES.a },
+        { label: nB, data: res.b.porAnio, borderColor: COLORES.b, backgroundColor: COLORES.b },
+        { label: "Total aportado", data: aportadoPorAnio, borderColor: "#9ca3af", backgroundColor: "#9ca3af", borderDash: [4, 4] },
+      ].map((ds) => ({ ...ds, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, pointHoverBorderWidth: 2, pointHoverBorderColor: "#fff", tension: 0.25 }));
+
+      if (chart) {
+        chart.data.labels = etiquetas;
+        chart.data.datasets = datasets;
+        chart.update("none");
+      } else {
+        chart = new Chart(proy.canvas, {
+          type: "line",
+          data: { labels: etiquetas, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: "index", intersect: false },
+            plugins: {
+              legend: { position: "top", align: "start", labels: { usePointStyle: true, pointStyle: "line", boxWidth: 24, color: "#4b5563", font: { size: 11, weight: 600 } } },
+              tooltip: {
+                backgroundColor: "#111827",
+                padding: 12,
+                cornerRadius: 10,
+                callbacks: { label: (c) => ` ${c.dataset.label}: ${usd(c.parsed.y ?? 0)}` },
+              },
+            },
+            scales: {
+              x: { grid: { display: false }, border: { color: "#e5e7eb" }, ticks: { color: "#9ca3af", font: { size: 10 }, maxTicksLimit: 8 } },
+              y: {
+                grid: { color: "#f3f4f6" },
+                border: { display: false },
+                ticks: { color: "#9ca3af", font: { size: 10 }, callback: (v) => usd(Number(v)) },
+              },
+            },
+          },
+        });
+      }
+
+      // Tabla equivalente del gráfico, cada 5 años.
+      const filas = etiquetas
+        .map((_, i) => i)
+        .filter((i) => i > 0 && (i % 5 === 0 || i === etiquetas.length - 1));
+      proy.tabla.innerHTML = `
+        <thead><tr><th>Año</th><th>Aportado</th><th>${escapeHtml(nA)}</th><th>${escapeHtml(nB)}</th></tr></thead>
+        <tbody>${filas.map((i) => `<tr><td>${i}</td><td>${usd(aportadoPorAnio[i])}</td><td>${usd(res.a.porAnio[i])}</td><td>${usd(res.b.porAnio[i])}</td></tr>`).join("")}</tbody>`;
+    }
+
+    lados.forEach((lado) => {
+      $<HTMLSelectElement>(`p-${lado}-opcion`).addEventListener("change", () => {
+        cargarSupuestos(lado);
+        renderProyeccion();
+      });
+      campos.forEach((c) => $(`p-${lado}-${c}`).addEventListener("input", renderProyeccion));
+      cargarSupuestos(lado);
+    });
+    [proy.inicial, proy.aporte].forEach((i) => i.addEventListener("input", renderProyeccion));
+    proy.frecuencia.addEventListener("change", renderProyeccion);
+    // El plazo cambia la comisión de los planes con tabla por plazo.
+    [proy.anios, el.edad].forEach((i) => i.addEventListener("input", () => {
+      lados.forEach((lado) => opcionDe(lado).proyeccion.administracionPorPlazo && cargarSupuestos(lado));
+      renderProyeccion();
+    }));
+
+    function segmentos(id: string, onChange: (value: string) => void) {
+      const group = $(id);
+      group.querySelectorAll<HTMLButtonElement>("button[data-value]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn.classList.contains("is-active")));
+        btn.addEventListener("click", () => {
+          group.querySelectorAll("button").forEach((b) => {
+            b.classList.toggle("is-active", b === btn);
+            b.setAttribute("aria-pressed", String(b === btn));
+          });
+          onChange(btn.dataset.value!);
+          render();
+        });
+      });
+    }
+
+    segmentos("moneda", (v) => {
+      state.moneda = v as "CRC" | "USD";
+      el.simbolo.textContent = v === "CRC" ? "₡" : "$";
+      el.salario.placeholder = v === "CRC" ? "1.000.000" : "2.000";
+    });
+    segmentos("perfil", (v) => (state.perfil = v as Grupo | ""));
+
+    // Formatea el salario con separadores de miles mientras se escribe.
+    el.salario.addEventListener("input", () => {
+      const digits = el.salario.value.replace(/\D/g, "");
+      el.salario.value = digits ? Number(digits).toLocaleString("es-CR") : "";
+      render();
+    });
+    [el.edad, el.tipoCambio, el.nombre].forEach((i) => i.addEventListener("input", render));
+    el.orden.addEventListener("change", () => {
+      state.orden = el.orden.value;
+      render();
+    });
+
+    el.copiar.addEventListener("click", async () => {
+      const d = datos();
+      const sugeridas = opciones
+        .filter((o) => o.grupo !== "otras" && gruposVisibles().includes(o.grupo))
+        .map((o) => o.nombre)
+        .join(", ");
+      const texto = [
+        `Perfil de inversión${el.nombre.value.trim() ? `: ${el.nombre.value.trim()}` : ""}`,
+        d.edad ? `Edad: ${d.edad} años (${Math.max(EDAD_RETIRO - d.edad, 0)} años para invertir)` : "",
+        d.salario ? `Salario mensual: ${fmt(d.salario, state.moneda)}` : "",
+        d.salario ? `Meta de jubilación (salario anual × 25): ${fmt(d.meta, state.moneda)}` : "",
+        d.salario ? `Inversión mensual ideal (15%): ${fmt(d.aporte, state.moneda)}` : "",
+        `Perfil: ${perfilTexto()}`,
+        `Opciones a comparar: ${sugeridas}`,
+      ].filter(Boolean).join("\n");
+      try {
+        await navigator.clipboard.writeText(texto);
+        el.copiarLabel.textContent = "Copiado";
+      } catch {
+        el.copiarLabel.textContent = "No se pudo copiar";
+      }
+      setTimeout(() => (el.copiarLabel.textContent = "Copiar resumen"), 2000);
+    });
+
+    // PDF de 3 páginas: perfil, proyección y resumen de herramientas.
+    // La fuente estándar del PDF no tiene "₡" ni espacios finos: se reemplazan.
+    const pdfTxt = (s: string) =>
+      s.replace(/₡/g, "¢").replace(/[\u202f\u00a0]/g, ".").replace(/≈/g, "~").replace(/—/g, "-");
+    const pdfUsd = (n: number) => pdfTxt(fmt(n, "USD"));
+
+    async function descargarPdf() {
+      if (!ultima) return;
+      const [{ jsPDF }, { default: autoTable }] = await Promise.all([import("jspdf"), import("jspdf-autotable")]);
+      const doc = new jsPDF("p", "mm", "a4");
+      const d = datos();
+      const nombre = el.nombre.value.trim();
+      const fecha = new Date().toLocaleDateString("es-CR", { day: "numeric", month: "long", year: "numeric" });
+      const X = 18;
+      const W = 210 - X * 2;
+      const tabla = (opts: Parameters<typeof autoTable>[1]) =>
+        autoTable(doc, {
+          margin: { left: X, right: X },
+          styles: { font: "helvetica", fontSize: 9, cellPadding: 2.5, textColor: [55, 65, 81], lineColor: [229, 231, 235] },
+          headStyles: { fillColor: [17, 24, 39], textColor: 255, fontStyle: "bold" },
+          ...opts,
+        });
+      const finY = () => (doc as any).lastAutoTable.finalY as number;
+
+      function encabezado(titulo: string, pagina: number) {
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(8);
+        doc.setTextColor(156, 163, 175);
+        doc.text("RIP WALLET", X, 14);
+        doc.text(`${pagina} / 3`, 210 - X, 14, { align: "right" });
+        doc.setFontSize(20);
+        doc.setTextColor(17, 24, 39);
+        doc.text(titulo, X, 28);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(107, 114, 128);
+        doc.text(pdfTxt(`${nombre ? `${nombre} · ` : ""}${fecha}`), X, 35);
+      }
+
+      // 1. Perfil del cliente
+      encabezado("Perfil del inversionista", 1);
+      const anios = d.edad ? Math.max(EDAD_RETIRO - d.edad, 0) : null;
+      const doble = (n: number) => {
+        const alt = state.moneda === "CRC" ? "USD" : "CRC";
+        const conv = d.tc ? (alt === "USD" ? n / d.tc : n * d.tc) : 0;
+        return pdfTxt(`${fmt(n, state.moneda)}${conv ? `  (~${fmt(conv, alt)})` : ""}`);
+      };
+      tabla({
+        startY: 44,
+        theme: "plain",
+        styles: { fontSize: 10, cellPadding: 3.5 },
+        columnStyles: { 0: { fontStyle: "bold", textColor: [107, 114, 128], cellWidth: 70 } },
+        body: [
+          ["Nombre", nombre || "No indicado"],
+          ["Edad", d.edad ? `${d.edad} años` : "No indicada"],
+          ["Salario mensual", d.salario ? doble(d.salario) : "No indicado"],
+          ["Tipo de cambio", d.tc ? pdfTxt(`${fmt(d.tc, "CRC")} por dólar`) : "-"],
+          ["Perfil", perfilTexto()],
+        ],
+      });
+      const metas: [string, string, string][] = [
+        ["Meta de jubilación", d.salario ? doble(d.meta) : "-", "Salario anual x 25"],
+        ["Inversión mensual ideal", d.salario ? doble(d.aporte) : "-", "15% del salario mensual"],
+        ["Tiempo para invertir", anios != null ? `${anios} años` : "-", `Hasta los ${EDAD_RETIRO} años`],
+      ];
+      let y = finY() + 10;
+      metas.forEach(([label, valor, nota], i) => {
+        const oscuro = i === 0;
+        doc.setFillColor(...((oscuro ? [17, 24, 39] : [249, 250, 251]) as [number, number, number]));
+        doc.roundedRect(X, y, W, 26, 3, 3, "F");
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(8);
+        doc.setTextColor(156, 163, 175);
+        doc.text(label.toUpperCase(), X + 7, y + 8);
+        doc.setFontSize(17);
+        doc.setTextColor(...((oscuro ? [255, 255, 255] : [17, 24, 39]) as [number, number, number]));
+        doc.text(valor, X + 7, y + 17);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(156, 163, 175);
+        doc.text(nota, X + 7, y + 22.5);
+        y += 31;
+      });
+
+      // 2. Proyección
+      doc.addPage();
+      encabezado("Proyección", 2);
+      const { res } = ultima;
+      const [oA, oB] = [opcionDe("a"), opcionDe("b")];
+      const valor = (lado: Lado, c: string) => Number($<HTMLInputElement>(`p-${lado}-${c}`).value) || 0;
+      const frecuencia = proy.frecuencia.selectedOptions[0].textContent!.toLowerCase();
+      doc.setFontSize(9);
+      doc.setTextColor(75, 85, 99);
+      doc.text(
+        pdfTxt(`Monto inicial ${fmt(ultima.inicial, "USD")} · Aporte de ${fmt(ultima.aporte, "USD")} al mes (${frecuencia}) · ${ultima.anios} años`),
+        X,
+        42,
+      );
+      const adm = (o: OpcionInversion, lado: Lado) =>
+        `${valor(lado, "administracion").toLocaleString("es-CR")}% ${o.proyeccion.base === "aportes" ? "solo sobre aportes" : "sobre el neto"}`;
+      const meta = d.metaUsd;
+      tabla({
+        startY: 47,
+        theme: "grid",
+        head: [["", oA.nombre, oB.nombre]],
+        columnStyles: { 0: { fontStyle: "bold", textColor: [107, 114, 128], cellWidth: 50 } },
+        body: [
+          ["Rendimiento esperado", `${valor("a", "rendimiento")}% anual`, `${valor("b", "rendimiento")}% anual`],
+          ["Administración", adm(oA, "a"), adm(oB, "b")],
+          ["Transferencia por aporte", pdfUsd(valor("a", "transferencia")), pdfUsd(valor("b", "transferencia"))],
+          ["Plataforma por aporte", pdfUsd(valor("a", "plataforma")), pdfUsd(valor("b", "plataforma"))],
+          ["Valor final", pdfUsd(res.a.saldo), pdfUsd(res.b.saldo)],
+          ["Total aportado", pdfUsd(res.a.aportado), pdfUsd(res.b.aportado)],
+          ["Comisiones pagadas", pdfUsd(res.a.comisiones), pdfUsd(res.b.comisiones)],
+          ["Ganancia neta", pdfUsd(res.a.saldo - res.a.aportado), pdfUsd(res.b.saldo - res.b.aportado)],
+          ["Meta de jubilación", meta ? `${Math.round((res.a.saldo / meta) * 100)}%` : "-", meta ? `${Math.round((res.b.saldo / meta) * 100)}%` : "-"],
+        ],
+        didParseCell: (c) => {
+          if (c.section === "body" && c.row.index === 4 && c.column.index > 0) c.cell.styles.fontStyle = "bold";
+        },
+      });
+      y = finY() + 9;
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.setTextColor(17, 24, 39);
+      const lineas = doc.splitTextToSize(pdfTxt(ultima.resumen), W);
+      doc.text(lineas, X, y);
+      y += lineas.length * 5 + 3;
+      chart?.update("none");
+      // JPEG sobre fondo blanco: un PNG del canvas pesa varios MB.
+      const lienzo = document.createElement("canvas");
+      lienzo.width = proy.canvas.width;
+      lienzo.height = proy.canvas.height;
+      const ctx = lienzo.getContext("2d")!;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, lienzo.width, lienzo.height);
+      ctx.drawImage(proy.canvas, 0, 0);
+      const alto = (W * lienzo.height) / lienzo.width;
+      doc.addImage(lienzo.toDataURL("image/jpeg", 0.9), "JPEG", X, y, W, alto);
+      y += alto + 6;
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(7.5);
+      doc.setTextColor(156, 163, 175);
+      doc.text(
+        doc.splitTextToSize(
+          "El rendimiento es un supuesto antes de comisiones, no una promesa: los mercados suben y bajan. Montos en dólares.",
+          W,
+        ),
+        X,
+        Math.min(y, 285),
+      );
+
+      // 3. Resumen de herramientas: las del perfil, las otras opciones y las proyectadas.
+      doc.addPage();
+      encabezado("Herramientas", 3);
+      const ids = new Set([
+        ...opciones.filter((o) => gruposVisibles().includes(o.grupo)).map((o) => o.id),
+        oA.id,
+        oB.id,
+      ]);
+      const lista = opciones.filter((o) => ids.has(o.id));
+      const minimoTxt = (o: OpcionInversion) =>
+        o.minimo == null ? "Por confirmar" : o.minimo === 0 ? "Sin mínimo" : pdfTxt(`${fmt(o.minimo, o.monedaMinimo ?? "USD")}${o.minimoMensual ? "/mes" : ""}`);
+      const historicoTxt = (o: OpcionInversion) =>
+        !o.historico ? "-" : typeof o.historico === "string" ? "Sin 5 años de historia" : pct(o.historico.promedio);
+      tabla({
+        startY: 43,
+        theme: "grid",
+        styles: { fontSize: 7, cellPadding: 2, valign: "top" },
+        head: [["Herramienta", "Respaldo", "Flexibilidad", "Comisiones", "Mínimo", "Histórico*"]],
+        columnStyles: { 0: { fontStyle: "bold", cellWidth: 27 }, 4: { cellWidth: 18 }, 5: { cellWidth: 18 } },
+        body: lista.map((o) => [
+          `${o.nombre}\n${o.tipo}`,
+          `${etiquetas.respaldo[o.respaldo.nivel]}\n${o.respaldo.resumen}`,
+          `${etiquetas.flexibilidad[o.flexibilidad.nivel]}\n${o.flexibilidad.resumen}`,
+          pdfTxt(`${etiquetas.comisiones[o.comisiones.nivel]}\nAdministración: ${o.comisiones.administracion ?? "Por confirmar"}`),
+          minimoTxt(o),
+          historicoTxt(o),
+        ]),
+      });
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(7.5);
+      doc.setTextColor(156, 163, 175);
+      doc.text(
+        doc.splitTextToSize(
+          `* Rendimiento neto promedio anual de enero 2022 a agosto 2026, según los informes de cada fondo. Rendimientos pasados no garantizan rendimientos futuros. Información actualizada a ${actualizado}: confirma siempre las condiciones con cada entidad.`,
+          W,
+        ),
+        X,
+        Math.min(finY() + 7, 285),
+      );
+
+      doc.save(`RIP-Wallet-Inversiones${nombre ? `-${nombre.replace(/\s+/g, "-")}` : ""}.pdf`);
+    }
+    $("descargarPdf").addEventListener("click", descargarPdf);
+
+    render();
+  }
+
+  setupInvestmentComparator();
+  document.addEventListener("astro:page-load", setupInvestmentComparator);
+</script>
+
+<style is:global>
+  .apple-input {
+    width: 100%;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .apple-input:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05);
+  }
+
+  .card-outline {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 32px;
+    transition: border-color 0.3s ease;
+  }
+
+  .card-outline:hover {
+    border-color: #cbd5e1;
+  }
+
+  .card-opcion {
+    padding: 28px;
+  }
+
+  .section-title,
+  .metric-label {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #9ca3af;
+  }
+
+  .section-title {
+    margin-bottom: 2rem;
+  }
+
+  .metric-label {
+    margin-bottom: 0.75rem;
+  }
+
+  .metric-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 28px 32px;
+    background: #ffffff;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin-bottom: 0.5rem;
+  }
+
+  .hint {
+    font-size: 10px;
+    color: #9ca3af;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .segment {
+    padding: 0.55rem 0.25rem;
+    border-radius: 0.55rem;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    transition: all 0.2s;
+  }
+
+  .segment:hover {
+    color: #111827;
+  }
+
+  .segment.is-active {
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  .rubro {
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+  }
+
+  .rubro-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #6b7280;
+  }
+
+  .rubro-title svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .tone {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .tone-good {
+    background: #f0fdf4;
+    color: #15803d;
+    border-color: #dcfce7;
+  }
+
+  .tone-mid {
+    background: #fffbeb;
+    color: #b45309;
+    border-color: #fef3c7;
+  }
+
+  .tone-bad {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fee2e2;
+  }
+
+  .perk,
+  .fit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.6rem;
+    border: 1px solid #f3f4f6;
+    background: #f9fafb;
+    font-size: 10px;
+    font-weight: 600;
+    color: #4b5563;
+  }
+
+  .perk svg,
+  .fit svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .fit-ok {
+    background: #f0fdf4;
+    border-color: #dcfce7;
+    color: #15803d;
+  }
+
+  .fit-no {
+    background: #fef2f2;
+    border-color: #fee2e2;
+    color: #b91c1c;
+  }
+
+  .fit-unknown {
+    color: #9ca3af;
+  }
+
+  .compare-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid #e5e7eb;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4b5563;
+    transition: all 0.2s;
+  }
+
+  .compare-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .compare-btn:hover {
+    border-color: #111827;
+    color: #111827;
+  }
+
+  .compare-btn.is-dark {
+    background: #111827;
+    border-color: #111827;
+    color: #ffffff;
+  }
+
+  .compare-btn.is-dark:hover {
+    background: #000000;
+    color: #ffffff;
+  }
+
+
+
+  .card-opcion {
+    transition:
+      border-color 0.3s ease,
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-opcion:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+  }
+
+
+
+  .opcion-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.8rem;
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-opcion:hover .opcion-logo {
+    transform: translateY(-2px);
+  }
+
+  .detalle summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6b7280;
+  }
+
+  .detalle summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .detalle summary:hover {
+    color: #111827;
+  }
+
+  .detalle summary svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s;
+  }
+
+  .detalle[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .link-oficial {
+    position: absolute;
+    top: 1rem;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6b7280;
+  }
+
+  .link-oficial:hover {
+    color: #111827;
+  }
+
+  .link-oficial svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .serie-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+  }
+
+  .nota-lista li {
+    position: relative;
+    padding-left: 0.9rem;
+    font-size: 10px;
+    line-height: 1.45;
+    color: #6b7280;
+  }
+
+  .nota-lista li + li {
+    margin-top: 0.3rem;
+  }
+
+  .nota-lista li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #d1d5db;
+  }
+
+  .proj-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    color: #4b5563;
+  }
+
+  .proj-table th,
+  .proj-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: right;
+    border-bottom: 1px solid #f3f4f6;
+    white-space: nowrap;
+  }
+
+  .proj-table th:first-child,
+  .proj-table td:first-child {
+    text-align: left;
+  }
+
+  .proj-table th {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>
