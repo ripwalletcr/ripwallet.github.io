@@ -56,11 +56,15 @@ const EDAD_RETIRO = 65;
               <input id="edad" type="number" min="18" max="100" inputmode="numeric" class="apple-input" placeholder="30" />
             </div>
             <div>
-              <label class="field-label">Moneda del salario</label>
-              <div class="grid grid-cols-2 gap-1 p-1 bg-gray-50 border border-gray-100 rounded-xl" id="moneda">
-                <button type="button" class="segment is-active" data-value="CRC">₡ Colones</button>
-                <button type="button" class="segment" data-value="USD">$ Dólares</button>
-              </div>
+              <label for="edadRetiro" class="field-label">Edad de jubilación</label>
+              <input id="edadRetiro" type="number" min="30" max="100" inputmode="numeric" class="apple-input" placeholder={String(EDAD_RETIRO)} />
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Moneda del salario</label>
+            <div class="grid grid-cols-2 gap-1 p-1 bg-gray-50 border border-gray-100 rounded-xl" id="moneda">
+              <button type="button" class="segment is-active" data-value="CRC">₡ Colones</button>
+              <button type="button" class="segment" data-value="USD">$ Dólares</button>
             </div>
           </div>
           <div>
@@ -109,7 +113,7 @@ const EDAD_RETIRO = 65;
             <p class="metric-label"><Hourglass class="w-3.5 h-3.5 mr-2" /> Tiempo para invertir</p>
             <p id="anios" class="text-3xl font-bold tracking-tight text-gray-900">—</p>
             <p id="aniosAlt" class="text-sm text-gray-400 mt-1"></p>
-            <p class="text-xs text-gray-400 mt-4">Hasta los {EDAD_RETIRO} años.</p>
+            <p id="aniosNota" class="text-xs text-gray-400 mt-4">Hasta los {EDAD_RETIRO} años.</p>
           </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto">
@@ -176,8 +180,8 @@ const EDAD_RETIRO = 65;
           </div>
         </div>
         <p class="hint">
-          Si se dejan vacíos, el aporte es la inversión mensual ideal y los años son los que faltan para los
-          {EDAD_RETIRO}. Agrupar aportes reduce el peso de los costos por transferencia.
+          Si se dejan vacíos, el aporte es la inversión mensual ideal y los años son los que faltan para la
+          edad de jubilación. Agrupar aportes reduce el peso de los costos por transferencia.
         </p>
       </div>
 
@@ -302,6 +306,7 @@ const EDAD_RETIRO = 65;
     const el = {
       nombre: $<HTMLInputElement>("nombre"),
       edad: $<HTMLInputElement>("edad"),
+      edadRetiro: $<HTMLInputElement>("edadRetiro"),
       salario: $<HTMLInputElement>("salario"),
       tipoCambio: $<HTMLInputElement>("tipoCambio"),
       tipoCambioRow: $("tipoCambioRow"),
@@ -323,11 +328,12 @@ const EDAD_RETIRO = 65;
     function datos() {
       const salario = Number(el.salario.value.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
       const edad = Number(el.edad.value) || 0;
+      const edadRetiro = Number(el.edadRetiro.value) || EDAD_RETIRO;
       const tc = Number(el.tipoCambio.value) || 0;
       const meta = salario * 12 * 25;
       const aporte = salario * 0.15;
       const aUsd = (n: number) => (state.moneda === "USD" ? n : tc ? n / tc : 0);
-      return { salario, edad, tc, meta, aporte, aporteUsd: aUsd(aporte), metaUsd: aUsd(meta) };
+      return { salario, edad, edadRetiro, tc, meta, aporte, aporteUsd: aUsd(aporte), metaUsd: aUsd(meta) };
     }
 
     function rubro(titulo: string, icono: string, nivelTexto: string, cls: string, cuerpo: string) {
@@ -459,7 +465,8 @@ const EDAD_RETIRO = 65;
       el.metaAlt.textContent = d.salario && d.tc ? `≈ ${fmt(conAlt(d.meta), alt)}` : "";
       el.aporteAlt.textContent = d.salario && d.tc ? `≈ ${fmt(conAlt(d.aporte), alt)} al mes` : "";
 
-      const anios = d.edad ? EDAD_RETIRO - d.edad : null;
+      const anios = d.edad ? d.edadRetiro - d.edad : null;
+      $("aniosNota").textContent = `Hasta los ${d.edadRetiro} años.`;
       el.anios.textContent = anios == null ? "—" : anios > 0 ? `${anios} años` : "Ya llegó";
       el.aniosAlt.textContent =
         anios && anios > 0 && d.salario ? `${(anios * 12).toLocaleString("es-CR")} aportes mensuales` : "";
@@ -498,8 +505,8 @@ const EDAD_RETIRO = 65;
 
     /** Plazo de la proyección: lo escrito o, si está vacío, los años hasta el retiro. */
     function aniosProyeccion() {
-      const edad = Number(el.edad.value) || 0;
-      proy.anios.placeholder = edad && edad < EDAD_RETIRO ? String(EDAD_RETIRO - edad) : "20";
+      const { edad, edadRetiro } = datos();
+      proy.anios.placeholder = edad && edad < edadRetiro ? String(edadRetiro - edad) : "20";
       return Math.min(Math.max(Number(proy.anios.value || proy.anios.placeholder) || 0, 1), 60);
     }
 
@@ -540,6 +547,8 @@ const EDAD_RETIRO = 65;
       const porAporte = num("transferencia") + num("plataforma");
       const meses = Math.round(anios * 12);
 
+      if (p.establecimiento) return simularEstablecimiento(p, inicial, aporte, meses, cada, r, num("administracion"), porAporte);
+
       let saldo = 0;
       let aportado = 0;
       let comisiones = 0;
@@ -566,6 +575,84 @@ const EDAD_RETIRO = 65;
         if ((m + 1) % 12 === 0) porAnio.push(saldo);
       }
       return { saldo, aportado, comisiones, porAnio };
+    }
+
+    /**
+     * Planes con unidades de establecimiento (Dominion). Reproduce sus ilustraciones con menos de 0,3% de diferencia:
+     * parte de los aportes de los años 1 y 2 no se invierte y paga por adelantado la comisión sobre aportes de todo el
+     * plazo; el resto de esa comisión sale de lo invertido. El saldo es el valor de rescate (lo que se puede retirar).
+     */
+    function simularEstablecimiento(
+      p: OpcionInversion["proyeccion"],
+      inicial: number,
+      aporte: number,
+      meses: number,
+      cada: number,
+      r: number,
+      administracion: number,
+      porAporte: number,
+    ) {
+      const e = p.establecimiento!;
+      const plazo = Math.min(Math.max(Math.round(meses / 12), 5), 20);
+      const mesesPlazo = plazo * 12;
+      // Parte de la comisión anual que pagan las UE: lo apartado entre la suma de los aportes acumulados de cada mes.
+      const tasaUE = (((e.anio1 + e.anio2) / 100) * plazo * 12 * 12) / ((mesesPlazo * (mesesPlazo + 1)) / 2);
+      const tasaFondos = Math.max(administracion / 100 - tasaUE, 0);
+
+      let fondos = 0;
+      let ue = 0;
+      let fondosUnico = 0;
+      let ueUnico = 0;
+      let aportado = 0;
+      let acumuladoRegular = 0;
+      let comisiones = 0;
+      const porAnio = [0];
+      for (let m = 0; m < meses; m++) {
+        if (m === 0 && inicial > 0) {
+          ueUnico = (inicial * e.aporteUnico) / 100;
+          fondosUnico = inicial - ueUnico - (p.costoInicial ?? 0) - porAporte;
+          aportado += inicial;
+          comisiones += (p.costoInicial ?? 0) + porAporte;
+        } else if (m === 0) {
+          fondos -= p.costoInicial ?? 0;
+          comisiones += p.costoInicial ?? 0;
+        }
+        if (m % cada === 0 && aporte > 0) {
+          const deposito = aporte * cada;
+          const anio = Math.floor(m / 12);
+          const pctUE = m < mesesPlazo ? ((anio === 0 ? e.anio1 : anio === 1 ? e.anio2 : 0) * plazo) / 100 : 0;
+          ue += deposito * pctUE;
+          fondos += deposito * (1 - pctUE) - porAporte;
+          aportado += deposito;
+          acumuladoRegular += deposito;
+          comisiones += porAporte;
+        }
+        fondos *= 1 + r;
+        fondosUnico *= 1 + r;
+
+        // Comisión sobre aportes regulares: una parte sale de las UE y el resto de lo invertido.
+        const deUE = Math.min((tasaUE / 12) * acumuladoRegular, ue);
+        const deFondos = (tasaFondos / 12) * acumuladoRegular + ((tasaUE / 12) * acumuladoRegular - deUE);
+        ue -= deUE;
+        fondos -= deFondos;
+        // Aporte único: comisión sobre el monto los primeros años y luego sobre su valor.
+        let unico = 0;
+        if (m < e.aniosAporteUnico * 12) {
+          unico = (inicial * e.administracionAporteUnico) / 100 / 12;
+          const deUEUnico = Math.min(unico, ueUnico);
+          ueUnico -= deUEUnico;
+          fondosUnico -= unico - deUEUnico;
+        } else {
+          unico = (fondosUnico * e.administracionAporteUnicoDespues) / 100 / 12;
+          fondosUnico -= unico;
+        }
+        comisiones += deUE + deFondos + unico;
+
+        if ((m + 1) % 12 === 0) porAnio.push(Math.max(fondos + fondosUnico, 0));
+      }
+      // Lo que quede en las UE al final no se puede retirar: se pierde como cargo por rescate anticipado.
+      comisiones += ue + ueUnico;
+      return { saldo: Math.max(fondos + fondosUnico, 0), aportado, comisiones, porAnio };
     }
 
     let ultima: {
@@ -675,7 +762,7 @@ const EDAD_RETIRO = 65;
     [proy.inicial, proy.aporte].forEach((i) => i.addEventListener("input", renderProyeccion));
     proy.frecuencia.addEventListener("change", renderProyeccion);
     // El plazo cambia la comisión de los planes con tabla por plazo.
-    [proy.anios, el.edad].forEach((i) => i.addEventListener("input", () => {
+    [proy.anios, el.edad, el.edadRetiro].forEach((i) => i.addEventListener("input", () => {
       lados.forEach((lado) => opcionDe(lado).proyeccion.administracionPorPlazo && cargarSupuestos(lado));
       renderProyeccion();
     }));
@@ -708,7 +795,7 @@ const EDAD_RETIRO = 65;
       el.salario.value = digits ? Number(digits).toLocaleString("es-CR") : "";
       render();
     });
-    [el.edad, el.tipoCambio, el.nombre].forEach((i) => i.addEventListener("input", render));
+    [el.edad, el.edadRetiro, el.tipoCambio, el.nombre].forEach((i) => i.addEventListener("input", render));
     el.orden.addEventListener("change", () => {
       state.orden = el.orden.value;
       render();
@@ -722,7 +809,7 @@ const EDAD_RETIRO = 65;
         .join(", ");
       const texto = [
         `Perfil de inversión${el.nombre.value.trim() ? `: ${el.nombre.value.trim()}` : ""}`,
-        d.edad ? `Edad: ${d.edad} años (${Math.max(EDAD_RETIRO - d.edad, 0)} años para invertir)` : "",
+        d.edad ? `Edad: ${d.edad} años, jubilación a los ${d.edadRetiro} (${Math.max(d.edadRetiro - d.edad, 0)} años para invertir)` : "",
         d.salario ? `Salario mensual: ${fmt(d.salario, state.moneda)}` : "",
         d.salario ? `Meta de jubilación (salario anual × 25): ${fmt(d.meta, state.moneda)}` : "",
         d.salario ? `Inversión mensual ideal (15%): ${fmt(d.aporte, state.moneda)}` : "",
@@ -779,7 +866,7 @@ const EDAD_RETIRO = 65;
 
       // 1. Perfil del cliente
       encabezado("Perfil del inversionista", 1);
-      const anios = d.edad ? Math.max(EDAD_RETIRO - d.edad, 0) : null;
+      const anios = d.edad ? Math.max(d.edadRetiro - d.edad, 0) : null;
       const doble = (n: number) => {
         const alt = state.moneda === "CRC" ? "USD" : "CRC";
         const conv = d.tc ? (alt === "USD" ? n / d.tc : n * d.tc) : 0;
@@ -793,6 +880,7 @@ const EDAD_RETIRO = 65;
         body: [
           ["Nombre", nombre || "No indicado"],
           ["Edad", d.edad ? `${d.edad} años` : "No indicada"],
+          ["Edad de jubilación", `${d.edadRetiro} años`],
           ["Salario mensual", d.salario ? doble(d.salario) : "No indicado"],
           ["Tipo de cambio", d.tc ? pdfTxt(`${fmt(d.tc, "CRC")} por dólar`) : "-"],
           ["Perfil", perfilTexto()],
@@ -801,7 +889,7 @@ const EDAD_RETIRO = 65;
       const metas: [string, string, string][] = [
         ["Meta de jubilación", d.salario ? doble(d.meta) : "-", "Salario anual x 25"],
         ["Inversión mensual ideal", d.salario ? doble(d.aporte) : "-", "15% del salario mensual"],
-        ["Tiempo para invertir", anios != null ? `${anios} años` : "-", `Hasta los ${EDAD_RETIRO} años`],
+        ["Tiempo para invertir", anios != null ? `${anios} años` : "-", `Hasta los ${d.edadRetiro} años`],
       ];
       let y = finY() + 10;
       metas.forEach(([label, valor, nota], i) => {

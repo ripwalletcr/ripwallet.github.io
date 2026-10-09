@@ -36,6 +36,23 @@ export interface Proyeccion {
   costoAnual?: number;
   /** Costo único de apertura, en dólares. */
   costoInicial?: number;
+  /**
+   * Planes que apartan parte de los aportes en "unidades de establecimiento" (UE): no se invierten
+   * y pagan por adelantado la comisión de administración de todo el plazo.
+   */
+  establecimiento?: {
+    /** % del aporte del año 1 que va a UE, por cada año de plazo (15 años x 4,95% = 74,25%). */
+    anio1: number;
+    /** % del aporte del año 2 que va a UE, por cada año de plazo. */
+    anio2: number;
+    /** % del aporte único que va a UE. */
+    aporteUnico: number;
+    /** Comisión anual sobre el monto del aporte único durante los primeros `aniosAporteUnico` años. */
+    administracionAporteUnico: number;
+    aniosAporteUnico: number;
+    /** Comisión anual sobre el valor del aporte único a partir de entonces. */
+    administracionAporteUnicoDespues: number;
+  };
   /** Explicación corta de los supuestos que no salen de un documento oficial. */
   nota?: string;
 }
@@ -577,16 +594,18 @@ export const opciones: OpcionInversion[] = [
       detalles: [
         "Aporte mínimo de $250 al mes o aporte único desde $1.500",
         "Rescates parciales, aportes omitidos y cambios de fondo sin costo",
-        "Las comisiones se cobran por adelantado: en un plan a 20 años, el primer año solo se puede retirar ~1% del valor",
+        "En un plan a 15 años, el 74% de los aportes del primer año y el 19% del segundo no se invierten: pagan por adelantado las comisiones de todo el plazo",
+        "Si se retira antes del plazo pierde esa parte: en un plan a 20 años, el primer año solo se puede retirar ~1% del valor",
       ],
     },
     custodia: "Bank of New York Mellon",
     comisiones: {
       nivel: "medio",
-      resumen: "1,15% a 2,65% anual, solo sobre los aportes",
+      resumen: "1,15% a 2,65% anual sobre aportes, pagado por adelantado",
       transferencia: "Tarjeta o transferencia bancaria",
       plataforma: "Apertura de $25",
-      administracion: "Solo sobre los aportes, no sobre los rendimientos: 2,65% anual (plazo de 5 años) a 1,15% (15 a 20 años)",
+      administracion:
+        "Solo sobre los aportes: 2,65% anual (plazo de 5 años) a 1,15% (15 a 20 años). Se paga por adelantado: en un plan a 15 años, el 74% de los aportes del primer año y el 19% del segundo no se invierten. Aporte único: 7,8% no se invierte, 1,60% anual sobre el monto los primeros 5 años y luego 1% anual sobre su valor",
     },
     proyeccion: {
       rendimiento: 8,
@@ -595,6 +614,14 @@ export const opciones: OpcionInversion[] = [
       administracion: 1.15,
       base: "aportes",
       costoInicial: 25,
+      establecimiento: {
+        anio1: 4.95,
+        anio2: 1.2375,
+        aporteUnico: 7.8,
+        administracionAporteUnico: 1.6,
+        aniosAporteUnico: 5,
+        administracionAporteUnicoDespues: 1,
+      },
       administracionPorPlazo: [
         [5, 2.65],
         [6, 2.15],
@@ -608,7 +635,7 @@ export const opciones: OpcionInversion[] = [
         [14, 1.16],
         [15, 1.15],
       ],
-      nota: "La comisión se cobra solo sobre lo aportado, no sobre los rendimientos, y depende del plazo (máximo 20 años). No incluye el costo de los fondos.",
+      nota: "Modelo según las ilustraciones de Dominion: los aportes del primer y segundo año pagan por adelantado la comisión de todo el plazo y no se invierten. El valor es el que se puede retirar. No incluye el costo de los fondos.",
     },
     idealPara:
       "Quien quiere automatizar su inversión en un portafolio pasivo y diversificado escogiendo sus propios fondos (algo que los fondos de Costa Rica no permiten), aunque pague más comisión",
