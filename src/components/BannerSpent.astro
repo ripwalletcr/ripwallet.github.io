@@ -31,12 +31,18 @@ const { downloadUrl = "#" } = Astro.props;
       y Android
     </p>
 
-    <div class="mt-6">
+    <div class="mt-6 flex flex-wrap gap-3">
       <a
         href={downloadUrl}
         class="inline-flex items-center gap-2 rounded-full bg-[#0b2f18] px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105"
       >
         Descargar Spent
+      </a>
+      <a
+        href="/spent/tutoriales"
+        class="inline-flex items-center gap-2 rounded-full border-2 border-[#0b2f18]/80 px-6 py-3 text-sm font-bold text-[#0b2f18] transition-transform hover:scale-105"
+      >
+        Ver tutoriales
       </a>
     </div>
   </div>
