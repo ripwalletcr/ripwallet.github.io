@@ -34,6 +34,7 @@ export interface Tutorial {
   slug: string;
   title: string;
   summary: string;
+  /** Logo del app relacionada, ruta dentro de public/ */
   icon: string;
   platform: string;
   versions: TutorialVersion[];
@@ -47,7 +48,7 @@ export const applePayTutorial: Tutorial = {
   title: "Registra tus gastos automáticamente con Apple Pay",
   summary:
     "Crea una automatización en Atajos para que cada vez que pagues con Apple Pay el gasto se agregue solo a Spent, con el comercio y el monto.",
-  icon: "wallet",
+  icon: "/images/spent/tutoriales/icon-apple-wallet.png",
   platform: "iPhone",
   versions: [
     {
@@ -163,4 +164,62 @@ export const applePayTutorial: Tutorial = {
   ],
 };
 
-export const spentTutoriales: Tutorial[] = [applePayTutorial];
+const gpay = "/images/spent/tutoriales/google-pay";
+
+export const googlePayTutorial: Tutorial = {
+  slug: "google-pay",
+  title: "Registra tus gastos automáticamente con Google Pay",
+  summary:
+    "Dale acceso a Spent a las notificaciones de Google Pay para que, justo después de pagar, te sugiera agregar el gasto con el comercio y el monto.",
+  icon: "/images/spent/tutoriales/icon-google-pay.png",
+  platform: "Android",
+  versions: [
+    {
+      id: "android",
+      label: "Android",
+      note: "Spent solo lee las notificaciones del app de Google Pay para detectar el comercio y el monto. Según cómo Google Pay redacte la notificación, el dato puede no ser exacto, así que revísalo antes de guardarlo.",
+      steps: [
+        {
+          title: "Abre la detección automática de Google Pay",
+          body: "En Spent, abre <strong>Detección automática de Google Pay</strong>.",
+          media: [{ src: `${gpay}/01-deteccion.webp`, alt: "Pantalla Detección automática de Google Pay en Spent" }],
+        },
+        {
+          title: "Activa el interruptor y permite las notificaciones",
+          body: "Activa <strong>Activar detección automática de Google Pay</strong>. Si Android te pregunta si Spent puede enviarte notificaciones, toca <strong>Permitir</strong>: así es como Spent te avisa de cada pago.",
+          media: [{ src: `${gpay}/02-permitir-notificaciones.webp`, alt: "Diálogo para permitir que Spent envíe notificaciones" }],
+        },
+        {
+          title: "Busca Spent en el acceso a notificaciones",
+          body: "Se abre la pantalla <strong>Controlar, responder y leer notificaciones</strong>. Baja hasta la sección <strong>Sin permiso</strong> y toca <strong>Spent</strong>. Si no se abre sola, usa <strong>Abrir configuración de acceso a notificaciones</strong> en Spent.",
+          media: [{ src: `${gpay}/03-lista.webp`, alt: "Lista de apps con acceso a notificaciones, con Spent en Sin permiso" }],
+        },
+        {
+          title: "Si el interruptor sale gris, desbloquéalo",
+          body: "Algunos teléfonos bloquean este permiso y muestran <em>Controlada por configuración restringida</em> o <em>A la app se le negó el acceso</em>. Para desbloquearlo, ve a <strong>Configuración › Apps › Spent</strong>, toca el menú <strong>⋮</strong> arriba a la derecha y elige <strong>Permitir configuración restringida</strong>. Luego regresa a esta pantalla.",
+          media: [
+            { src: `${gpay}/04-restringida.webp`, alt: "Permiso de notificaciones controlado por configuración restringida", caption: "Interruptor bloqueado" },
+            { src: `${gpay}/05-acceso-negado.webp`, alt: "Aviso: a la app se le negó el acceso", caption: "Aviso al tocarlo" },
+          ],
+        },
+        {
+          title: "Permite el acceso a las notificaciones",
+          body: "Activa <strong>Permitir acceso a las notificaciones</strong> y confirma con <strong>Permitir</strong>.",
+          media: [{ src: `${gpay}/06-permitir-acceso.webp`, alt: "Diálogo para permitir que Spent tenga acceso a las notificaciones" }],
+        },
+        {
+          title: "Deja solo lo necesario (opcional)",
+          body: "Spent solo necesita <strong>Notificaciones</strong> y <strong>Silencio</strong>. Puedes desmarcar <strong>Tiempo real</strong> y <strong>Conversaciones</strong> si prefieres que no lea esas.",
+          media: [{ src: `${gpay}/07-permisos.webp`, alt: "Permisos de notificaciones con Tiempo real y Conversaciones desmarcados" }],
+        },
+        {
+          title: "Regresa a Spent y paga como siempre",
+          body: "Vuelve a Spent con el interruptor activado. La próxima vez que pagues con Google Pay, Spent te va a preguntar si quieres registrar el gasto.",
+          media: [{ src: `${gpay}/08-listo.webp`, alt: "Detección automática de Google Pay activada en Spent" }],
+        },
+      ],
+    },
+  ],
+};
+
+export const spentTutoriales: Tutorial[] = [applePayTutorial, googlePayTutorial];

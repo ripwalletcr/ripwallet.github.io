@@ -54,9 +54,13 @@ const defaultVersion = versions[0]?.id;
         </div>
       )
     }
-    <p class="text-xs text-gray-400 mt-3 mb-10 animate-reveal delay-1">
-      ¿No sabes qué versión tienes? Ve a <strong class="text-gray-500">Ajustes › General › Información</strong>.
-    </p>
+    {
+      versions.length > 1 && (
+        <p class="text-xs text-gray-400 mt-3 mb-10 animate-reveal delay-1">
+          ¿No sabes qué versión tienes? Ve a <strong class="text-gray-500">Ajustes › General › Información</strong>.
+        </p>
+      )
+    }
 
     {
       versions.map((v) => (
