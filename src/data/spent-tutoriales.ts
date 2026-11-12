@@ -222,4 +222,72 @@ export const googlePayTutorial: Tutorial = {
   ],
 };
 
-export const spentTutoriales: Tutorial[] = [applePayTutorial, googlePayTutorial];
+const correo = "/images/spent/tutoriales/correo";
+
+export const correoTutorial: Tutorial = {
+  slug: "correo",
+  title: "Registra un gasto cuando te llega el comprobante por correo",
+  summary:
+    "Crea una automatización en Atajos para que, cuando te llegue el correo de transacción de tu banco, Spent te abra el registro del gasto.",
+  icon: "/images/spent/tutoriales/icon-apple-mail.png",
+  platform: "iPhone",
+  versions: [
+    {
+      id: "ios",
+      label: "iOS",
+      note: "<strong>Importante:</strong> Spent no puede leer la información de tus correos. La automatización solo abre el registro del gasto cuando llega el comprobante, así que el nombre, el monto, el sobre y el método de pago los tienes que completar manualmente.",
+      steps: [
+        {
+          title: "Instala Atajos y Mail",
+          body: 'Necesitas el app de <a href="https://apps.apple.com/us/app/shortcuts/id915249334" target="_blank" rel="noopener">Atajos (Shortcuts)</a> y el app de <a href="https://apps.apple.com/us/app/mail/id1108187098" target="_blank" rel="noopener">Mail</a> de Apple, con el correo donde te llegan los comprobantes configurado.',
+        },
+        {
+          title: "Abre la sección de Automatización",
+          body: "Dentro del app de Atajos, toca la pestaña <strong>Automatización</strong>.",
+          media: [{ src: `${ios26}/02-automatizacion.png`, alt: "Pestaña Automatización en el app de Atajos" }],
+        },
+        {
+          title: "Crea una nueva automatización",
+          body: "Toca el botón <strong>+</strong>, arriba a la derecha.",
+          media: [{ src: `${ios26}/03-nueva.png`, alt: "Botón para crear una nueva automatización" }],
+        },
+        {
+          title: "Busca la automatización Correo electrónico",
+          body: "En la lista de disparadores, busca y selecciona <strong>Correo electrónico</strong>.",
+          media: [{ src: `${correo}/04-correo.png`, alt: "Automatización Correo electrónico en Atajos" }],
+        },
+        {
+          title: "Pon el remitente y el asunto de tu banco",
+          body: `Completa <strong>Remitente</strong> y <strong>El asunto contiene</strong> con los datos de los correos de tu banco. Como guía, estos son los de algunos bancos de Costa Rica:
+<ul>
+<li><strong>Banco Nacional:</strong> remitente <code>bncontacto@bncr.fi.cr</code>, asunto <em>Voucher Digital</em></li>
+<li><strong>BAC Credomatic:</strong> remitente <code>notificacion@notificacionesbaccr.com</code>, asunto <em>Notificación de transacción</em></li>
+<li><strong>Scotiabank:</strong> remitente <code>AlertasScotiabank@scotiabank.com</code>, asunto <em>Alerta Transacción</em></li>
+</ul>`,
+          media: [{ src: `${correo}/05-remitente.png`, alt: "Opciones Remitente y El asunto contiene" }],
+        },
+        {
+          title: "Elige cómo se ejecuta",
+          body: "Selecciona <strong>Ejecutar después de confirmar</strong> si quieres que te pregunte antes de abrirse, o <strong>Ejecutar de inmediato</strong> si quieres que se abra apenas llegue el correo. Luego toca <strong>Siguiente</strong>.",
+        },
+        {
+          title: "Crea un nuevo atajo",
+          body: "Selecciona la opción <strong>Crear nuevo atajo</strong>.",
+          media: [{ src: `${ios26}/07-nuevo-atajo.png`, alt: "Opción Crear nuevo atajo" }],
+        },
+        {
+          title: "Agrega la acción de Spent",
+          body: "En <strong>Buscar acciones</strong>, escribe <em>Spent</em> y selecciona <strong>Agregar gasto a un sobre</strong>.",
+          media: [{ src: `${ios26}/08-buscar-spent.mp4`, alt: "Buscando la acción de Spent en Atajos", type: "video" }],
+        },
+        {
+          title: "Deja Mostrar al ejecutar activado y guarda",
+          body: "Deja <strong>Mostrar al ejecutar</strong> activado para que Spent te pida los datos del gasto cada vez que llegue un comprobante. Toca el check ✔︎ arriba a la derecha y listo.",
+          media: [{ src: `${correo}/09-listo.png`, alt: "Acción Agregar gasto a un sobre con Mostrar al ejecutar activado" }],
+        },
+      ],
+    },
+  ],
+};
+
+export const spentTutoriales: Tutorial[] = [applePayTutorial, googlePayTutorial, correoTutorial];
