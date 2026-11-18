@@ -1,0 +1,151 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "./Navbar.astro";
+import Footer from "./Footer.astro";
+import { Image } from "astro:assets";
+import { ArrowUpRight } from "@lucide/astro";
+import { asesores, type Servicio } from "../data/asesores";
+
+interface Props {
+  servicio: Servicio;
+  heading: string;
+  intro: string;
+  cardTitle: string; // ej. "Finanzas con"
+}
+
+const { servicio, heading, intro, cardTitle } = Astro.props;
+const lista = asesores.filter((a) => a.servicios.includes(servicio));
+
+const accentClasses: Record<string, { border: string; initials: string }> = {
+  yellow: { border: "border-yellow-400/40 hover:border-yellow-400", initials: "bg-yellow-50 text-yellow-700" },
+  red: { border: "border-red-400/40 hover:border-red-400", initials: "bg-red-50 text-red-700" },
+  blue: { border: "border-blue-400/40 hover:border-blue-400", initials: "bg-blue-50 text-blue-700" },
+  teal: { border: "border-teal-400/40 hover:border-teal-400", initials: "bg-teal-50 text-teal-700" },
+};
+---
+
+<Layout title={`${heading} | RIP Wallet`} description={intro}>
+  <Navbar currentPath={`/${servicio}`} />
+
+  <header class="max-w-7xl mx-auto px-6 pt-24 pb-16 text-center animate-reveal">
+    <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">{heading}</h1>
+    <p class="text-lg text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
+      {intro}
+    </p>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-6 pb-32">
+    <div class="flex flex-col gap-6">
+      {
+        lista.map((a, i) => {
+          const disponible = a.disponible !== false;
+          const Tag = disponible ? "a" : "div";
+          return (
+          <Tag
+            href={disponible ? `/${a.slug}/${servicio}` : undefined}
+            aria-disabled={disponible ? undefined : "true"}
+            class={`card-asesor group ${accentClasses[a.accent].border} ${disponible ? "" : "is-disabled"} animate-reveal`}
+            style={`animation-delay: ${(i + 1) * 0.1}s;`}
+          >
+            <div class="asesor-img">
+              {a.img ? (
+                <Image
+                  src={a.img}
+                  alt={a.name}
+                  width={160}
+                  height={160}
+                  style={`object-position: ${a.imgPosition ?? "center"};`}
+                />
+              ) : (
+                <span class={`w-full h-full flex items-center justify-center text-2xl font-bold ${accentClasses[a.accent].initials}`}>
+                  {a.name.charAt(0)}
+                </span>
+              )}
+            </div>
+            <div class="flex-1 min-w-0">
+              <h2 class="text-lg font-bold text-gray-900">
+                {cardTitle} {a.name}
+              </h2>
+              <p class="text-sm text-gray-400 mt-1">
+                {disponible ? "Ver horarios disponibles" : "Sin disponibilidad de momento"}
+              </p>
+            </div>
+            {disponible && (
+              <ArrowUpRight class="w-5 h-5 text-gray-300 shrink-0 transition-colors group-hover:text-gray-900" />
+            )}
+          </Tag>
+          );
+        })
+      }
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .card-asesor {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 24px;
+    border-width: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-asesor:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  }
+
+  .card-asesor.is-disabled {
+    cursor: default;
+  }
+
+  /* En los hijos: la animación de entrada fija la opacidad de la tarjeta. */
+  .card-asesor.is-disabled > * {
+    opacity: 0.55;
+  }
+
+  .card-asesor.is-disabled :global(img) {
+    filter: grayscale(1);
+  }
+
+  .card-asesor.is-disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .asesor-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f9fafb;
+    flex-shrink: 0;
+  }
+
+  .asesor-img :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>
