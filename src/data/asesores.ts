@@ -1,6 +1,7 @@
 import kevinImg from "../images/kevin.jpg";
 import jostinImg from "../images/jostin_final.jpg";
 import eduardoImg from "../images/eduardo.jpeg";
+import angelaImg from "../images/angela.jpg";
 
 export type Servicio = "finanzas" | "parejas" | "inversiones";
 
@@ -39,9 +40,10 @@ export const asesores: Asesor[] = [
     servicios: ["finanzas", "parejas"],
   },
   {
-    // TODO: agregar foto de Ángela (y a /equipo) cuando esté disponible.
+    // TODO: agregar a Ángela a /equipo cuando tengamos su descripción.
     slug: "angela",
     name: "Ángela",
+    img: angelaImg,
     accent: "teal",
     servicios: ["finanzas", "inversiones"],
   },
