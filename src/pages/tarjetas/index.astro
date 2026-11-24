@@ -1,59 +1,27 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/Navbar.astro";
-import Footer from "../../components/Footer.astro";
-import { Scale, ArrowRight } from "@lucide/astro";
+import Site from "../../layouts/Site.astro";
 ---
 
 <!--
   Transcripción de la guía de Notion https://ripwallet.notion.site/tarjetas
   (actualización del 18 de julio de 2026). Las imágenes están en public/images/tarjetas.
 -->
-<Layout
+<Site
   title="Tarjetas de Crédito, 101 | RIP Wallet"
   description="Una guía completa sobre tarjetas de crédito en Costa Rica: cómo funcionan, cuál escoger, tips y reviews de tarjetas."
   image="/images/tarjetas/og-tarjetas.jpg"
+  currentPath="/tarjetas"
 >
-  <Navbar currentPath="/tarjetas" />
-
-  <main class="max-w-3xl mx-auto px-6 pt-16 pb-32">
-    <header class="text-center mb-16 animate-reveal">
-      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-        La guía completa sobre tarjetas de Crédito, para Costa Rica 🇨🇷
-      </h1>
-      <p class="text-lg text-gray-500 max-w-2xl mx-auto font-medium mb-6">
-        Una guía no muy corta, pero bien completa.
-      </p>
-      <div
-        class="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400"
-      >
-        <span class="status-dot bg-green-500"></span>
-        <span>Actualizado</span>
-        <span class="text-gray-500/70">Octubre 3, 2026</span>
+  <main class="page">
+    <div class="wrap narrow">
+      <a class="crumb" href="/herramientas">← Herramientas</a>
+      <div class="page-head guia-head">
+        <h1>La guía completa sobre <span class="mark">tarjetas de crédito</span>, para Costa Rica 🇨🇷</h1>
+        <p>Una guía no muy corta, pero bien completa.</p>
+        <span class="eyebrow">Actualizado · Octubre 3, 2026</span>
       </div>
-    </header>
 
-    <a
-      href="/tarjetas/comparador"
-      class="comparador-banner group flex items-center gap-4 p-4 mb-12 rounded-2xl border border-green-100 bg-[#f2faf3] hover:border-green-300 hover:bg-green-50 transition-colors animate-reveal"
-    >
-      <div
-        class="w-10 h-10 rounded-xl bg-white border border-green-100 flex items-center justify-center text-green-600 shrink-0"
-      >
-        <Scale class="w-5 h-5" />
-      </div>
-      <div class="min-w-0 flex-1">
-        <p class="text-sm font-bold text-green-950">Comparador de tarjetas</p>
-        <p class="text-xs text-green-800/70">
-          Filtra y compara las tarjetas de crédito de Costa Rica lado a lado.
-        </p>
-      </div>
-      <ArrowRight
-        class="w-4 h-4 text-green-600 shrink-0 transition-transform group-hover:translate-x-1 group-hover:text-green-800"
-      />
-    </a>
-
-    <article class="guia animate-reveal">
+    <article class="guia" id="guia">
 
       <p>Las tarjetas de crédito son herramientas muy útiles, pero tener una es como andar corriendo con tijeras. Puede que todo salga bien, pero un resbalón y todo puede ponerse <em>muy, muy</em> <em>mal.</em> </p>
       <p class="empty"></p>
@@ -849,516 +817,77 @@ import { Scale, ArrowRight } from "@lucide/astro";
       <p>Chao!</p>
       <p class="empty"></p>
       <section class="guia-cta">
-        <p>Si necesitas una asesoría para empezar a ordenar tus finanzas, salir de deudas o empezar a ahorrar con objetivos claros puedes llenar este formulario de contacto y nosotros te escribimos.</p>
+        <p>Si necesitas una asesoría para empezar a ordenar tus finanzas, salir de deudas o empezar a ahorrar con objetivos claros, agenda una asesoría y nosotros te escribimos.</p>
         <div class="button-row">
-          <a class="guia-button guia-button-primary" href="https://ripwallet.notion.site/151b26e639ea803cb548e6f1d594add9" target="_blank" rel="noopener">Necesito una asesoría</a>
-          <a class="guia-button guia-button-secondary" href="https://www.instagram.com/ripwallet.cr/" target="_blank" rel="noopener">RIP Wallet en Instagram</a>
-          <a class="guia-button guia-button-secondary" href="https://www.tiktok.com/@ripwallet.cr" target="_blank" rel="noopener">RIP Wallet en TikTok</a>
+          <a class="btn" href="/asesorias"><span>Agendar asesoría</span><span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn ghost" href="https://www.instagram.com/ripwallet.cr/" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn ghost" href="https://www.tiktok.com/@ripwallet.cr" target="_blank" rel="noopener">TikTok</a>
         </div>
       </section>
     </article>
+    </div>
   </main>
-
-  <Footer />
-</Layout>
+</Site>
 
 <style is:global>
-  .status-dot {
-    height: 6px;
-    width: 6px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-
-  .guia {
-    color: #4b5563;
-    font-size: 1rem;
-    line-height: 1.75;
-  }
-
-  .guia p {
-    margin: 0.1rem 0;
-    white-space: pre-wrap;
-  }
-
-  .guia p.empty {
-    min-height: 1rem;
-  }
-
-  .guia h2,
-  .guia h3,
-  .guia h4 {
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
-    color: #111827;
-    scroll-margin-top: 5rem;
-  }
-
-  .guia h2 {
-    font-size: 2rem;
-    margin: 1.5rem 0 1rem;
-  }
-
-  .guia h3 {
-    font-size: 1.5rem;
-    margin: 1.5rem 0 0.75rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .guia h4 {
-    font-size: 1.125rem;
-    letter-spacing: -0.01em;
-    margin: 1.75rem 0 0.4rem;
-  }
-
-  .guia h4 strong {
-    font-weight: inherit;
-  }
-
-  .guia .eyebrow {
-    display: block;
-    width: 100%;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: #9ca3af;
-    margin-bottom: 0.6rem;
-  }
-
-  .guia a {
-    color: #2563eb;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .guia a:hover {
-    color: #1d4ed8;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .guia a u {
-    text-decoration: none;
-  }
-
-  .guia strong {
-    font-weight: 600;
-    color: #111827;
-  }
-
-  .guia ul,
-  .guia ol {
-    margin: 0.4rem 0;
-    padding-left: 1.4rem;
-  }
-
-  .guia ul {
-    list-style: disc;
-  }
-
-  .guia ol {
-    list-style: decimal;
-  }
-
-  .guia li {
-    margin: 0.3rem 0;
-    padding-left: 0.2rem;
-  }
-
-  .guia li::marker {
-    color: #d1d5db;
-  }
-
-  .guia hr {
-    border: none;
-    border-top: 1px solid #f3f4f6;
-    margin: 3rem 0 2rem;
-  }
-
-  .guia .tc-red {
-    color: #b91c1c;
-  }
-
-  .guia .emoji {
-    display: inline-block;
-    width: 1.1em;
-    height: 1.1em;
-    border-radius: 0.3em;
-    vertical-align: -0.15em;
-  }
-
-  .guia h3 .emoji {
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 0.75rem;
-    border: 1px solid #f3f4f6;
-  }
-
-  .guia figure {
-    margin: 0.75rem auto;
-  }
-
-  .guia figure img {
-    width: 100%;
-    height: auto;
-    border-radius: 0.75rem;
-  }
-
-  .guia figcaption {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    margin-top: 0.4rem;
-  }
-
-  /* Columnas (reviews: foto de la tarjeta + texto) */
-  .guia .columns {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    align-items: center;
-    margin: 0.5rem 0 1rem;
-  }
-
-  @media (min-width: 640px) {
-    .guia .columns {
-      grid-template-columns: var(--cols);
-      gap: 2rem;
-    }
-  }
-
-  .guia .column {
-    min-width: 0;
-  }
-
-  .guia .column > :first-child {
-    margin-top: 0;
-  }
-
-  .guia .column figure {
-    margin: 0;
-  }
-
-  .guia .column p.empty {
-    min-height: 0.6rem;
-  }
-
-  /* Misma caja de imagen que las tarjetas del comparador */
-  .guia .review figure {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 190px;
-    max-width: none !important;
-    padding: 1rem;
-    background: #f9fafb;
-    border: 1px solid #f3f4f6;
-    border-radius: 1rem;
-  }
-
-  .guia .review figure img {
-    width: auto;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: 0.5rem;
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
-  }
-
-  /* Callouts con el estilo de las cajas informativas del sitio */
-  .guia .callout {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.5rem;
-    border-radius: 1.5rem;
-    border: 1px solid #f3f4f6;
-    margin: 1rem 0;
-    font-size: 0.9375rem;
-  }
-
-  @media (min-width: 640px) {
-    .guia .callout {
-      padding: 2rem;
-    }
-  }
-
-  .guia .callout-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    flex-shrink: 0;
-    font-size: 1.15rem;
-    background: #ffffff;
-    border: 1px solid #f3f4f6;
-    border-radius: 0.75rem;
-  }
-
-  .guia .callout-body {
-    min-width: 0;
-    flex: 1;
-    align-self: center;
-  }
-
-  .guia .callout-gray,
-  .guia .callout-default {
-    background: rgba(249, 250, 251, 0.6);
-    border-color: #f3f4f6;
-  }
-
-  .guia .callout-red {
-    background: rgba(254, 242, 242, 0.6);
-    border-color: #fee2e2;
-  }
-
-  .guia .callout-red,
-  .guia .callout-red strong {
-    color: #7f1d1d;
-  }
-
-  .guia .callout-yellow {
-    background: rgba(255, 251, 235, 0.6);
-    border-color: #fef3c7;
-  }
-
-  .guia .callout-teal {
-    background: rgba(240, 253, 250, 0.6);
-    border-color: #ccfbf1;
-  }
-
-  /* Índice */
-  .guia .toc-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 24px;
-    padding: 28px 32px;
-    margin: 1rem 0;
-  }
-
-  .guia .toc-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #9ca3af;
-    margin-bottom: 1rem !important;
-  }
-
-  .guia .toc {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .guia .toc li {
-    padding: 0;
-    margin: 0;
-  }
-
-  .guia .toc a {
-    display: block;
-    padding: 0.25rem 0;
-    color: #6b7280;
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.4;
-  }
-
-  .guia .toc a:hover {
-    color: #111827;
-    text-decoration: none;
-  }
-
-  .guia .toc strong {
-    font-weight: inherit;
-    color: inherit;
-  }
-
-  .guia .toc .toc-l1 a {
-    color: #111827;
-    font-weight: 700;
-    padding-top: 0.6rem;
-  }
-
-  .guia .toc .toc-l2 {
-    padding-left: 1rem;
-  }
-
-  .guia .toc .toc-l2 a {
-    color: #374151;
-    font-weight: 600;
-  }
-
-  .guia .toc .toc-l3 {
-    padding-left: 2rem;
-  }
-
-  .guia .link-mention {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 9999px;
-    padding: 0.35rem 0.9rem;
-    margin: 0.2rem 0;
-    font-size: 0.8rem;
-    color: #111827;
-  }
-
-  .guia .link-mention:hover {
-    border-color: #cbd5e1;
-    color: #111827;
-    text-decoration: none;
-  }
-
-  .guia .link-mention img {
-    width: 16px;
-    height: 16px;
-  }
-
-  .guia .lm-provider {
-    color: #9ca3af;
-    font-weight: 600;
-  }
-
-  .guia .lm-title {
-    font-weight: 600;
-  }
-
-  /* Cierre: mismo bloque oscuro que el CTA de /recursos */
-  .guia .guia-cta {
-    margin-top: 5rem;
-    padding: 3rem;
-    background: #030712;
-    border-radius: 1.5rem;
-    text-align: center;
-  }
-
-  .guia .guia-cta p {
-    color: #9ca3af;
-    font-size: 0.875rem;
-    max-width: 32rem;
-    margin: 0 auto 2rem;
-  }
-
-  .guia .guia-cta .button-row {
-    justify-content: center;
-    margin: 0;
-  }
-
-  .guia .guia-cta .guia-button-primary {
-    background: #ffffff;
-    color: #000000;
-  }
-
-  .guia .guia-cta .guia-button-primary:hover {
-    background: #e5e7eb;
-    color: #000000;
-  }
-
-  .guia .guia-cta .guia-button-secondary {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-  }
-
-  .guia .guia-cta .guia-button-secondary:hover {
-    border-color: #ffffff;
-    color: #ffffff;
-  }
-
-  .guia .button-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin: 1.5rem 0;
-  }
-
-  .guia .guia-button {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: all 0.2s;
-  }
-
-  .guia .guia-button:hover {
-    text-decoration: none;
-  }
-
-  .guia .guia-button-primary {
-    background: #111827;
-    color: #ffffff;
-  }
-
-  .guia .guia-button-primary:hover {
-    background: #000000;
-    color: #ffffff;
-  }
-
-  .guia .guia-button-secondary {
-    border: 1px solid #e5e7eb;
-    color: #4b5563;
-  }
-
-  .guia .guia-button-secondary:hover {
-    border-color: #111827;
-    color: #111827;
-  }
-
-  .guia .video-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    margin-left: 0.5rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.6rem;
-    border: 1px solid #fee2e2;
-    background: #fef2f2;
-    color: #b91c1c;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0;
-    vertical-align: middle;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .guia .video-chip:hover {
-    background: #fee2e2;
-    border-color: #fecaca;
-    color: #b91c1c;
-    text-decoration: none;
-  }
-
-  .guia .video-chip svg {
-    width: 12px;
-    height: 12px;
-    fill: #dc2626;
-  }
-
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-reveal {
-    opacity: 0;
-    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
+.wrap.narrow { max-width: 780px; }
+.guia-head { text-align: left; }
+.guia-head .eyebrow { display: block; margin-top: 14px; }
+.guia { font-size: 17px; line-height: 1.7; color: var(--fg); }
+.guia p { margin: 0; }
+.guia p.empty { height: .9em; min-height: 0; padding: 0; margin: 0; background: none; border: 0; display: block; }
+.guia p + p { margin-top: .35em; }
+.guia hr { border: 0; border-top: 1px solid var(--line); margin: 44px 0 32px; }
+.guia h2, .guia h3, .guia h4 { font-family: var(--display); font-weight: 600; line-height: 1.15; scroll-margin-top: 88px; color: var(--fg); }
+.guia h2 { font-size: clamp(28px, 4vw, 38px); margin: 0 0 18px; }
+.guia h3 { font-size: clamp(23px, 3vw, 28px); margin: 8px 0 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.guia h4 { font-size: 20px; margin: 26px 0 8px; }
+.guia h4 strong { font-weight: inherit; }
+.guia .eyebrow { display: block; width: 100%; color: var(--accent-strong); font-size: 14px; margin-bottom: 6px; }
+.guia strong { font-weight: 600; }
+.guia a { color: var(--accent-strong); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.guia ul, .guia ol { margin: 6px 0; padding-left: 1.3em; }
+.guia li { margin: 4px 0; }
+.guia li::marker { color: var(--muted); }
+.guia .tc-red { color: #c2410c; }
+.guia .emoji { display: inline-block; width: 1.1em; height: 1.1em; border-radius: .3em; vertical-align: -.15em; }
+.guia h3 .emoji { width: 40px; height: 40px; border-radius: 12px; }
+.guia figure { margin: 14px auto; }
+.guia figure img { width: 100%; height: auto; border-radius: 14px; display: block; }
+.guia .columns { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: center; margin: 8px 0 16px; }
+@media (min-width: 640px) { .guia .columns { grid-template-columns: var(--cols); gap: 32px; } }
+.guia .column { min-width: 0; }
+.guia .column figure { margin: 0; }
+.guia .review figure { display: flex; align-items: center; justify-content: center; height: 190px; max-width: none !important; padding: 16px; background: var(--surface); border-radius: 20px; }
+.guia .review figure img { width: auto; max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; filter: drop-shadow(0 6px 12px rgba(61,45,83,.15)); }
+.guia .callout { display: flex; align-items: flex-start; gap: 14px; padding: 20px 22px; border-radius: 22px; background: var(--surface); margin: 12px 0; font-size: 16px; border: 0; }
+.guia .callout-yellow { background: color-mix(in srgb, var(--mark) 22%, var(--bg)); }
+.guia .callout-teal { background: var(--accent-soft); }
+.guia .callout-icon { width: 38px; height: 38px; flex: none; display: grid; place-items: center; background: var(--bg); border-radius: 12px; font-size: 18px; }
+.guia .callout-body { min-width: 0; flex: 1; align-self: center; }
+.guia .toc-card { background: var(--surface); border-radius: 24px; padding: 24px 28px; margin: 8px 0; }
+.guia .toc-label { font-family: var(--display); font-weight: 600; font-size: 18px; margin-bottom: 10px !important; }
+.guia .toc { position: static; display: block; list-style: none; padding: 0; margin: 0; font-size: 15px; }
+.guia .toc li { margin: 0; }
+.guia .toc a { display: block; padding: 3px 0; color: var(--muted); text-decoration: none; border-radius: 0; background: none; }
+.guia .toc a:hover { color: var(--fg); }
+.guia .toc strong { font-weight: inherit; }
+.guia .toc .toc-l1 a { color: var(--fg); font-weight: 600; padding-top: 10px; }
+.guia .toc .toc-l2 { padding-left: 16px; }
+.guia .toc .toc-l2 a { color: var(--fg); }
+.guia .toc .toc-l3 { padding-left: 32px; }
+.guia .link-mention { display: inline-flex; gap: 8px; align-items: center; background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 14px; color: var(--fg); text-decoration: none; }
+.guia .lm-provider { color: var(--muted); font-weight: 600; }
+.guia .lm-title { font-weight: 600; }
+.guia .video-chip { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); font: 600 12px var(--body); text-decoration: none; vertical-align: middle; }
+.guia .video-chip svg { width: 12px; height: 12px; fill: currentColor; }
+.guia .guia-cta { margin-top: 56px; padding: 36px; border-radius: 28px; background: #3D2D53; color: #fff; text-align: center; }
+.guia .guia-cta p { color: rgba(255,255,255,.8); max-width: 34em; margin: 0 auto 22px; }
+.guia .guia-cta .button-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
+.guia .guia-cta .btn { background: #fff; color: #3D2D53; text-decoration: none; }
+.guia .guia-cta .btn.ghost { background: transparent; color: #fff; }
+@media (max-width: 600px) { .guia .toc-card { padding: 20px; } .guia .toc .toc-l3 { padding-left: 20px; } .guia .guia-cta { padding: 28px 20px; } }
+.guia ul { list-style: disc; }
+.guia ol { list-style: decimal; }
+html { scroll-padding-top: 80px; }
 </style>

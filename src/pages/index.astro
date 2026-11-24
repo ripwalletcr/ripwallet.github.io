@@ -1,74 +1,21 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
-import ServiceCard from "../components/ServiceCard.astro";
-import Footer from "../components/Footer.astro";
+import Site from "../layouts/Site.astro";
+import html from "../content/rediseno/index.html?raw";
 ---
 
-<Layout title="RIP Wallet | Finanzas e Inversiones">
-  <Navbar currentPath="/" />
+<Site title="RIP Wallet | Finanzas prácticas y transparentes" description="Asesorías 1:1 para salir de deudas, entender tus tarjetas y empezar a invertir en entidades reguladas de Costa Rica." currentPath="/">
+  <Fragment set:html={html} />
+</Site>
 
-  <!-- Hero -->
-  <section
-    class="max-w-4xl mx-auto px-6 pt-24 pb-20 text-center animate-reveal"
-  >
-    <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-6">
-      RIP Wallet
-    </h1>
-    <p class="text-lg text-gray-500 max-w-xl mx-auto font-medium">
-      Inspirando personas a mejorar sus finanzas, para que cambien sus vidas, y
-      las vidas de otras personas.
-    </p>
-  </section>
-
-  <!-- Main Section -->
-  <main class="max-w-5xl mx-auto px-6 pb-32">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ServiceCard
-        title="Finanzas 1:1"
-        description="Creamos tu plan financiero a futuro: una estrategia para salir de deudas, ordenarte con las tarjetas de crédito y ahorrar para tus metas."
-        icon="banknote"
-        href="/asesorias"
-        bgColor="bg-[#f2faf3]"
-        textColor="text-green-950"
-        iconColor="text-green-600"
-        delay="delay-1"
-      />
-
-      <ServiceCard
-        title="Patrimonio 1:1"
-        description="Definimos tu estrategia de inversión con rendimientos y proyecciones, para que empieces a invertir en entidades seguras y reguladas."
-        icon="trending-up"
-        href="/asesorias"
-        bgColor="bg-[#fff7ed]"
-        textColor="text-orange-950"
-        iconColor="text-orange-600"
-        delay="delay-2"
-      />
-
-      <ServiceCard
-        title="Recursos Gratuitos"
-        description="Descarga nuestra plantilla de presupuesto y organiza tus ingresos, gastos y ahorros desde hoy mismo."
-        icon="book-open"
-        href="/recursos"
-        bgColor="bg-[#f9fafb]"
-        textColor="text-gray-900"
-        iconColor="text-gray-600"
-        delay="delay-3"
-      />
-
-      <ServiceCard
-        title="Apps"
-        description="Spent para registrar tus gastos y Tabs para llevar el control de tus deudas hasta salir de ellas."
-        icon="smartphone"
-        href="/apps"
-        bgColor="bg-[#f0f9ff]"
-        textColor="text-blue-950"
-        iconColor="text-blue-600"
-        delay="delay-4"
-      />
-    </div>
-  </main>
-
-  <Footer />
-</Layout>
+<script>
+  const $ = (id: string) => document.getElementById(id) as HTMLInputElement;
+  const num = (v: string) => parseFloat(String(v).replace(/[^0-9.]/g, "")) || 0;
+  function calc() {
+    const P = num($("monto").value), r = num($("tasa").value) / 100 / 12, n = num($("plazo").value) * 12;
+    let c = 0;
+    if (P > 0 && n > 0) c = r > 0 ? (P * r) / (1 - Math.pow(1 + r, -n)) : P / n;
+    $("cuota").textContent = "¢" + Math.round(c).toLocaleString("en-US");
+  }
+  ["monto", "tasa", "plazo"].forEach((id) => $(id).addEventListener("input", calc));
+  calc();
+</script>
