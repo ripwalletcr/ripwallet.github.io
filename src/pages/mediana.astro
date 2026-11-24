@@ -2,12 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
+import { Calculator, Gauge, FileDown, Wallet } from "@lucide/astro";
 ---
 
 <Layout
-  title="Calculadora de Mediana y Promedio | RIP Wallet"
-  description="Calcula la mediana y el promedio de tus ingresos mensuales de enero a diciembre."
+  title="Calculadora de Mediana | RIP Wallet"
+  description="Calcula la mediana y el total de tus ingresos mensuales de enero a diciembre."
 >
   <Navbar currentPath="/mediana" />
 
@@ -17,8 +17,8 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
         Calculadora de Mediana
       </h1>
       <p class="text-lg text-gray-500 max-w-2xl mx-auto font-medium">
-        Registra tus ingresos de enero a diciembre y obtén el promedio, la
-        mediana y una visualización clara para presupuestar.
+        Registra tus ingresos de enero a diciembre y obtén la mediana, el
+        total del año y una visualización clara para presupuestar.
       </p>
     </header>
 
@@ -129,37 +129,18 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
             <h4
               class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
             >
-              <LineChart class="w-3.5 h-3.5 mr-2" /> Resumen Estadístico
+              <Wallet class="w-3.5 h-3.5 mr-2" /> Ingreso total del año
             </h4>
             <div class="space-y-4">
-              <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-600 font-medium">Promedio</span>
-                <span class="text-lg font-bold text-gray-900" id="averageDisplay"
+              <div class="flex flex-wrap justify-between items-center gap-x-6 gap-y-2">
+                <span class="text-sm text-gray-600 font-medium">Total</span>
+                <span class="text-2xl font-bold text-gray-900" id="totalDisplay"
                   >CRC 0.00</span
                 >
               </div>
-              <div class="flex justify-between items-center border-t border-gray-50 pt-4">
-                <span class="text-sm text-gray-600 font-medium"
-                  >Meses con dato</span
-                >
-                <span class="text-lg font-bold text-blue-600" id="monthsCount"
-                  >12</span
-                >
-              </div>
-            </div>
-          </div>
-
-          <div class="card-outline md:col-span-2">
-            <h4
-              class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
-            >
-              <Wallet class="w-3.5 h-3.5 mr-2" /> Ingreso total del año
-            </h4>
-            <div class="flex flex-wrap justify-between items-center gap-x-6 gap-y-2">
-              <span class="text-sm text-gray-600 font-medium">Suma de los meses con dato</span>
-              <span class="text-2xl font-bold text-gray-900" id="totalDisplay"
-                >CRC 0.00</span
-              >
+              <p class="text-xs text-gray-500 leading-relaxed">
+                La suma de todos los meses con dato.
+              </p>
             </div>
           </div>
         </div>
@@ -177,10 +158,6 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
               <div class="flex items-center text-blue-600">
                 <span class="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
                 Mediana
-              </div>
-              <div class="flex items-center text-amber-500">
-                <span class="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
-                Promedio
               </div>
             </div>
           </div>
@@ -223,8 +200,6 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
       document.querySelectorAll(".income-input"),
     ) as HTMLInputElement[];
     const medianDisplay = document.getElementById("medianDisplay");
-    const averageDisplay = document.getElementById("averageDisplay");
-    const monthsCount = document.getElementById("monthsCount");
     const totalDisplay = document.getElementById("totalDisplay");
     const canvas = document.getElementById("incomeChart") as HTMLCanvasElement;
     const downloadBtn = document.getElementById("downloadPdf");
@@ -233,8 +208,6 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
       !currency ||
       !inputs.length ||
       !medianDisplay ||
-      !averageDisplay ||
-      !monthsCount ||
       !canvas ||
       !downloadBtn
     )
@@ -299,8 +272,6 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
       return {
         values,
         total,
-        months: filled.length,
-        average: filled.length ? total / filled.length : 0,
         median: getMedian(filled),
       };
     }
@@ -324,7 +295,7 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
       return gradient;
     }
 
-    function createOrUpdateChart(values: number[], median: number, average: number) {
+    function createOrUpdateChart(values: number[], median: number) {
       const hasData = values.some((value) => value > 0);
       const data = {
         labels: monthLabels,
@@ -359,18 +330,6 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
             pointHoverRadius: 0,
             fill: false,
             order: 1,
-          },
-          {
-            type: "line",
-            label: "Promedio",
-            data: values.map(() => (hasData ? average : null)),
-            borderColor: "#f59e0b",
-            borderWidth: 2,
-            borderDash: [4, 4],
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            fill: false,
-            order: 2,
           },
         ],
       };
@@ -445,13 +404,13 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
     }
 
     async function generatePDF() {
-      const { values, total, months, average, median } = getStats();
+      const { values, total, median } = getStats();
 
       const doc = new jsPDF("p", "mm", "a4");
 
       doc.setFont("helvetica", "bold");
       doc.setFontSize(22);
-      doc.text("Reporte de Mediana y Promedio", 20, 25);
+      doc.text("Reporte de Mediana", 20, 25);
 
       doc.setFontSize(10);
       doc.setFont("helvetica", "normal");
@@ -464,9 +423,7 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
       const summaryData = [
         ["Moneda", getCurrencyCode()],
         ["Mediana", formatPdfValue(median)],
-        ["Promedio", formatPdfValue(average)],
         ["Ingreso total del año", formatPdfValue(total)],
-        ["Meses con dato", String(months)],
       ];
 
       doc.setFont("helvetica", "bold");
@@ -504,14 +461,12 @@ import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
     }
 
     function calculate() {
-      const { values, total, months, average, median } = getStats();
+      const { values, total, median } = getStats();
 
       medianDisplay.textContent = formatValue(median);
-      averageDisplay.textContent = formatValue(average);
-      monthsCount.textContent = String(months);
       if (totalDisplay) totalDisplay.textContent = formatValue(total);
 
-      createOrUpdateChart(values, median, average);
+      createOrUpdateChart(values, median);
     }
 
     inputs.forEach((input) => {
