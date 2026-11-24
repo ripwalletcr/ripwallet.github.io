@@ -1,5 +1,6 @@
 ---
 import Site from "../../layouts/Site.astro";
+import TarjetasToc from "../../components/TarjetasToc.astro";
 ---
 
 <!--
@@ -13,7 +14,7 @@ import Site from "../../layouts/Site.astro";
   currentPath="/tarjetas"
 >
   <main class="page">
-    <div class="wrap narrow">
+    <div class="wrap narrow guia-wrap">
       <a class="crumb" href="/herramientas">← Herramientas</a>
       <div class="page-head guia-head">
         <h1>La guía completa sobre <span class="mark">tarjetas de crédito</span>, para Costa Rica 🇨🇷</h1>
@@ -21,6 +22,7 @@ import Site from "../../layouts/Site.astro";
         <span class="eyebrow">Actualizado · Octubre 3, 2026</span>
       </div>
 
+    <div class="guia-layout">
     <article class="guia" id="guia">
 
       <p>Las tarjetas de crédito son herramientas muy útiles, pero tener una es como andar corriendo con tijeras. Puede que todo salga bien, pero un resbalón y todo puede ponerse <em>muy, muy</em> <em>mal.</em> </p>
@@ -31,84 +33,7 @@ import Site from "../../layouts/Site.astro";
       <p class="empty"></p>
       <hr />
       <p class="empty"></p>
-      <nav class="toc-card" aria-label="Índice de contenidos">
-        <p class="toc-label">Índice de contenidos</p>
-        <ul class="toc">
-          <li class="toc-l1"><a href="#1-como-funcionan">#1 — Cómo funcionan?</a></li>
-          <li class="toc-l1"><a href="#2-cuales-son-los-beneficios">#2 — Cuáles son los beneficios?</a></li>
-          <li class="toc-l3"><a href="#cashback">Cashback 💵 </a></li>
-          <li class="toc-l3"><a href="#millas">Millas ✈️ </a></li>
-          <li class="toc-l3"><a href="#premios">Premios 🎁</a></li>
-          <li class="toc-l2"><a href="#2-1-beneficios-por-red-de-la-tarjeta-amex-mastercard-o-visa">2.1 — Beneficios por red de la tarjeta (AMEX, MasterCard o Visa)</a></li>
-          <li class="toc-l3"><a href="#american-express-clasica">American Express Clásica</a></li>
-          <li class="toc-l3"><a href="#american-express-centurion">American Express Centurion</a></li>
-          <li class="toc-l3"><a href="#mastercard-black">MasterCard Black</a></li>
-          <li class="toc-l3"><a href="#visa-infinite">Visa Infinite</a></li>
-          <li class="toc-l1"><a href="#3-cual-es-la-mejor-tarjeta">#3 — Cuál es la mejor tarjeta?</a></li>
-          <li class="toc-l3"><a href="#para-los-principiantes">Para los principiantes 🏁</a></li>
-          <li class="toc-l3"><a href="#para-los-adultos-independientes"><strong>Para los adultos independientes  🛒</strong></a></li>
-          <li class="toc-l3"><a href="#para-los-que-compran-por-internet"><strong>Para los que compran por internet  📦</strong></a></li>
-          <li class="toc-l3"><a href="#para-los-de-las-suscripciones"><strong>Para los de las suscripciones 🎬</strong></a></li>
-          <li class="toc-l3"><a href="#para-los-viajeros"><strong>Para los viajeros  ✈️</strong></a></li>
-          <li class="toc-l3"><a href="#para-los-antojados"><strong>Para los antojados  🍕</strong></a></li>
-          <li class="toc-l3"><a href="#para-los-que-van-mucho-al-doctor"><strong>Para los que van mucho al doctor 💊</strong></a></li>
-          <li class="toc-l3"><a href="#para-los-que-gastan-mucho-en-gasolina"><strong>Para los que gastan mucho en gasolina  ⛽</strong></a></li>
-          <li class="toc-l1"><a href="#4-tips-importantes-antes-de-usar-tarjetas">#4 — Tips importantes antes de usar tarjetas</a></li>
-          <li class="toc-l3"><a href="#empezar-bien">Empezar bien 📏  </a></li>
-          <li class="toc-l3"><a href="#hacerse-la-vida-sencilla">Hacerse la vida sencilla ✌️</a></li>
-          <li class="toc-l3"><a href="#pagarla-con-el-dinero-correcto">Pagarla con el dinero correcto 🗓️</a></li>
-          <li class="toc-l3"><a href="#cuidar-la-informacion">Cuidar la información 🔒</a></li>
-          <li class="toc-l3"><a href="#hacer-los-numeros">Hacer los números 🧮</a></li>
-          <li class="toc-l1"><a href="#5-reviews-de-algunas-tarjetas-de-credito">#5 — Reviews de (algunas) tarjetas de crédito</a></li>
-          <li class="toc-l2"><a href="#bac-credomatic"><img class="emoji" src="/images/tarjetas/icono-bac-icono.webp" alt="" loading="lazy" />  BAC Credomatic</a></li>
-          <li class="toc-l3"><a href="#automercado">AutoMercado</a></li>
-          <li class="toc-l3"><a href="#amex-platinum">AMEX Platinum</a></li>
-          <li class="toc-l3"><a href="#cashback-amex-blue">Cashback AMEX Blue</a></li>
-          <li class="toc-l3"><a href="#cashback-premium">Cashback Premium</a></li>
-          <li class="toc-l3"><a href="#economia-bac-visa-o-amex">EconoMía BAC (Visa o AMEX) </a></li>
-          <li class="toc-l3"><a href="#millasplus">MillasPlus</a></li>
-          <li class="toc-l3"><a href="#the-platinum-card-amex">The Platinum Card (AMEX)</a></li>
-          <li class="toc-l3"><a href="#pricesmart-cash">PriceSmart Cash</a></li>
-          <li class="toc-l3"><a href="#walmart-cash">Walmart Cash</a></li>
-          <li class="toc-l2"><a href="#bcr"><img class="emoji" src="/images/tarjetas/icono-bcr-icon.webp" alt="" loading="lazy" />  BCR</a></li>
-          <li class="toc-l3"><a href="#bcr-mastercard-black">BCR MasterCard Black</a></li>
-          <li class="toc-l3"><a href="#bcr-visa-infinite">BCR Visa Infinite</a></li>
-          <li class="toc-l3"><a href="#bcr-jade">BCR Jade</a></li>
-          <li class="toc-l2"><a href="#banco-bct"><img class="emoji" src="/images/tarjetas/icono-bct-icon.webp" alt="" loading="lazy" />  Banco BCT</a></li>
-          <li class="toc-l2"><a href="#banco-nacional"><img class="emoji" src="/images/tarjetas/icono-bn-icon.webp" alt="" loading="lazy" />  Banco Nacional</a></li>
-          <li class="toc-l3"><a href="#bn-black">BN Black</a></li>
-          <li class="toc-l3"><a href="#bn-oro">BN Oro</a></li>
-          <li class="toc-l3"><a href="#bn-internacional-millas">BN Internacional (Millas)</a></li>
-          <li class="toc-l3"><a href="#bn-platino">BN Platino</a></li>
-          <li class="toc-l2"><a href="#banco-popular"><img class="emoji" src="/images/tarjetas/icono-popular-icon.webp" alt="" loading="lazy" />  Banco Popular</a></li>
-          <li class="toc-l2"><a href="#davibank-scotiabank"><img class="emoji" src="/images/tarjetas/icono-davibank-icono.webp" alt="" loading="lazy" /> DaviBank (Scotiabank)</a></li>
-          <li class="toc-l3"><a href="#premios-2">+Premios </a></li>
-          <li class="toc-l3"><a href="#lifemiles-visa-infinite">LifeMiles Visa Infinite</a></li>
-          <li class="toc-l2"><a href="#promerica"><img class="emoji" src="/images/tarjetas/icono-promerica.webp" alt="" loading="lazy" /> Promerica</a></li>
-          <li class="toc-l3"><a href="#connectmiles">ConnectMiles</a></li>
-          <li class="toc-l3"><a href="#emerald">Emerald</a></li>
-          <li class="toc-l3"><a href="#promerica-mastercard-black">Promerica MasterCard Black</a></li>
-          <li class="toc-l2"><a href="#wink"><img class="emoji" src="/images/tarjetas/icono-wink-icon.webp" alt="" loading="lazy" /> Wink</a></li>
-          <li class="toc-l3"><a href="#la-tarjeta-de-credito-de-wink">La tarjeta de crédito de Wink</a></li>
-          {/*
-          <li class="toc-l2"><a href="#5-1-comparando-algunos-planes-de-beneficios">5.1 — Comparando (algunos) planes de beneficios</a></li>
-          <li class="toc-l3"><a href="#walmart-cash-clasica-vs-gold-vs-platinum"><strong>Walmart Cash: Clásica vs Gold vs Platinum</strong></a></li>
-          <li class="toc-l3"><a href="#lifemiles-infinite-bac-vs-davivienda-vs-scotiabank">LifeMiles Infinite: BAC vs Davivienda vs Scotiabank</a></li>
-          <li class="toc-l3"><a href="#connectmiles-bac-vs-promerica">ConnectMiles: BAC vs Promerica</a></li>
-          <li class="toc-l2"><a href="#6-video-reviews-de-tarjetas">#6 — Video reviews de tarjetas</a></li>
-          */}
-          <li class="toc-l2"><a href="#6-algunas-preguntas-frecuentes">#6 — Algunas preguntas frecuentes</a></li>
-          <li class="toc-l3"><a href="#necesito-una-tarjeta-para-crear-mi-record-crediticio">⁉️  Necesito una tarjeta para crear mi record crediticio?</a></li>
-          <li class="toc-l3"><a href="#tener-muchas-tarjetas-puede-afectarme-al-pedir-un-prestamo">⁉️ Tener muchas tarjetas puede afectarme al pedir un préstamo?</a></li>
-          <li class="toc-l3"><a href="#como-puedo-aumentar-mis-tarjetas-de-categoria">⁉️ Cómo puedo aumentar mis tarjetas de categoría?</a></li>
-          <li class="toc-l3"><a href="#como-puedo-redimir-los-puntos-de-mi-tarjeta">⁉️ Cómo puedo redimir los puntos de mi tarjeta?</a></li>
-          <li class="toc-l3"><a href="#cuando-vencen-mis-puntos">⁉️ Cuándo vencen mis puntos?</a></li>
-          <li class="toc-l3"><a href="#cuales-son-las-mejores-fechas-de-corte-y-pago">⁉️ Cuales son las mejores fechas de corte y pago?</a></li>
-          <li class="toc-l3"><a href="#cuando-deberia-pagar-mis-tarjetas">⁉️  Cuando debería pagar mis tarjetas?</a></li>
-          <li class="toc-l3"><a href="#que-hacer-si-tengo-deudas-por-tarjetas">⁉️ Qué hacer si tengo deudas por tarjetas?</a></li>
-          <li class="toc-l2"><a href="#conclusion">Conclusión</a></li>
-        </ul>
-            </nav>
+      <TarjetasToc class="toc-inline" />
       <p class="empty"></p>
       <hr />
       <h2 id="1-como-funcionan"><span class="eyebrow">#1</span>Cómo funcionan?</h2>
@@ -825,9 +750,39 @@ import Site from "../../layouts/Site.astro";
         </div>
       </section>
     </article>
+    <aside class="guia-side">
+      <TarjetasToc class="toc-side" />
+    </aside>
+    </div>
     </div>
   </main>
 </Site>
+
+<script>
+  // Marca en la barra lateral la sección que se está leyendo.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>(".toc-side .toc a")];
+  const targets = links
+    .map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+    .filter((el): el is HTMLElement => !!el);
+  let current: HTMLAnchorElement | undefined;
+  const update = () => {
+    let active = targets[0];
+    for (const el of targets) if (el.getBoundingClientRect().top <= 120) active = el;
+    const link = links.find((a) => decodeURIComponent(a.hash.slice(1)) === active?.id);
+    if (link === current) return;
+    current?.removeAttribute("aria-current");
+    link?.setAttribute("aria-current", "true");
+    current = link;
+    const box = link?.closest<HTMLElement>(".toc-side");
+    if (link && box && box.scrollHeight > box.clientHeight) {
+      const r = link.getBoundingClientRect(), b = box.getBoundingClientRect();
+      if (r.top < b.top + 40 || r.bottom > b.bottom - 40) box.scrollTop += r.top - b.top - b.height / 3;
+    }
+  };
+  let raf = 0;
+  addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
+  update();
+</script>
 
 <style is:global>
 .wrap.narrow { max-width: 780px; }
@@ -850,7 +805,7 @@ import Site from "../../layouts/Site.astro";
 .guia li { margin: 4px 0; }
 .guia li::marker { color: var(--muted); }
 .guia .tc-red { color: #c2410c; }
-.guia .emoji { display: inline-block; width: 1.1em; height: 1.1em; border-radius: .3em; vertical-align: -.15em; }
+.guia .emoji, .toc-card .emoji { display: inline-block; width: 1.1em; height: 1.1em; border-radius: .3em; vertical-align: -.15em; }
 .guia h3 .emoji { width: 40px; height: 40px; border-radius: 12px; }
 .guia figure { margin: 14px auto; }
 .guia figure img { width: 100%; height: auto; border-radius: 14px; display: block; }
@@ -865,17 +820,17 @@ import Site from "../../layouts/Site.astro";
 .guia .callout-teal { background: var(--accent-soft); }
 .guia .callout-icon { width: 38px; height: 38px; flex: none; display: grid; place-items: center; background: var(--bg); border-radius: 12px; font-size: 18px; }
 .guia .callout-body { min-width: 0; flex: 1; align-self: center; }
-.guia .toc-card { background: var(--surface); border-radius: 24px; padding: 24px 28px; margin: 8px 0; }
-.guia .toc-label { font-family: var(--display); font-weight: 600; font-size: 18px; margin-bottom: 10px !important; }
-.guia .toc { position: static; display: block; list-style: none; padding: 0; margin: 0; font-size: 15px; }
-.guia .toc li { margin: 0; }
-.guia .toc a { display: block; padding: 3px 0; color: var(--muted); text-decoration: none; border-radius: 0; background: none; }
-.guia .toc a:hover { color: var(--fg); }
-.guia .toc strong { font-weight: inherit; }
-.guia .toc .toc-l1 a { color: var(--fg); font-weight: 600; padding-top: 10px; }
-.guia .toc .toc-l2 { padding-left: 16px; }
-.guia .toc .toc-l2 a { color: var(--fg); }
-.guia .toc .toc-l3 { padding-left: 32px; }
+.toc-card { background: var(--surface); border-radius: 24px; padding: 24px 28px; margin: 8px 0; }
+.toc-card .toc-label { font-family: var(--display); font-weight: 600; font-size: 18px; margin-bottom: 10px !important; }
+.toc-card .toc { position: static; display: block; list-style: none; padding: 0; margin: 0; font-size: 15px; }
+.toc-card .toc li { margin: 0; }
+.toc-card .toc a { display: block; padding: 3px 0; color: var(--muted); text-decoration: none; border-radius: 0; background: none; }
+.toc-card .toc a:hover { color: var(--fg); }
+.toc-card .toc strong { font-weight: inherit; }
+.toc-card .toc .toc-l1 a { color: var(--fg); font-weight: 600; padding-top: 10px; }
+.toc-card .toc .toc-l2 { padding-left: 16px; }
+.toc-card .toc .toc-l2 a { color: var(--fg); }
+.toc-card .toc .toc-l3 { padding-left: 32px; }
 .guia .link-mention { display: inline-flex; gap: 8px; align-items: center; background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 14px; color: var(--fg); text-decoration: none; }
 .guia .lm-provider { color: var(--muted); font-weight: 600; }
 .guia .lm-title { font-weight: 600; }
@@ -886,8 +841,25 @@ import Site from "../../layouts/Site.astro";
 .guia .guia-cta .button-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
 .guia .guia-cta .btn { background: #fff; color: #3D2D53; text-decoration: none; }
 .guia .guia-cta .btn.ghost { background: transparent; color: #fff; }
-@media (max-width: 600px) { .guia .toc-card { padding: 20px; } .guia .toc .toc-l3 { padding-left: 20px; } .guia .guia-cta { padding: 28px 20px; } }
+@media (max-width: 600px) { .toc-card { padding: 20px; } .toc-card .toc .toc-l3 { padding-left: 20px; } .guia .guia-cta { padding: 28px 20px; } }
 .guia ul { list-style: disc; }
 .guia ol { list-style: decimal; }
+/* Índice: en línea en pantallas angostas, barra lateral fija desde 1024px */
+.guia-side { display: none; }
+.toc-card .toc a[aria-current="true"] { color: var(--fg); background: var(--bg); }
+@media (min-width: 1024px) {
+  .wrap.narrow.guia-wrap { max-width: var(--wrap); }
+  .guia-wrap .guia-head { max-width: 780px; }
+  .guia-layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 56px; align-items: start; }
+  .guia-layout .toc-inline { display: none; }
+  .guia-side { display: block; position: sticky; top: 88px; }
+  .toc-side { margin: 0; padding: 20px 10px 20px 20px; max-height: calc(100vh - 112px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  .toc-side .toc-label { font-size: 16px; }
+  .toc-side .toc { font-size: 14px; line-height: 1.4; }
+  .toc-side .toc a { padding: 5px 10px; margin-left: -10px; border-radius: 10px; }
+  .toc-side .toc .toc-l1 a { padding-top: 5px; margin-top: 8px; }
+  .toc-side .toc .toc-l2 { padding-left: 12px; }
+  .toc-side .toc .toc-l3 { padding-left: 24px; }
+}
 html { scroll-padding-top: 80px; }
 </style>

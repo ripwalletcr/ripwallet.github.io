@@ -40,7 +40,7 @@ export const asesores: Asesor[] = [
     servicios: ["finanzas", "parejas"],
   },
   {
-    // TODO: agregar a Ángela a /equipo cuando tengamos su descripción.
+    // TODO: agregar la descripción de Ángela en src/content/rediseno/equipo.html.
     slug: "angela",
     name: "Ángela",
     img: angelaImg,
