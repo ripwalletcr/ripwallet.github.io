@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
+import { Calculator, LineChart, Gauge, FileDown, Wallet } from "@lucide/astro";
 ---
 
 <Layout
@@ -148,6 +148,20 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
               </div>
             </div>
           </div>
+
+          <div class="card-outline md:col-span-2">
+            <h4
+              class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center"
+            >
+              <Wallet class="w-3.5 h-3.5 mr-2" /> Ingreso total del año
+            </h4>
+            <div class="flex flex-wrap justify-between items-center gap-x-6 gap-y-2">
+              <span class="text-sm text-gray-600 font-medium">Suma de los meses con dato</span>
+              <span class="text-2xl font-bold text-gray-900" id="totalDisplay"
+                >CRC 0.00</span
+              >
+            </div>
+          </div>
         </div>
 
         <div class="card-outline animate-reveal">
@@ -211,6 +225,7 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
     const medianDisplay = document.getElementById("medianDisplay");
     const averageDisplay = document.getElementById("averageDisplay");
     const monthsCount = document.getElementById("monthsCount");
+    const totalDisplay = document.getElementById("totalDisplay");
     const canvas = document.getElementById("incomeChart") as HTMLCanvasElement;
     const downloadBtn = document.getElementById("downloadPdf");
 
@@ -257,9 +272,9 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
       return `$${amount}`;
     }
 
-    function parseValue(raw: string) {
+    function parseValue(raw: string, code = currency.value) {
       const cleaned = raw.replace(/[^0-9.,]/g, "");
-      const normalized = currency.value === "CRC"
+      const normalized = code === "CRC"
         ? cleaned.replace(/\./g, "").replace(/,/g, ".")
         : cleaned.replace(/,/g, "");
       const value = parseFloat(normalized);
@@ -276,67 +291,120 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
       return sorted[middle];
     }
 
+    // Solo cuentan los meses con dato: un mes vacío no es un ingreso de 0.
+    function getStats() {
+      const values = inputs.map((input) => parseValue(input.value));
+      const filled = values.filter((value) => value > 0);
+      const total = filled.reduce((sum, value) => sum + value, 0);
+      return {
+        values,
+        total,
+        months: filled.length,
+        average: filled.length ? total / filled.length : 0,
+        median: getMedian(filled),
+      };
+    }
+
+    function formatCompact(value: number) {
+      return new Intl.NumberFormat(getLocale(), {
+        style: "currency",
+        currency: getCurrencyCode(),
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(value);
+    }
+
+    // Degradado verde bajo la curva (gráfico de montaña).
+    function mountainFill(context: any) {
+      const { ctx, chartArea } = context.chart;
+      if (!chartArea) return "rgba(31, 168, 90, 0.2)";
+      const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+      gradient.addColorStop(0, "rgba(31, 168, 90, 0.38)");
+      gradient.addColorStop(1, "rgba(31, 168, 90, 0.02)");
+      return gradient;
+    }
+
     function createOrUpdateChart(values: number[], median: number, average: number) {
+      const hasData = values.some((value) => value > 0);
       const data = {
         labels: monthLabels,
         datasets: [
           {
-            type: "bar",
+            type: "line",
             label: "Ingreso mensual",
-            data: values,
-            backgroundColor: "rgba(22, 163, 74, 0.18)",
-            borderColor: "#16a34a",
-            borderWidth: 1.5,
-            borderRadius: 10,
+            // Los meses vacíos no bajan la montaña a cero.
+            data: values.map((value) => (value > 0 ? value : null)),
+            fill: "origin",
+            backgroundColor: mountainFill,
+            borderColor: "#1fa85a",
+            borderWidth: 2.5,
+            tension: 0.4,
+            cubicInterpolationMode: "monotone",
+            spanGaps: true,
+            pointRadius: 3.5,
+            pointHoverRadius: 6,
+            pointBackgroundColor: "#ffffff",
+            pointBorderColor: "#1fa85a",
+            pointBorderWidth: 2,
+            order: 3,
           },
           {
             type: "line",
             label: "Mediana",
-            data: values.map(() => median),
+            data: values.map(() => (hasData ? median : null)),
             borderColor: "#2563eb",
             borderWidth: 2,
             borderDash: [8, 6],
             pointRadius: 0,
-            tension: 0,
+            pointHoverRadius: 0,
+            fill: false,
+            order: 1,
           },
           {
             type: "line",
             label: "Promedio",
-            data: values.map(() => average),
+            data: values.map(() => (hasData ? average : null)),
             borderColor: "#f59e0b",
             borderWidth: 2,
             borderDash: [4, 4],
             pointRadius: 0,
-            tension: 0,
+            pointHoverRadius: 0,
+            fill: false,
+            order: 2,
           },
         ],
       };
 
       if (chart) {
-        chart.data = data;
+        chart.data = data as any;
         chart.update();
         return;
       }
 
+      const tickFont = { family: "Outfit", size: 11, weight: 500 } as const;
+
       chart = new Chart(canvas, {
-        type: "bar",
-        data,
+        type: "line",
+        data: data as any,
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: { mode: "index", intersect: false },
+          layout: { padding: { top: 8 } },
           plugins: {
-            legend: {
-              position: "top",
-              labels: {
-                usePointStyle: true,
-                boxWidth: 8,
-                font: { family: "Poppins", size: 11 },
-              },
-            },
+            legend: { display: false },
             tooltip: {
+              backgroundColor: "#3d2d53",
+              titleFont: { family: "Outfit", size: 13, weight: 600 },
+              bodyFont: { family: "Outfit", size: 12, weight: 500 },
+              padding: 12,
+              cornerRadius: 12,
+              boxPadding: 4,
+              usePointStyle: true,
+              filter: (item) => item.raw != null,
               callbacks: {
                 label(context) {
-                  return `${context.dataset.label}: ${formatValue(
+                  return ` ${context.dataset.label}: ${formatValue(
                     Number(context.raw) || 0,
                   )}`;
                 },
@@ -345,16 +413,30 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
           },
           scales: {
             y: {
+              beginAtZero: true,
+              border: { display: false },
               ticks: {
-                font: { family: "Poppins", size: 10 },
+                color: "#6c6279",
+                font: tickFont,
+                padding: 8,
+                maxTicksLimit: 6,
                 callback(value) {
-                  return formatValue(Number(value));
+                  return formatCompact(Number(value));
                 },
               },
-              grid: { color: "#eef2f7" },
+              grid: { color: "#efecf3" },
             },
             x: {
-              ticks: { font: { family: "Poppins", size: 10 } },
+              border: { display: false },
+              ticks: {
+                color: "#6c6279",
+                font: tickFont,
+                autoSkip: false,
+                maxRotation: 0,
+                callback(_value, index) {
+                  return monthLabels[index].slice(0, 3);
+                },
+              },
               grid: { display: false },
             },
           },
@@ -363,10 +445,7 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
     }
 
     async function generatePDF() {
-      const values = inputs.map((input) => parseValue(input.value));
-      const average =
-        values.reduce((sum, value) => sum + value, 0) / values.length || 0;
-      const median = getMedian(values);
+      const { values, total, months, average, median } = getStats();
 
       const doc = new jsPDF("p", "mm", "a4");
 
@@ -386,10 +465,8 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
         ["Moneda", getCurrencyCode()],
         ["Mediana", formatPdfValue(median)],
         ["Promedio", formatPdfValue(average)],
-        [
-          "Meses con dato",
-          String(values.filter((value) => value > 0).length),
-        ],
+        ["Ingreso total del año", formatPdfValue(total)],
+        ["Meses con dato", String(months)],
       ];
 
       doc.setFont("helvetica", "bold");
@@ -427,14 +504,12 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
     }
 
     function calculate() {
-      const values = inputs.map((input) => parseValue(input.value));
-      const average =
-        values.reduce((sum, value) => sum + value, 0) / values.length || 0;
-      const median = getMedian(values);
+      const { values, total, months, average, median } = getStats();
 
       medianDisplay.textContent = formatValue(median);
       averageDisplay.textContent = formatValue(average);
-      monthsCount.textContent = String(values.filter((value) => value > 0).length);
+      monthsCount.textContent = String(months);
+      if (totalDisplay) totalDisplay.textContent = formatValue(total);
 
       createOrUpdateChart(values, median, average);
     }
@@ -455,10 +530,13 @@ import { Calculator, LineChart, Gauge, FileDown } from "@lucide/astro";
       });
     });
 
+    let previousCurrency = currency.value;
     currency.addEventListener("change", () => {
       inputs.forEach((input) => {
-        input.value = formatValue(parseValue(input.value)).replace(/[A-Z]{3}\s?/g, "");
+        const value = parseValue(input.value, previousCurrency);
+        input.value = formatValue(value).replace(/[A-Z]{3}\s?/g, "");
       });
+      previousCurrency = currency.value;
       calculate();
     });
 
